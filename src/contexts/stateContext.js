@@ -16,8 +16,9 @@ const reducer = (state, { type, payload }) => {
 		case actionsLib.SET_TEMP_TYPE: {
 			return { ...state, tempType: payload };
 		}
-		default:
+		default: {
 			return state;
+		}
 	}
 };
 

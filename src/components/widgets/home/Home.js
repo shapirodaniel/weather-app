@@ -4,9 +4,11 @@ import { StateContext } from '../../../contexts/stateContext';
 import FCToggle from './FCToggle';
 import SetHomeBtn from '../SetHomeBtn';
 
+import { useFetch } from '../../../custom-hooks/useFetch';
+
 const Background = styled.div`
 	background-image: ${props =>
-		`url(https://source.unsplash.com/random/1200x800?${props.weatherString})`};
+		`url(https://source.unsplash.com/random/1200x800?${props.weatherstring})`};
 	background-repeat: no-repeat;
 	object-fit: contain;
 	opacity: 0.8;
@@ -18,13 +20,21 @@ const Temperature = styled.div`
 `;
 
 const Home = ({ widgetId }) => {
-	const { state } = useContext(StateContext);
+	const { state, dispatch } = useContext(StateContext);
+	const { currentTemp, weatherString } = state;
+
+	const apiKey = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
+
+	const { data, error } = useFetch(
+		`https://api.openweathermap.org/data/2.5/weather?q=Chicago&appid=${apiKey}`
+	);
+
+	if (data) console.log('data is: ', data);
 
 	return (
-		<Background>
-			<Temperature>{}</Temperature>
+		<Background weatherstring={weatherString}>
+			<Temperature>{currentTemp}</Temperature>
 			<FCToggle />
-			{/* SetHomeBtn expects a widgetId prop */}
 			<SetHomeBtn widgetId={widgetId} />
 		</Background>
 	);
