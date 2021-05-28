@@ -11,7 +11,7 @@ const Container = styled.div`
 	padding: 1em;
 `;
 
-// active class styling for HamburgerLink applied by styled-components
+// active class styling for NavLink applied by styled-components
 const StyledNavLink = styled(NavLink).attrs({ activeClassName: 'selected' })`
 	&.selected {
 		margin-top: calc(0.5em + 4px);

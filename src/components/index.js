@@ -1,4 +1,4 @@
-export { default as Hamburger } from './Hamburger';
+export { default as Nav } from './Nav';
 export { default as CurrentWidget } from './CurrentWidget';
 export { default as AllWidgets } from './AllWidgets';
 export { default as WidgetCard } from './WidgetCard';
