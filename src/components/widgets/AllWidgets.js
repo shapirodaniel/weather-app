@@ -25,15 +25,13 @@ const AllWidgets = () => {
 	// general purpose url for prefixing subroutes
 	const { url } = useRouteMatch();
 
+	// our user-specified widgetId
 	const { id } = useContext(WidgetContext);
 
-	console.log(id);
-
+	// we'll pull our user-specified home widget out to the front of our widgets array so that it renders first in the list
 	const sortedWidgets = id
 		? [widgets.find(w => w.id === +id), ...widgets.filter(w => w.id !== +id)]
 		: widgets;
-
-	console.log(sortedWidgets);
 
 	return (
 		<Container>

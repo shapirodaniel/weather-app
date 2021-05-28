@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { StateContext } from '../../../contexts/stateContext';
 
 const Container = styled.div`
 	display: flex;
@@ -23,15 +24,16 @@ const Button = styled.div`
 `;
 
 const FCToggle = () => {
-	const [tempType, setTempType] = useState('fahrenheit');
+	const { state, actionsLib, dispatch } = useContext(StateContext);
+	const { tempType } = state;
+	const { SET_TEMP_TYPE } = actionsLib;
 
 	return (
 		<Container>
 			<Button
 				active={(tempType === 'fahrenheit').toString()}
 				onClick={() => {
-					console.log('temp type is: ', 'fahrenheit');
-					setTempType('fahrenheit');
+					dispatch({ type: SET_TEMP_TYPE, payload: 'fahrenheit' });
 				}}
 			>
 				F
@@ -39,8 +41,7 @@ const FCToggle = () => {
 			<Button
 				active={(tempType === 'celsius').toString()}
 				onClick={() => {
-					console.log('temp type is: ', 'celsius');
-					setTempType('celsius');
+					dispatch({ type: SET_TEMP_TYPE, payload: 'celsius' });
 				}}
 			>
 				C

@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
-import { WidgetContext } from '../../../contexts/widgetContext';
 import styled from 'styled-components';
+import { StateContext } from '../../../contexts/stateContext';
 import FCToggle from './FCToggle';
+import SetHomeBtn from '../SetHomeBtn';
 
 const Background = styled.div`
 	background-image: ${props =>
@@ -12,18 +13,19 @@ const Background = styled.div`
 	mask-image: linear-gradient(rgba(0, 0, 0, 1), transparent);
 `;
 
-const SetHome = styled.span`
-	color: inherit;
-	opacity: 0.6;
+const Temperature = styled.div`
+	font-size: 48px;
 `;
 
 const Home = ({ widgetId }) => {
-	const { setId } = useContext(WidgetContext);
+	const { state } = useContext(StateContext);
 
 	return (
 		<Background>
+			<Temperature>{}</Temperature>
 			<FCToggle />
-			<SetHome onClick={() => setId(String(widgetId))}>set home</SetHome>
+			{/* SetHomeBtn expects a widgetId prop */}
+			<SetHomeBtn widgetId={widgetId} />
 		</Background>
 	);
 };

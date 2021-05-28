@@ -1,19 +1,11 @@
-import React, { useContext } from 'react';
-import { WidgetContext } from '../../../contexts/widgetContext';
+import React from 'react';
+import SetHomeBtn from '../SetHomeBtn';
 
 const Forecast = ({ widgetId }) => {
-	const { setId } = useContext(WidgetContext);
-
 	return (
 		<section>
 			<div>forecast time!</div>
-			<button
-				onClick={() => {
-					setId(String(widgetId));
-				}}
-			>
-				set home
-			</button>
+			<SetHomeBtn widgetId={widgetId} />
 		</section>
 	);
 };

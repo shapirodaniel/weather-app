@@ -2,8 +2,9 @@ import React, { useReducer } from 'react';
 
 export const StateContext = React.createContext();
 
-// action types
-const SET_TEMP_TYPE = 'SET_TEMP_TYPE';
+const actionsLib = {
+	SET_TEMP_TYPE: 'SET_TEMP_TYPE',
+};
 
 // initState
 const initState = {
@@ -12,7 +13,7 @@ const initState = {
 
 const reducer = (state, { type, payload }) => {
 	switch (type) {
-		case SET_TEMP_TYPE: {
+		case actionsLib.SET_TEMP_TYPE: {
 			return { ...state, tempType: payload };
 		}
 		default:
@@ -26,6 +27,7 @@ const StateProvider = ({ children }) => {
 	const providerValue = {
 		state,
 		dispatch,
+		actionsLib,
 	};
 
 	return (
