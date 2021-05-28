@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 import { useRouteMatch, Switch, Route } from 'react-router-dom';
-import { widgets } from './widgets';
+import { widgets } from '../widgets';
 
 const CurrentWidget = () => {
 	// general purpose url for prefixing subroutes

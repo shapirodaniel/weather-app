@@ -2,7 +2,7 @@
 import React from 'react';
 import { useRouteMatch, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { widgets } from './widgets';
+import { widgets } from '../widgets';
 
 const Container = styled.div`
 	display: flex;

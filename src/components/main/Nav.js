@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
-import { ThemeContext } from '../contexts/themeContext';
+import { ThemeContext } from '../../contexts/themeContext';
 import { Menu } from './';
 
 const Container = styled.div`

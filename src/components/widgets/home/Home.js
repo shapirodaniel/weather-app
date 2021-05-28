@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { WidgetContext } from '../contexts/widgetContext';
+import { WidgetContext } from '../../../contexts/widgetContext';
 import styled from 'styled-components';
-import { FCToggle } from './';
+import FCToggle from './FCToggle';
 
 const Background = styled.div`
 	background-image: ${props =>

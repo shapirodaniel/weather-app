@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { WidgetContext } from '../contexts/widgetContext';
+import { WidgetContext } from '../../../contexts/widgetContext';
 
 const Forecast = ({ widgetId }) => {
 	const { setId } = useContext(WidgetContext);

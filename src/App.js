@@ -1,5 +1,6 @@
 import { Route } from 'react-router-dom';
-import { Nav, CurrentWidget, AllWidgets } from './components';
+import { Nav } from './components/main';
+import { CurrentWidget, AllWidgets } from './components/widgets/';
 import styled from 'styled-components';
 
 const Layout = styled.div`

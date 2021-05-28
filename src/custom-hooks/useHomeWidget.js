@@ -20,7 +20,7 @@ export const useHomeWidget = () => {
 			try {
 				homeWidgetId = localStorage.getItem('homeWidgetId');
 			} catch (err) {
-				homeWidgetId = 0;
+				homeWidgetId = 1;
 				setHomeWidgetId(homeWidgetId);
 			}
 
