@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { WidgetContext } from '../contexts/widgetContext';
 import styled from 'styled-components';
+import { FCToggle } from './';
 
 const Background = styled.div`
 	background-image: ${props =>
@@ -21,6 +22,7 @@ const Home = ({ widgetId }) => {
 
 	return (
 		<Background>
+			<FCToggle />
 			<SetHome onClick={() => setId(String(widgetId))}>set home</SetHome>
 		</Background>
 	);
