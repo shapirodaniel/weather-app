@@ -1,5 +1,5 @@
 import { Route } from 'react-router-dom';
-import { Nav, CurrentWidget, AllWidgets } from './components';
+import { Hamburger, CurrentWidget, AllWidgets } from './components';
 import styled from 'styled-components';
 
 const Layout = styled.div`
@@ -11,11 +11,11 @@ const Layout = styled.div`
 
 function App() {
 	return (
+		// to avoid a chrome error with pushing history onto localhost,
+		// we're using a temporary prefix here to render our components correctly
 		<Route path='/weather-app'>
 			<Layout>
-				<Nav />
-				{/* to avoid a chrome error with pushing history onto localhost, we're using a temporary prefix here to render our components correctly */}
-
+				<Hamburger />
 				<CurrentWidget />
 				<AllWidgets />
 			</Layout>
