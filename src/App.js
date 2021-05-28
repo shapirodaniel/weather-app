@@ -1,5 +1,5 @@
 import { Route } from 'react-router-dom';
-import { Nav } from './components/main';
+import { Nav, NotFound } from './components/main';
 import { CurrentWidget, AllWidgets } from './components/widgets/';
 import styled from 'styled-components';
 
@@ -14,13 +14,16 @@ function App() {
 	return (
 		// to avoid a chrome error with pushing history onto localhost,
 		// we're using a temporary prefix here to render our components correctly
-		<Route path='/weather-app'>
-			<Layout>
-				<Nav />
-				<CurrentWidget />
-				<AllWidgets />
-			</Layout>
-		</Route>
+		<div>
+			<Route path='/weather-app'>
+				<Layout>
+					<Nav />
+					<CurrentWidget />
+					<AllWidgets />
+				</Layout>
+			</Route>
+			<Route path='/404' component={NotFound} />
+		</div>
 	);
 }
 

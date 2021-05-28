@@ -3,13 +3,15 @@ import { useEffect, useRef } from 'react';
 
 export const useFetch = uri => {
 	let fetchRef = useRef({ data: {}, status: null, error: '', numRetries: 0 });
-	let { data, status, error, numRetries } = fetchRef.current;
 
 	useEffect(() => {
 		let isMounted = true;
 
 		const fetchData = async () => {
-			while (!status && numRetries < 2) {
+			while (
+				fetchRef.current.status !== 200 &&
+				fetchRef.current.numRetries < 2
+			) {
 				try {
 					const { data, status } = await axios.get(uri);
 					fetchRef.current.data = data;
@@ -29,7 +31,9 @@ export const useFetch = uri => {
 		return () => {
 			isMounted = false;
 		};
-	}, [uri, data, status, error, numRetries]);
+	}, [uri]);
 
-	return { data, error };
+	const { data, error } = fetchRef;
+
+	return { data, error, loading: !data && !error };
 };
