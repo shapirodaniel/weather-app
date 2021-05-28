@@ -15,6 +15,7 @@ const StyledNavLink = styled(NavLink).attrs({ activeClassName: 'selected' })`
 		justify-content: center;
 		margin: 1em;
 		color: inherit;
+		width: 100%;
 	}
 	&.selected {
 		border-bottom: 2px solid orange;

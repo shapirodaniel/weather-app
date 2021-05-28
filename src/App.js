@@ -1,18 +1,25 @@
 import { Route } from 'react-router-dom';
 import { Nav, CurrentWidget, AllWidgets } from './components';
-import './App.css';
+import styled from 'styled-components';
+
+const Layout = styled.div`
+	display: grid;
+	grid-template-rows: 2em 1fr;
+	height: 100vh;
+	width: 100vw;
+`;
 
 function App() {
 	return (
-		<div>
-			<Nav />
-			{/* to avoid a chrome error with pushing history onto localhost,
-			we're using a temporary prefix here to render our components correctly */}
-			<Route path='/weather-app'>
+		<Route path='/weather-app'>
+			<Layout>
+				<Nav />
+				{/* to avoid a chrome error with pushing history onto localhost, we're using a temporary prefix here to render our components correctly */}
+
 				<CurrentWidget />
 				<AllWidgets />
-			</Route>
-		</div>
+			</Layout>
+		</Route>
 	);
 }
 

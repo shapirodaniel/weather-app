@@ -6,3 +6,4 @@ export { default as Home } from './Home';
 export { default as RecommendedOuterwear } from './RecommendedOuterwear';
 export { default as Forecast } from './Forecast';
 export { default as Main } from './Main';
+export { default as Layout } from './Layout';

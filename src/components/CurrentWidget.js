@@ -7,8 +7,6 @@ const CurrentWidget = () => {
 	// general purpose url for prefixing subroutes
 	const { url } = useRouteMatch();
 
-	console.log(url);
-
 	return (
 		<Switch>
 			{widgets.map(({ id, link, renderComponent }) => (
