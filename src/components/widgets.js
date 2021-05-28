@@ -5,18 +5,18 @@ export const widgets = [
 		id: 1,
 		link: '/home',
 		renderCard: () => <WidgetCard msg={'home'} />,
-		renderComponent: () => <Home />,
+		renderComponent: () => <Home widgetId={1} />,
 	},
 	{
 		id: 2,
 		link: '/outerwear',
 		renderCard: () => <WidgetCard msg={'outerwear'} />,
-		renderComponent: () => <RecommendedOuterwear />,
+		renderComponent: () => <RecommendedOuterwear widgetId={2} />,
 	},
 	{
 		id: 3,
 		link: '/forecast',
 		renderCard: () => <WidgetCard msg={'forecast'} />,
-		renderComponent: () => <Forecast />,
+		renderComponent: () => <Forecast widgetId={3} />,
 	},
 ];
