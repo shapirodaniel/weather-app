@@ -4,20 +4,19 @@ import { useRouteMatch, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { widgets } from './widgets';
 
-const Container = styled.div``;
-const Widgets = styled.nav``;
+const Container = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1em;
+`;
 
 // active class styling for NavLink applied by styled-components
 const StyledNavLink = styled(NavLink).attrs({ activeClassName: 'selected' })`
-	& {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		margin: 1em;
-		color: inherit;
-	}
 	&.selected {
-		border-bottom: 2px solid orange;
+		margin-top: calc(0.5em + 4px);
+		padding-bottom: 0.5em;
+		border-bottom: 4px solid orange;
 	}
 `;
 
@@ -27,15 +26,13 @@ const AllWidgets = () => {
 
 	return (
 		<Container>
-			<Widgets>
-				{widgets.map(({ id, link, renderCard }) => {
-					return (
-						<StyledNavLink key={id} to={url + link}>
-							{renderCard()}
-						</StyledNavLink>
-					);
-				})}
-			</Widgets>
+			{widgets.map(({ id, link, renderCard }) => {
+				return (
+					<StyledNavLink key={id} to={url + link}>
+						{renderCard()}
+					</StyledNavLink>
+				);
+			})}
 		</Container>
 	);
 };
