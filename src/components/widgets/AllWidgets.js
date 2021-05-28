@@ -1,8 +1,9 @@
 /* eslint-disable react/display-name */
-import React from 'react';
+import React, { useContext } from 'react';
 import { useRouteMatch, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { widgets } from '../widgets';
+import { WidgetContext } from '../../contexts/widgetContext';
 
 const Container = styled.div`
 	display: flex;
@@ -24,9 +25,19 @@ const AllWidgets = () => {
 	// general purpose url for prefixing subroutes
 	const { url } = useRouteMatch();
 
+	const { id } = useContext(WidgetContext);
+
+	console.log(id);
+
+	const sortedWidgets = id
+		? [widgets.find(w => w.id === +id), ...widgets.filter(w => w.id !== +id)]
+		: widgets;
+
+	console.log(sortedWidgets);
+
 	return (
 		<Container>
-			{widgets.map(({ id, link, renderCard }) => {
+			{sortedWidgets.map(({ id, link, renderCard }) => {
 				return (
 					<StyledNavLink key={id} to={url + link}>
 						{renderCard()}

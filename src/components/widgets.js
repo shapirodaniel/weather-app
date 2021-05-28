@@ -1,4 +1,4 @@
-import { WidgetCard, Home, RecommendedOuterwear, Forecast } from './widgets';
+import { WidgetCard, Home, RecommendedOuterwear, Forecast } from './widgets/';
 
 export const widgets = [
 	{

@@ -7,7 +7,13 @@ const Forecast = ({ widgetId }) => {
 	return (
 		<section>
 			<div>forecast time!</div>
-			<button onClick={() => setId(String(widgetId))}>set home</button>
+			<button
+				onClick={() => {
+					setId(String(widgetId));
+				}}
+			>
+				set home
+			</button>
 		</section>
 	);
 };
