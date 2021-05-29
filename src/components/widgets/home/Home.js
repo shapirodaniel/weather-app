@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { StateContext } from '../../../contexts/stateContext';
 import { Loading } from '../../main/';
 import FCToggle from './FCToggle';
 import SetHomeBtn from '../SetHomeBtn';
@@ -11,7 +10,7 @@ import { fetcher } from '../../fetcher';
 
 const Background = styled.div`
 	background-image: ${({ weatherString }) =>
-		`url(https://source.unsplash.com/random/1500?${weatherString},night)`};
+		`url(https://source.unsplash.com/random/1200x800?${weatherString})`};
 	background-repeat: no-repeat;
 	// mask clears visual space for our widgets
 	mask-image: linear-gradient(to top, transparent, 30%, ghostwhite);
@@ -38,13 +37,12 @@ const Relief = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	// flex grow allows us to fill our Container
-	flex-grow: 1;
+	height: 100%;
 	width: 90%;
-	background-color: rgba(0, 0, 0, 0.6);
+	background-color: var(--opacityMask);
 	border-radius: 10px;
 	// margin-top to push away from nav slightly
-	margin-top: 0.5em;
+	margin-top: 1.2em;
 `;
 
 const IconContainer = styled.span`
@@ -75,11 +73,11 @@ const getWeatherIcon = iconString =>
 	`http://openweathermap.org/img/wn/${iconString}@2x.png`;
 
 const Home = ({ widgetId }) => {
-	const { state } = useContext(StateContext);
+	const [imperialOrMetric, setImperialOrMetric] = useState(
+		() => localStorage.getItem('imperialOrMetric') || 'imperial'
+	);
 
-	const homeURI = `https://api.openweathermap.org/data/2.5/weather?q=Chicago&appid=${
-		process.env.REACT_APP_OPEN_WEATHER_API_KEY
-	}&units=${state.tempType === 'fahrenheit' ? 'imperial' : 'metric'}`;
+	const homeURI = `https://api.openweathermap.org/data/2.5/weather?q=Chicago&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}&units=${imperialOrMetric}`;
 
 	// const { data, error } = useSWR(homeURI, fetcher);
 
@@ -114,7 +112,10 @@ const Home = ({ widgetId }) => {
 							alt={'weather-icon'}
 						/>
 					</IconContainer>
-					<FCToggle />
+					<FCToggle
+						currentType={imperialOrMetric}
+						toggleType={setImperialOrMetric}
+					/>
 					<SetHomeBtn widgetId={widgetId} />
 				</Relief>
 			</Container>

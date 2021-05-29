@@ -8,7 +8,7 @@ const Container = styled.div`
 	justify-content: flex-end;
 	height: 3em;
 	width: 100%;
-	background-color: transparent;
+	background-color: var(--opacityMask);
 	color: ghostwhite;
 	// position relative on the parent allows us to create a floating dropdown menu
 	position: relative;

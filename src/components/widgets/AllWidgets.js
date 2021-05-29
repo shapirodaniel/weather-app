@@ -11,13 +11,17 @@ const Container = styled.div`
 	justify-content: space-between;
 	position: fixed;
 	bottom: 0;
-	padding: 1em;
+	overflow-x: auto;
 `;
 
 // active class styling for NavLink applied by styled-components
 const StyledNavLink = styled(NavLink).attrs({ activeClassName: 'selected' })`
+	// "&" lets us reference the element with selectors as necessary
+	& {
+		margin: 1em;
+	}
 	&.selected {
-		margin-top: calc(0.5em + 4px);
+		margin: calc(2em - 4px) 1em 1em 1em;
 		padding-bottom: 0.5em;
 		border-bottom: 4px solid var(--lightAccent);
 	}

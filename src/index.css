@@ -1,5 +1,6 @@
 :root {
 	--lightAccent: #e76d4e;
+	--opacityMask: rgba(0, 0, 0, 0.4);
 }
 
 html {

@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { StateContext } from '../../../contexts/stateContext';
 
 const Container = styled.div`
 	display: flex;
@@ -14,10 +13,9 @@ const Button = styled.div`
 	& {
 		padding: 1em;
 		border: 1px solid white;
-		color: ${({ active }) =>
-			active === 'true' ? 'inherit' : 'var(--lightAccent)'};
-		background-color: ${({ active }) =>
-			active === 'true' ? 'ghostwhite' : 'inherit'};
+		color: ${({ isActive }) => (isActive ? 'inherit' : 'var(--lightAccent)')};
+		background-color: ${({ isActive }) =>
+			isActive ? 'ghostwhite' : 'inherit'};
 		cursor: pointer;
 		font-size: 16px;
 		font-weight: 500;
@@ -34,29 +32,26 @@ const Button = styled.div`
 	}
 `;
 
-const FCToggle = () => {
-	const { state, actionsLib, dispatch } = useContext(StateContext);
-	const { tempType } = state;
-	const { SET_TEMP_TYPE } = actionsLib;
+const buttons = [
+	{ id: 1, type: 'imperial', value: 'F' },
+	{ id: 2, type: 'metric', value: 'C' },
+];
 
+const FCToggle = ({ currentType, toggleType }) => {
 	return (
 		<Container>
-			<Button
-				active={(tempType === 'fahrenheit').toString()}
-				onClick={() => {
-					dispatch({ type: SET_TEMP_TYPE, payload: 'fahrenheit' });
-				}}
-			>
-				F
-			</Button>
-			<Button
-				active={(tempType === 'celsius').toString()}
-				onClick={() => {
-					dispatch({ type: SET_TEMP_TYPE, payload: 'celsius' });
-				}}
-			>
-				C
-			</Button>
+			{buttons.map(({ id, type, value }) => (
+				<Button
+					key={id}
+					isActive={currentType === type}
+					onClick={() => {
+						toggleType(type);
+						localStorage.setItem('imperialOrMetric', type);
+					}}
+				>
+					{value}
+				</Button>
+			))}
 		</Container>
 	);
 };
