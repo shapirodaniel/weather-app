@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { Loading } from '../../main/';
 import FCToggle from './FCToggle';
@@ -37,12 +38,12 @@ const Relief = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	height: 100%;
-	width: 90%;
-	background-color: var(--opacityMask);
+	height: 80%;
+	width: 80%;
+	background-color: rgba(0, 0, 0, 0.6);
 	border-radius: 10px;
-	// margin-top to push away from nav slightly
-	margin-top: 1.2em;
+	// allows us to center in available space without flexing a parent container
+	margin: auto;
 `;
 
 const IconContainer = styled.span`
@@ -60,11 +61,23 @@ const Temperature = styled.div`
 	justify-content: center;
 	font-size: 120px;
 	color: ghostwhite;
+	margin-left: 20px;
+`;
+
+const DegreeSymbol = styled.span`
+	& {
+		font-size: 48px;
+		margin-top: -1.1em;
+	}
+	// pseudo-element lets us inject the symbol into our DegreeSymbol span
+	&::after {
+		content: '°';
+	}
 `;
 
 const Description = styled.span`
 	margin: 0 auto;
-	font-size: 14px;
+	font-size: 16px;
 	color: ghostwhite;
 `;
 
@@ -79,38 +92,36 @@ const Home = ({ widgetId }) => {
 
 	const homeURI = `https://api.openweathermap.org/data/2.5/weather?q=Chicago&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}&units=${imperialOrMetric}`;
 
+	/* comment this block OUT to work on styling */
 	// const { data, error } = useSWR(homeURI, fetcher);
-
 	// console.log(data);
-
-	// /* these both work, just comment them in later */
 	// if (error) return <Redirect to='/404' />;
 	// if (!error && !data) return <Loading />;
 
-	// temp disabled SWR to work on layout
+	/* comment this line IN to work on layout */
 	const data = false;
+
+	const weatherString = (data && data.weather[0].main) || 'weather';
+	const tempString = (data && Math.round(data.main.temp)) || '75';
+	const description =
+		(data && data.weather.length && data.weather[0].description) || 'mild';
+	const weatherIconSrc = getWeatherIcon(
+		// default to "mist" icon if weather unavailable
+		(data && data.weather.length && data.weather[0].icon) || '10d'
+	);
 
 	return (
 		<>
-			<Background weatherString={(data && data.weather[0].main) || 'weather'} />
+			<Background weatherString={weatherString} />
 			<Container>
 				<Relief>
 					<Temperature>
-						{(data && Math.round(data.main.temp)) || '49'}
-						{/* <span style={{ fontSize: '48px', marginTop: '-1em' }}>°</span> */}
+						{tempString}
+						<DegreeSymbol />
 					</Temperature>
-					<Description>
-						{(data && data.weather.length && data.weather[0].description) ||
-							'few clouds'}
-					</Description>
+					<Description>{description}</Description>
 					<IconContainer>
-						<img
-							// default to mist icon if data unavailable
-							src={getWeatherIcon(
-								(data && data.weather.length && data.weather[0].icon) || '10d'
-							)}
-							alt={'weather-icon'}
-						/>
+						<img src={weatherIconSrc} alt={'weather-icon'} />
 					</IconContainer>
 					<FCToggle
 						currentType={imperialOrMetric}
