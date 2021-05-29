@@ -4,45 +4,49 @@ const getWeatherIcon = iconString =>
 
 const imperialToMetric = num => Math.round(((num - 32) * 5) / 9);
 
-export const parseWeather = (weather, isImperial) => ({
-	base: weather.base, // string
-	cloudiness: Math.round(weather.clouds.all * 100) + '%', // string
-	location: {
-		lat: weather.coord.lat, // decimal
-		lon: weather.coord.lon, // decimal
-	},
-	lastUpdate: weather.dt, // num long
-	temp: isImperial
-		? Math.round(weather.main.temp) // decimal
-		: imperialToMetric(Math.round(weather.main.temp)),
-	feelsLike: isImperial
-		? Math.round(weather.main.feels_like) // decimal
-		: imperialToMetric(Math.round(weather.main.feels_like)),
-	humidity: isImperial
-		? Math.round(weather.main.humidity) // int
-		: imperialToMetric(Math.round(weather.main.humidity)),
-	pressure: isImperial
-		? Math.round(weather.main.pressure) // int
-		: imperialToMetric(Math.round(weather.main.pressure)),
-	maxTemp: isImperial
-		? Math.round(weather.main.temp_max)
-		: imperialToMetric(Math.round(weather.main.temp_max)), // decimal
-	minTemp: isImperial
-		? Math.round(weather.main.temp_min)
-		: imperialToMetric(Math.round(weather.main.temp_min)), // decimal
-	city: weather.name, // string
-	country: weather.sys.country, // string
-	sunrise: weather.sys.sunrise, // milliseconds long num UTC
-	sunset: weather.sys.sunset, // milliseconds long num UTC
-	timezone: weather.timezone, // shift in seconds from UTC
-	windSpeed: weather.wind.speed, // mph imperial, m/s metric
-	windDirection: weather.wind.deg, // in degrees (meteorological)
-	windGust: weather.wind.gust, // mph imperial, m/s metric
-	visibility: weather.visibility, // miles
+export const parseWeather = (weather, isImperial) => {
+	if (!weather[0] || !isImperial) return;
 
-	// the first entry in the weather conditions array
-	description: weather[0].description, // string
-	iconSrc: getWeatherIcon(weather[0].icon), // icon string src
-	id: weather[0].id, // int
-	name: weather[0].main, // string
-});
+	return {
+		base: weather.base, // string
+		cloudiness: Math.round(weather.clouds.all * 100) + '%', // string
+		location: {
+			lat: weather.coord.lat, // decimal
+			lon: weather.coord.lon, // decimal
+		},
+		lastUpdate: weather.dt, // num long
+		temp: isImperial
+			? Math.round(weather.main.temp) // decimal
+			: imperialToMetric(Math.round(weather.main.temp)),
+		feelsLike: isImperial
+			? Math.round(weather.main.feels_like) // decimal
+			: imperialToMetric(Math.round(weather.main.feels_like)),
+		humidity: isImperial
+			? Math.round(weather.main.humidity) // int
+			: imperialToMetric(Math.round(weather.main.humidity)),
+		pressure: isImperial
+			? Math.round(weather.main.pressure) // int
+			: imperialToMetric(Math.round(weather.main.pressure)),
+		maxTemp: isImperial
+			? Math.round(weather.main.temp_max)
+			: imperialToMetric(Math.round(weather.main.temp_max)), // decimal
+		minTemp: isImperial
+			? Math.round(weather.main.temp_min)
+			: imperialToMetric(Math.round(weather.main.temp_min)), // decimal
+		city: weather.name, // string
+		country: weather.sys.country, // string
+		sunrise: weather.sys.sunrise, // milliseconds long num UTC
+		sunset: weather.sys.sunset, // milliseconds long num UTC
+		timezone: weather.timezone, // shift in seconds from UTC
+		windSpeed: weather.wind.speed, // mph imperial, m/s metric
+		windDirection: weather.wind.deg, // in degrees (meteorological)
+		windGust: weather.wind.gust, // mph imperial, m/s metric
+		visibility: weather.visibility, // miles
+
+		// the first entry in the weather conditions array
+		description: weather[0].description, // string
+		iconSrc: getWeatherIcon(weather[0].icon), // icon string src
+		id: weather[0].id, // int
+		name: weather[0].main, // string
+	};
+};

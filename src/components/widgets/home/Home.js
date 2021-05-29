@@ -91,22 +91,28 @@ const Home = ({ widgetId }) => {
 
 	return (
 		<>
-			<Background name={name.toLowerCase()} />
+			<Background name={name && name.toLowerCase()} />
+
 			<Container>
 				<Relief>
 					<Temperature>
 						{temp}
 						<DegreeSymbol />
 					</Temperature>
+
 					<Description>{description}</Description>
+
 					<IconContainer>
 						<img src={iconSrc} alt={'weather-icon'} />
 					</IconContainer>
+
 					<FCToggle currentType={imperialOrMetric} />
+
 					<FeelsLike>
 						<em>feels like:</em>{' '}
 						{feelsLike + (imperialOrMetric === 'imperial' ? 'F' : 'C')}
 					</FeelsLike>
+
 					<SetHomeBtn widgetId={widgetId} />
 				</Relief>
 			</Container>
