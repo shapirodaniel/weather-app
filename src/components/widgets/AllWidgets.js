@@ -9,8 +9,9 @@ const Container = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	position: fixed;
+	bottom: 0;
 	padding: 1em;
-	background-color: black;
 `;
 
 // active class styling for NavLink applied by styled-components
