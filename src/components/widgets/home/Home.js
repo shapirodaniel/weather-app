@@ -6,11 +6,9 @@ import { Loading } from '../../main/';
 import FCToggle from './FCToggle';
 import SetHomeBtn from '../SetHomeBtn';
 
-import { useFetch } from '../../../custom-hooks/useFetch';
-
-// fake DB response data
-import { imperialData, currentTemps } from '../../../fakeDB';
-const { imperial, metric } = currentTemps;
+// data fetching hook and fetcher
+import useSWR from 'swr';
+import { fetcher } from '../../fetcher';
 
 const Background = styled.div`
 	background-image: ${({ weatherString }) =>
@@ -52,32 +50,38 @@ const Temperature = styled.div`
 	color: ghostwhite;
 `;
 
+// utility fn generates an src for the weather icon provided by our weather api
 const getWeatherIcon = iconString =>
 	`http://openweathermap.org/img/wn/${iconString}@2x.png`;
 
 const Home = ({ widgetId }) => {
-	const { state, dispatch } = useContext(StateContext);
-	const { tempType, weatherString } = state;
+	const { state } = useContext(StateContext);
 
-	/* careful! */
-	// const { data, error } = useFetch(
-	// 	`https://api.openweathermap.org/data/2.5/weather?q=Chicago&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`
-	// );
+	const homeURI = `https://api.openweathermap.org/data/2.5/weather?q=Chicago&appid=${
+		process.env.REACT_APP_OPEN_WEATHER_API_KEY
+	}&units=${state.tempType === 'fahrenheit' ? 'imperial' : 'metric'}`;
+
+	const { data, error } = useSWR(homeURI, fetcher);
+
+	console.log(data);
 
 	/* these both work, just comment them in later */
-	// if (error) return <Redirect to='/404' />;
-	// if (!error && !data) return <Loading />;
+	if (error) return <Redirect to='/404' />;
+	if (!error && !data) return <Loading />;
 
 	return (
-		<Background weatherString={imperialData.weather[0].main}>
+		<Background weatherString={(data && data.weather[0].main) || 'weather'}>
 			<Relief>
 				<Temperature>
-					{tempType === 'fahrenheit' ? imperial : metric}
+					{data && Math.round(data.main.temp)}
 					{/* <span style={{ fontSize: '48px', marginTop: '-1em' }}>°</span> */}
 				</Temperature>
 				<IconContainer>
 					<img
-						src={getWeatherIcon(imperialData.weather[0].icon)}
+						// default to mist icon if data unavailable
+						src={getWeatherIcon(
+							data && data.weather.length && data.weather[0].icon
+						)}
 						alt={'weather-icon'}
 					/>
 				</IconContainer>
