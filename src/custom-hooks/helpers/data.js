@@ -24,8 +24,12 @@ export const parseWeather = (weather, isImperial) => ({
 	pressure: isImperial
 		? Math.round(weather.main.pressure) // int
 		: imperialToMetric(Math.round(weather.main.pressure)),
-	maxTemp: weather.main.temp_max, // decimal
-	minTemp: weather.main.temp_min, // decimal
+	maxTemp: isImperial
+		? Math.round(weather.main.temp_max)
+		: imperialToMetric(Math.round(weather.main.temp_max)), // decimal
+	minTemp: isImperial
+		? Math.round(weather.main.temp_min)
+		: imperialToMetric(Math.round(weather.main.temp_min)), // decimal
 	city: weather.name, // string
 	country: weather.sys.country, // string
 	sunrise: weather.sys.sunrise, // milliseconds long num UTC

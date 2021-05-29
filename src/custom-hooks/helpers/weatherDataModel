@@ -1,0 +1,27 @@
+weather data model on WeatherContext
+
+{
+  base,                     string
+  cloudiness,               string
+  location: { lat, lon }    decimal
+  lastUpdate,               unix UTC
+  temp,                     int
+  feelsLike,                int
+  humidity,                 int
+  pressure,                 int
+  maxTemp,                  int
+  minTemp,                  int
+  city,                     string
+  country,                  string
+  sunrise,                  unix UTC
+  sunset,                   unix UTC
+  timezone,                 shift in seconds from UTC
+  windSpeed,                decimal
+  windDirection,            int (degrees)
+  windGust,                 decimal
+  visibility,               int
+  description,              string
+  iconSrc,                  string
+  id,                       int
+  name                      string
+}

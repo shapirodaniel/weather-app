@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Loading } from '../../main/';
 import FCToggle from './FCToggle';
@@ -7,8 +7,8 @@ import styled from 'styled-components';
 import { WeatherContext } from '../../../contexts/weatherContext';
 
 const Background = styled.div`
-	background-image: ${({ weatherString }) =>
-		`url(https://source.unsplash.com/random/1200x800?${weatherString})`};
+	background-image: ${({ name }) =>
+		`url(https://source.unsplash.com/random/1200x800?${name})`};
 	background-repeat: no-repeat;
 	// mask clears visual space for our widgets
 	mask-image: linear-gradient(to top, transparent, 30%, ghostwhite);
@@ -86,23 +86,23 @@ const FeelsLike = styled.span`
 `;
 
 const Home = ({ widgetId }) => {
+	const { name, temp, description, iconSrc, imperialOrMetric, feelsLike } =
+		useContext(WeatherContext);
+
 	return (
 		<>
-			<Background weatherString={weatherString} />
+			<Background name={name.toLowerCase()} />
 			<Container>
 				<Relief>
 					<Temperature>
-						{tempString}
+						{temp}
 						<DegreeSymbol />
 					</Temperature>
 					<Description>{description}</Description>
 					<IconContainer>
 						<img src={iconSrc} alt={'weather-icon'} />
 					</IconContainer>
-					<FCToggle
-						currentType={imperialOrMetric}
-						toggleType={setImperialOrMetric}
-					/>
+					<FCToggle currentType={imperialOrMetric} />
 					<FeelsLike>
 						<em>feels like:</em>{' '}
 						{feelsLike + (imperialOrMetric === 'imperial' ? 'F' : 'C')}

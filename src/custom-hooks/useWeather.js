@@ -56,10 +56,10 @@ export const useWeather = (metricOrImperial, cityName) => {
 	useEffect(() => {
 		weatherRef.current.weather = parseWeather(
 			data,
-			isImperial(metricOrImperial)
+			isImperial(metricOrImperial, cityName)
 		);
 		// list of dependencies that will trigger useEffect
-	}, [data, isImperial, mutate, metricOrImperial, cityName, timeFlag]);
+	}, [data, isImperial, metricOrImperial, cityName, timeFlag]);
 
 	// we'll return our weather, a loading boolean, and an error object
 	return {
