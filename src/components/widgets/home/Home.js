@@ -17,12 +17,24 @@ const Background = styled.div`
 		`url(https://source.unsplash.com/random/1200x800?${weatherString})`};
 	background-repeat: no-repeat;
 	object-fit: contain;
-	opacity: 0.8;
-	mask-image: linear-gradient(rgba(0, 0, 0, 1), transparent);
+	/* mask-image: linear-gradient(rgba(0, 0, 0, 1), transparent); */
 
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: center;
+	height: 100%;
+`;
+
+const Relief = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 92%;
+	width: 88%;
+	background-color: rgba(0, 0, 0, 0.6);
+	border-radius: 10px;
 `;
 
 const IconContainer = styled.span`
@@ -36,8 +48,8 @@ const Temperature = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 96px;
-	color: orange;
+	font-size: 120px;
+	color: ghostwhite;
 `;
 
 const getWeatherIcon = iconString =>
@@ -47,27 +59,31 @@ const Home = ({ widgetId }) => {
 	const { state, dispatch } = useContext(StateContext);
 	const { tempType, weatherString } = state;
 
-	const apiKey = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
-
-	const { data, error } = useFetch(
-		`https://api.openweathermap.org/data/2.5/weather?q=Chicago&appid=${apiKey}`
-	);
+	/* careful! */
+	// const { data, error } = useFetch(
+	// 	`https://api.openweathermap.org/data/2.5/weather?q=Chicago&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`
+	// );
 
 	/* these both work, just comment them in later */
 	// if (error) return <Redirect to='/404' />;
 	// if (!error && !data) return <Loading />;
 
 	return (
-		<Background weatherString={weatherString}>
-			<Temperature>{tempType === 'fahrenheit' ? imperial : metric}</Temperature>
-			<IconContainer>
-				<img
-					src={getWeatherIcon(imperialData.weather[0].icon)}
-					alt={'weather-icon'}
-				/>
-			</IconContainer>
-			<FCToggle />
-			<SetHomeBtn widgetId={widgetId} />
+		<Background weatherString={imperialData.weather[0].main}>
+			<Relief>
+				<Temperature>
+					{tempType === 'fahrenheit' ? imperial : metric}
+					{/* <span style={{ fontSize: '48px', marginTop: '-1em' }}>°</span> */}
+				</Temperature>
+				<IconContainer>
+					<img
+						src={getWeatherIcon(imperialData.weather[0].icon)}
+						alt={'weather-icon'}
+					/>
+				</IconContainer>
+				<FCToggle />
+				<SetHomeBtn widgetId={widgetId} />
+			</Relief>
 		</Background>
 	);
 };

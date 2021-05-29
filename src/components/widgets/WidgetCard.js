@@ -8,19 +8,22 @@ const Container = styled.div`
 	height: 60px;
 	width: 60px;
 	border-radius: 5px;
-	border: transparent;
-	background-color: orange;
+	border: 1px solid var(--lightAccent);
 	color: white;
 	padding: 1em;
 `;
 
-const Text = styled.span`
-	font-size: 16px;
+const Image = styled.img`
+	height: 80px;
+	width: 80px;
+	border-radius: 5px;
+	object-fit: cover;
+	object-position: center;
 `;
 
-const WidgetCard = ({ msg }) => (
+const WidgetCard = ({ src }) => (
 	<Container>
-		<Text>{msg}</Text>
+		<Image src={src} alt='icon' />
 	</Container>
 );
 

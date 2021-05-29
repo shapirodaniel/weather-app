@@ -1,3 +1,7 @@
+:root {
+	--lightAccent: #e76d4e;
+}
+
 html {
 	touch-action: manipulation;
 }

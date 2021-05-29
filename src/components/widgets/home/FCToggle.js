@@ -8,19 +8,29 @@ const Container = styled.div`
 	justify-content: center;
 	width: 80px;
 	margin: 0 auto;
-
-	// temp
-	margin-top: 300px;
-	z-index: 20;
 `;
 
 const Button = styled.div`
-	padding: 1em;
-	border: 1px solid lightgrey;
-	color: ${({ active }) => (active === 'true' ? 'red' : 'inherit')};
-	background-color: ${({ active }) =>
-		active === 'true' ? 'lightgrey' : 'inherit'};
-	cursor: pointer;
+	& {
+		padding: 1em;
+		border: 1px solid white;
+		color: ${({ active }) =>
+			active === 'true' ? 'inherit' : 'var(--lightAccent)'};
+		background-color: ${({ active }) =>
+			active === 'true' ? 'ghostwhite' : 'inherit'};
+		cursor: pointer;
+		font-size: 16px;
+	}
+
+	&:first-child {
+		border-top-left-radius: 5px;
+		border-bottom-left-radius: 5px;
+	}
+
+	&:last-child {
+		border-top-right-radius: 5px;
+		border-bottom-right-radius: 5px;
+	}
 `;
 
 const FCToggle = () => {

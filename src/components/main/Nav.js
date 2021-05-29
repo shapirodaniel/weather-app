@@ -9,7 +9,8 @@ const Container = styled.div`
 	justify-content: flex-end;
 	height: 100%;
 	width: 100%;
-	color: ${({ isDarkMode }) => (isDarkMode ? 'black' : 'orange')};
+	background-color: black;
+	color: ${({ isDarkMode }) => (isDarkMode ? 'black' : 'ghostwhite')};
 
 	// we'll use position relative to absolute-position our dropdown menu
 	position: relative;
@@ -22,7 +23,7 @@ const IconContainer = styled.span`
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: 0.3em;
+		padding: 0.6em;
 		transform: ${({ isDarkMode }) => (isDarkMode ? 'rotate(180deg)' : 'none')};
 	}
 	// here, we assign icon descendants a "click" cursor

@@ -3,13 +3,17 @@ import styled from 'styled-components';
 
 const Container = styled.div`
 	position: absolute;
-	top: 2.7em;
+	top: 3.5em;
 	right: 0.5em;
 	height: min-content;
 	min-height: 500px;
 	width: 300px;
-	background-color: white;
+	background-color: black;
 	z-index: 10;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
 `;
 
 const Menu = ({ isVisible }) => {

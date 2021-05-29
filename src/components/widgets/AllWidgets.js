@@ -10,6 +10,7 @@ const Container = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	padding: 1em;
+	background-color: black;
 `;
 
 // active class styling for NavLink applied by styled-components
@@ -17,7 +18,7 @@ const StyledNavLink = styled(NavLink).attrs({ activeClassName: 'selected' })`
 	&.selected {
 		margin-top: calc(0.5em + 4px);
 		padding-bottom: 0.5em;
-		border-bottom: 4px solid orange;
+		border-bottom: 4px solid var(--lightAccent);
 	}
 `;
 

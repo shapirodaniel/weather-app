@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const Layout = styled.div`
 	display: grid;
-	grid-template-rows: 2em 1fr;
+	grid-template-rows: 3em 1fr;
 	height: 100vh;
 	width: 100vw;
 `;
