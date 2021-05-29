@@ -75,6 +75,7 @@ const WeatherProvider = ({ children }) => {
 		loading,
 		error,
 		state,
+		imperialOrMetric,
 		updateUnits,
 		updateCity,
 	};

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import useSWR from 'swr';
 import { fetcher } from './helpers/fetcher';
 import { parseWeather } from './helpers/data';
@@ -13,9 +13,9 @@ import { parseWeather } from './helpers/data';
     error:
 */
 
-export const useWeather = (metricOrImperial, cityName) => {
+export const useWeather = (imperialOrMetric, cityName) => {
 	// we'll store our api key in a dotenv file to avoid exposing the key directly, we can gitignore it to avoid pushing the key to a public repo
-	const uri = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}&units=imperial`;
+	const uri = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}&units=${imperialOrMetric}`;
 
 	const { data, error, isValidating } = useSWR(uri, fetcher, {
 		/* https://swr.vercel.app/docs/error-handling */
@@ -29,20 +29,16 @@ export const useWeather = (metricOrImperial, cityName) => {
 		},
 	});
 
-	console.log('data in useWeather is: ', data);
-
 	// whenever our user toggles their settings for imperial/metric we'll update the data -- react prompts us with our linter settings on exhaustive-deps to wrap this fn in a useCallback hook to avoid an infinite render loop in useEffect
 	const isImperial = useCallback(
-		() => metricOrImperial === 'imperial',
-		[metricOrImperial]
+		() => imperialOrMetric === 'imperial',
+		[imperialOrMetric]
 	);
 
 	// let's store a mutable reference with useRef so that we can update our weather values locally whenever our user toggles their imperial/metric settings
 	const weatherRef = useRef({
-		weather: parseWeather(data, isImperial(metricOrImperial)),
+		weather: parseWeather(data, isImperial(imperialOrMetric)),
 	});
-
-	console.log('weatherRef in useWeather is: ', weatherRef);
 
 	// // every 1 min we'll fetch an update by updating our timeFlag boolean with an infinite setTimeout loop
 	// const [timeFlag, updateTime] = useState(false);
@@ -60,10 +56,10 @@ export const useWeather = (metricOrImperial, cityName) => {
 	useEffect(() => {
 		weatherRef.current.weather = parseWeather(
 			data,
-			isImperial(metricOrImperial) ? 'imperial' : 'metric'
+			isImperial(imperialOrMetric) ? 'imperial' : 'metric'
 		);
 		// list of dependencies that will trigger useEffect
-	}, [data, isImperial, metricOrImperial, cityName /* timeFlag */]);
+	}, [data, isImperial, imperialOrMetric, cityName /* timeFlag */]);
 
 	// we'll return our weather, a loading boolean, and an error object
 	return {
