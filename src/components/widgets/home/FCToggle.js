@@ -18,7 +18,7 @@ const Button = styled.div`
 			isActive ? 'ghostwhite' : 'inherit'};
 		cursor: pointer;
 		font-size: 16px;
-		font-weight: 500;
+		font-weight: 700;
 	}
 
 	&:first-child {
@@ -32,6 +32,7 @@ const Button = styled.div`
 	}
 `;
 
+// we'll map over an array of buttons to avoid repetition in our jsx
 const buttons = [
 	{ id: 1, type: 'imperial', value: 'F' },
 	{ id: 2, type: 'metric', value: 'C' },

@@ -1,9 +1,9 @@
 /* eslint-disable react/display-name */
 import React, { useContext } from 'react';
-import { useRouteMatch, NavLink } from 'react-router-dom';
-import styled from 'styled-components';
-import { widgets } from '../widgets';
 import { WidgetContext } from '../../contexts/widgetContext';
+import { useRouteMatch, NavLink } from 'react-router-dom';
+import { widgets } from '../widgets';
+import styled from 'styled-components';
 
 const Container = styled.div`
 	display: flex;
@@ -11,6 +11,7 @@ const Container = styled.div`
 	justify-content: space-between;
 	width: 84%;
 	margin: 0 auto;
+	transition: border-bottom 0.1s ease;
 `;
 
 const StyledNavLink = styled(NavLink).attrs({ activeClassName: 'selected' })`
@@ -22,10 +23,10 @@ const StyledNavLink = styled(NavLink).attrs({ activeClassName: 'selected' })`
 `;
 
 const AllWidgets = () => {
-	// general purpose url for prefixing subroutes
+	// url used to prefix subroutes
 	const { url } = useRouteMatch();
 
-	// our user-specified widgetId
+	// our user-specified widgetId from localStorage (default is {id: 1})
 	const { id } = useContext(WidgetContext);
 
 	// we'll pull our user-specified home widget out to the front of our widgets array so that it renders first in the list
@@ -35,13 +36,18 @@ const AllWidgets = () => {
 
 	return (
 		<Container>
-			{sortedWidgets.map(({ id, link, renderCard }) => {
-				return (
-					// nav link can take a component prop that'll render whatever component we pass
-					// as long as its an anonymous fn, ex () => <Component/>
-					<StyledNavLink key={id} to={url + link} component={renderCard} />
-				);
-			})}
+			{
+				// renderCard is a function: () => <Component/>
+				// to render it with our styled nav link css, we'll invoke it here, rather than declare it inline
+				// this allows us to map a widgets array and provide renderCard, renderComponent functions for different use cases in the same app
+				sortedWidgets.map(({ id, link, renderCard }) => {
+					return (
+						<StyledNavLink key={id} to={url + link}>
+							{renderCard()}
+						</StyledNavLink>
+					);
+				})
+			}
 		</Container>
 	);
 };

@@ -1,6 +1,6 @@
 import { WidgetCard, Home, RecommendedOuterwear, Forecast } from './widgets/';
 import {
-	faHome,
+	faCloudMeatball,
 	faTshirt,
 	faCalendarAlt,
 } from '@fortawesome/free-solid-svg-icons';
@@ -9,7 +9,7 @@ export const widgets = [
 	{
 		id: 1,
 		link: '/home',
-		renderCard: () => <WidgetCard icon={faHome} />,
+		renderCard: () => <WidgetCard icon={faCloudMeatball} />,
 		renderComponent: () => <Home widgetId={1} />,
 	},
 	{
