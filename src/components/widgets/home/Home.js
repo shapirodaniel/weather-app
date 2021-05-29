@@ -89,9 +89,11 @@ const Home = ({ widgetId }) => {
 	const { name, temp, description, iconSrc, imperialOrMetric, feelsLike } =
 		useContext(WeatherContext);
 
+	console.log(name);
+
 	return (
 		<>
-			<Background name={name && name.toLowerCase()} />
+			<Background name={name} />
 
 			<Container>
 				<Relief>

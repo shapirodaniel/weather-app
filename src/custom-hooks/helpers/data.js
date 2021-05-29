@@ -2,10 +2,8 @@
 const getWeatherIcon = iconString =>
 	`http://openweathermap.org/img/wn/${iconString}@2x.png`;
 
-const imperialToMetric = num => Math.round(((num - 32) * 5) / 9);
-
-export const parseWeather = (fetchedWeather, isImperial) => {
-	if (!fetchedWeather || !isImperial) return;
+export const parseWeather = fetchedWeather => {
+	if (!fetchedWeather) return;
 
 	return {
 		base: fetchedWeather.base, // string
@@ -15,24 +13,14 @@ export const parseWeather = (fetchedWeather, isImperial) => {
 			lon: fetchedWeather.coord.lon, // decimal
 		},
 		lastUpdate: fetchedWeather.dt, // num long
-		temp: isImperial
-			? Math.round(fetchedWeather.main.temp) // decimal
-			: imperialToMetric(Math.round(fetchedWeather.main.temp)),
-		feelsLike: isImperial
-			? Math.round(fetchedWeather.main.feels_like) // decimal
-			: imperialToMetric(Math.round(fetchedWeather.main.feels_like)),
-		humidity: isImperial
-			? Math.round(fetchedWeather.main.humidity) // int
-			: imperialToMetric(Math.round(fetchedWeather.main.humidity)),
-		pressure: isImperial
-			? Math.round(fetchedWeather.main.pressure) // int
-			: imperialToMetric(Math.round(fetchedWeather.main.pressure)),
-		maxTemp: isImperial
-			? Math.round(fetchedWeather.main.temp_max)
-			: imperialToMetric(Math.round(fetchedWeather.main.temp_max)), // decimal
-		minTemp: isImperial
-			? Math.round(fetchedWeather.main.temp_min)
-			: imperialToMetric(Math.round(fetchedWeather.main.temp_min)), // decimal
+
+		temp: Math.round(fetchedWeather.main.temp), // decimal
+		feelsLike: Math.round(fetchedWeather.main.feels_like), // decimal
+		humidity: Math.round(fetchedWeather.main.humidity), // int
+		pressure: Math.round(fetchedWeather.main.pressure), // int
+		maxTemp: Math.round(fetchedWeather.main.temp_max),
+		minTemp: Math.round(fetchedWeather.main.temp_min),
+
 		cityName: fetchedWeather.name, // string
 		country: fetchedWeather.sys.country, // string
 		sunrise: fetchedWeather.sys.sunrise, // milliseconds long num UTC
@@ -43,9 +31,10 @@ export const parseWeather = (fetchedWeather, isImperial) => {
 		windGust: fetchedWeather.wind.gust, // mph imperial, m/s metric
 		visibility: fetchedWeather.visibility, // miles
 
-		description: fetchedWeather.weather[0].description /* ) || '' */, // string
-		iconSrc: getWeatherIcon(fetchedWeather.weather[0].icon), // icon string src
-		id: fetchedWeather.weather[0].id /* ) || 0*/, // int
-		name: fetchedWeather.weather[0].main /* ) || '' */, // string
+		// the weather object on fetched data's contents
+		description: fetchedWeather.weather[0].description, // string
+		iconSrc: getWeatherIcon(fetchedWeather.weather[0].icon), // string
+		id: fetchedWeather.weather[0].id, // int
+		name: fetchedWeather.weather[0].main, // string
 	};
 };

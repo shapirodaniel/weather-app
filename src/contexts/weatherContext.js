@@ -26,7 +26,7 @@ const WeatherProvider = ({ children }) => {
 	// initialize a weather config object to prevent corrupting the one stored in localStorage
 	const initWeatherConfig = {
 		imperialOrMetric: 'imperial',
-		cityName: 'Philadelphia',
+		cityName: 'Chicago',
 	};
 
 	// then retrieve the localStorage config
@@ -52,7 +52,7 @@ const WeatherProvider = ({ children }) => {
 	// and we'll send those state values to our useWeather hook to get converted weather values, our loading status, and an error object
 	const { weather, loading, error } = useWeather(imperialOrMetric, cityName);
 
-	console.log('weather in weatherContext is: ', weather);
+	console.log(weather);
 
 	// here we'll define our action creators so that we can dispatch changes to toggle imperialOrMetric and cityName
 	const toggleImperialOrMetric = unitsString => ({
@@ -72,13 +72,14 @@ const WeatherProvider = ({ children }) => {
 	// by modularizing our logic we provide a clean interface to accessing and updating state, and our child components can use these objects without "knowing" how they work!
 	const providerValue = {
 		...weather,
+		...state,
 		loading,
 		error,
-		state,
-		imperialOrMetric,
 		updateUnits,
 		updateCity,
 	};
+
+	console.log('provider value is: ', providerValue);
 
 	return (
 		<WeatherContext.Provider value={providerValue}>
