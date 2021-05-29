@@ -20,6 +20,7 @@ const Button = styled.div`
 			active === 'true' ? 'ghostwhite' : 'inherit'};
 		cursor: pointer;
 		font-size: 16px;
+		font-weight: 500;
 	}
 
 	&:first-child {
