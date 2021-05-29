@@ -1,7 +1,0 @@
-// weather can be more than length == 1; ex., London mist + light intensity drizzle
-
-// to access weather icon -> icon: 10d @ 2x .png
-http://openweathermap.org/img/wn/10d@2x.png
-
-// to get fahrenheit or imperial
-http://api.openweathermap.org/data/2.5/weather?q=London&units=imperial

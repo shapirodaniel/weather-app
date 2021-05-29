@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { WeatherContext } from '../../../contexts/weatherContext';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -38,7 +39,9 @@ const buttons = [
 	{ id: 2, type: 'metric', value: 'C' },
 ];
 
-const FCToggle = ({ currentType, toggleType }) => {
+const FCToggle = ({ currentType }) => {
+	const { updateUnits } = useContext(WeatherContext);
+
 	return (
 		<Container>
 			{buttons.map(({ id, type, value }) => (
@@ -46,8 +49,8 @@ const FCToggle = ({ currentType, toggleType }) => {
 					key={id}
 					isActive={currentType === type}
 					onClick={() => {
-						toggleType(type);
 						localStorage.setItem('imperialOrMetric', type);
+						updateUnits(type);
 					}}
 				>
 					{value}

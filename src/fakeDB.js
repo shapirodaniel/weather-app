@@ -28,11 +28,11 @@ export const imperialData = {
 };
 
 // to convert
-const fahrenheitToCelsius = num => Math.round(((num - 32) * 5) / 9);
+const imperialToMetric = num => Math.round(((num - 32) * 5) / 9);
 const { temp_min, temp_max } = imperialData.main;
 const avgTemp = () => Math.round(temp_min + temp_max / 2);
 
 export const currentTemps = () => ({
 	imperial: avgTemp(),
-	metric: fahrenheitToCelsius(avgTemp()),
+	metric: imperialToMetric(avgTemp()),
 });

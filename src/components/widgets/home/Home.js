@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import styled from 'styled-components';
 import { Loading } from '../../main/';
 import FCToggle from './FCToggle';
 import SetHomeBtn from '../SetHomeBtn';
-
-// data fetching hook and fetcher
-import useSWR from 'swr';
-import { fetcher } from '../../fetcher';
+import styled from 'styled-components';
+import { WeatherContext } from '../../../contexts/weatherContext';
 
 const Background = styled.div`
 	background-image: ${({ weatherString }) =>
@@ -88,39 +85,7 @@ const FeelsLike = styled.span`
 	color: ghostwhite;
 `;
 
-// utility fn generates an src for the weather icon provided by our weather api
-const getWeatherIcon = iconString =>
-	`http://openweathermap.org/img/wn/${iconString}@2x.png`;
-
 const Home = ({ widgetId }) => {
-	// we'll pull our user's preferred temperature system out of local storage to persist their choice across refreshes
-	const [imperialOrMetric, setImperialOrMetric] = useState(
-		() => localStorage.getItem('imperialOrMetric') || 'imperial'
-	);
-
-	// provide our home uri through an environment variable to protect our api key when we push to our github repo, and populate the units query with our useState value
-	const homeURI = `https://api.openweathermap.org/data/2.5/weather?q=Chicago&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}&units=${imperialOrMetric}`;
-
-	/* to avoid overfetching from our api while doing work that would cause a bunch of refreshes, comment this block OUT to work on styling */
-	const { data, error } = useSWR(homeURI, fetcher);
-	console.log(data);
-	if (error) return <Redirect to='/404' />;
-	if (!error && !data) return <Loading />;
-
-	/* comment this line IN to work on layout if we've commented our our useSWR fetch, this will let us short-circuit all data values and use the defaults */
-	// const data = false;
-
-	const weatherString = (data && data.weather[0].main) || 'weather';
-	const tempString = (data && Math.round(data.main.temp)) || '75';
-	const description =
-		(data && data.weather.length && data.weather[0].description) || 'mild';
-	const weatherIconSrc = getWeatherIcon(
-		// default to "mist" icon if weather unavailable
-		(data && data.weather.length && data.weather[0].icon) || '10d'
-	);
-	const feelsLike =
-		(data && data.main && Math.round(data.main.feels_like)) || '75';
-
 	return (
 		<>
 			<Background weatherString={weatherString} />
@@ -132,7 +97,7 @@ const Home = ({ widgetId }) => {
 					</Temperature>
 					<Description>{description}</Description>
 					<IconContainer>
-						<img src={weatherIconSrc} alt={'weather-icon'} />
+						<img src={iconSrc} alt={'weather-icon'} />
 					</IconContainer>
 					<FCToggle
 						currentType={imperialOrMetric}
