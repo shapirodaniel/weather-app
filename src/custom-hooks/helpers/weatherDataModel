@@ -11,7 +11,7 @@ weather data model on WeatherContext
   pressure,                 int
   maxTemp,                  int
   minTemp,                  int
-  city,                     string
+  cityName,                     string
   country,                  string
   sunrise,                  unix UTC
   sunset,                   unix UTC

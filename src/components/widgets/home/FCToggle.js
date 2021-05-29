@@ -42,6 +42,8 @@ const buttons = [
 const FCToggle = ({ currentType }) => {
 	const { updateUnits, cityName } = useContext(WeatherContext);
 
+	console.log(updateUnits, cityName);
+
 	return (
 		<Container>
 			{buttons.map(({ id, type, value }) => (
@@ -52,7 +54,10 @@ const FCToggle = ({ currentType }) => {
 						// first, we'll store our new config in localStorage
 						localStorage.setItem(
 							'weatherConfig',
-							JSON.stringify({ imperialOrMetric: type, cityName })
+							JSON.stringify({
+								imperialOrMetric: type,
+								cityName: cityName || 'Philadelphia',
+							})
 						);
 						// then we'll call our dispatch-wrapped action creator
 						updateUnits(type);

@@ -4,49 +4,48 @@ const getWeatherIcon = iconString =>
 
 const imperialToMetric = num => Math.round(((num - 32) * 5) / 9);
 
-export const parseWeather = (weather, isImperial) => {
-	if (!weather[0] || !isImperial) return;
+export const parseWeather = (fetchedWeather, isImperial) => {
+	if (!fetchedWeather || !isImperial) return;
 
 	return {
-		base: weather.base, // string
-		cloudiness: Math.round(weather.clouds.all * 100) + '%', // string
+		base: fetchedWeather.base, // string
+		cloudiness: Math.round(fetchedWeather.clouds.all * 100) + '%', // string
 		location: {
-			lat: weather.coord.lat, // decimal
-			lon: weather.coord.lon, // decimal
+			lat: fetchedWeather.coord.lat, // decimal
+			lon: fetchedWeather.coord.lon, // decimal
 		},
-		lastUpdate: weather.dt, // num long
+		lastUpdate: fetchedWeather.dt, // num long
 		temp: isImperial
-			? Math.round(weather.main.temp) // decimal
-			: imperialToMetric(Math.round(weather.main.temp)),
+			? Math.round(fetchedWeather.main.temp) // decimal
+			: imperialToMetric(Math.round(fetchedWeather.main.temp)),
 		feelsLike: isImperial
-			? Math.round(weather.main.feels_like) // decimal
-			: imperialToMetric(Math.round(weather.main.feels_like)),
+			? Math.round(fetchedWeather.main.feels_like) // decimal
+			: imperialToMetric(Math.round(fetchedWeather.main.feels_like)),
 		humidity: isImperial
-			? Math.round(weather.main.humidity) // int
-			: imperialToMetric(Math.round(weather.main.humidity)),
+			? Math.round(fetchedWeather.main.humidity) // int
+			: imperialToMetric(Math.round(fetchedWeather.main.humidity)),
 		pressure: isImperial
-			? Math.round(weather.main.pressure) // int
-			: imperialToMetric(Math.round(weather.main.pressure)),
+			? Math.round(fetchedWeather.main.pressure) // int
+			: imperialToMetric(Math.round(fetchedWeather.main.pressure)),
 		maxTemp: isImperial
-			? Math.round(weather.main.temp_max)
-			: imperialToMetric(Math.round(weather.main.temp_max)), // decimal
+			? Math.round(fetchedWeather.main.temp_max)
+			: imperialToMetric(Math.round(fetchedWeather.main.temp_max)), // decimal
 		minTemp: isImperial
-			? Math.round(weather.main.temp_min)
-			: imperialToMetric(Math.round(weather.main.temp_min)), // decimal
-		city: weather.name, // string
-		country: weather.sys.country, // string
-		sunrise: weather.sys.sunrise, // milliseconds long num UTC
-		sunset: weather.sys.sunset, // milliseconds long num UTC
-		timezone: weather.timezone, // shift in seconds from UTC
-		windSpeed: weather.wind.speed, // mph imperial, m/s metric
-		windDirection: weather.wind.deg, // in degrees (meteorological)
-		windGust: weather.wind.gust, // mph imperial, m/s metric
-		visibility: weather.visibility, // miles
+			? Math.round(fetchedWeather.main.temp_min)
+			: imperialToMetric(Math.round(fetchedWeather.main.temp_min)), // decimal
+		cityName: fetchedWeather.name, // string
+		country: fetchedWeather.sys.country, // string
+		sunrise: fetchedWeather.sys.sunrise, // milliseconds long num UTC
+		sunset: fetchedWeather.sys.sunset, // milliseconds long num UTC
+		timezone: fetchedWeather.timezone, // shift in seconds from UTC
+		windSpeed: fetchedWeather.wind.speed, // mph imperial, m/s metric
+		windDirection: fetchedWeather.wind.deg, // in degrees (meteorological)
+		windGust: fetchedWeather.wind.gust, // mph imperial, m/s metric
+		visibility: fetchedWeather.visibility, // miles
 
-		// the first entry in the weather conditions array
-		description: weather[0].description, // string
-		iconSrc: getWeatherIcon(weather[0].icon), // icon string src
-		id: weather[0].id, // int
-		name: weather[0].main, // string
+		description: fetchedWeather.weather[0].description /* ) || '' */, // string
+		iconSrc: getWeatherIcon(fetchedWeather.weather[0].icon), // icon string src
+		id: fetchedWeather.weather[0].id /* ) || 0*/, // int
+		name: fetchedWeather.weather[0].main /* ) || '' */, // string
 	};
 };

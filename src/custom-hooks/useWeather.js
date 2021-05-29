@@ -15,9 +15,9 @@ import { parseWeather } from './helpers/data';
 
 export const useWeather = (metricOrImperial, cityName) => {
 	// we'll store our api key in a dotenv file to avoid exposing the key directly, we can gitignore it to avoid pushing the key to a public repo
-	const uri = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`;
+	const uri = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}&units=imperial`;
 
-	const { data, mutate, error, isValidating } = useSWR(uri, fetcher, {
+	const { data, error, isValidating } = useSWR(uri, fetcher, {
 		/* https://swr.vercel.app/docs/error-handling */
 		onErrorRetry: (error, _key, _config, revalidate, { retryCount }) => {
 			// never retry 404s
@@ -28,6 +28,8 @@ export const useWeather = (metricOrImperial, cityName) => {
 			setTimeout(() => revalidate({ retryCount }), 5000);
 		},
 	});
+
+	console.log('data in useWeather is: ', data);
 
 	// whenever our user toggles their settings for imperial/metric we'll update the data -- react prompts us with our linter settings on exhaustive-deps to wrap this fn in a useCallback hook to avoid an infinite render loop in useEffect
 	const isImperial = useCallback(
@@ -40,26 +42,28 @@ export const useWeather = (metricOrImperial, cityName) => {
 		weather: parseWeather(data, isImperial(metricOrImperial)),
 	});
 
-	// every 1 min we'll fetch an update by updating our timeFlag boolean with an infinite setTimeout loop
-	const [timeFlag, updateTime] = useState(false);
+	console.log('weatherRef in useWeather is: ', weatherRef);
 
-	const timer = () =>
-		setTimeout(() => {
-			while (true) {
-				updateTime(!timeFlag);
-			}
-		}, 60000);
+	// // every 1 min we'll fetch an update by updating our timeFlag boolean with an infinite setTimeout loop
+	// const [timeFlag, updateTime] = useState(false);
 
-	timer();
+	// const timer = () =>
+	// 	setTimeout(() => {
+	// 		while (true) {
+	// 			updateTime(!timeFlag);
+	// 		}
+	// 	}, 60000);
+
+	// timer();
 
 	// we'll update our ref whenever updates are triggered by useSWR or our user toggles imperial/metric or their city, otherwise our timer will trigger periodic refreshes with the current units + city
 	useEffect(() => {
 		weatherRef.current.weather = parseWeather(
 			data,
-			isImperial(metricOrImperial, cityName)
+			isImperial(metricOrImperial) ? 'imperial' : 'metric'
 		);
 		// list of dependencies that will trigger useEffect
-	}, [data, isImperial, metricOrImperial, cityName, timeFlag]);
+	}, [data, isImperial, metricOrImperial, cityName /* timeFlag */]);
 
 	// we'll return our weather, a loading boolean, and an error object
 	return {

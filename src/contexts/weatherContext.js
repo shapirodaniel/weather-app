@@ -23,19 +23,36 @@ const reducer = (state, { type, payload }) => {
 // WeatherProvider is a React context that will make up-to-date data and functions available to its entire subtree -- we'll wrap our App so that the provider acts like Redux's Provider -- our providerValue is similar to Redux's store
 // since WeatherProvider needs to render its subtree we'll use the children prop here
 const WeatherProvider = ({ children }) => {
-	// we'll pull our user's preferences out of localStorage to initialize the app's state
-	const [state, dispatch] = useReducer(
-		reducer,
-		JSON.parse(localStorage.getItem('weatherConfig')) || {
-			imperialOrMetric: 'imperial',
-			cityName: 'Philadelphia',
-		}
+	// initialize a weather config object to prevent corrupting the one stored in localStorage
+	const initWeatherConfig = {
+		imperialOrMetric: 'imperial',
+		cityName: 'Philadelphia',
+	};
+
+	// then retrieve the localStorage config
+	const localStorageWeatherConfig = JSON.parse(
+		localStorage.getItem('weatherConfig')
 	);
+
+	let weatherConfig;
+
+	// merge the init config with the retrieved one if defined
+	if (localStorageWeatherConfig) {
+		weatherConfig = {
+			...initWeatherConfig,
+			...localStorageWeatherConfig,
+		};
+	}
+
+	// the merged value is what we'll send to our reducer as its initState
+	const [state, dispatch] = useReducer(reducer, weatherConfig);
 
 	const { imperialOrMetric, cityName } = state;
 
 	// and we'll send those state values to our useWeather hook to get converted weather values, our loading status, and an error object
 	const { weather, loading, error } = useWeather(imperialOrMetric, cityName);
+
+	console.log('weather in weatherContext is: ', weather);
 
 	// here we'll define our action creators so that we can dispatch changes to toggle imperialOrMetric and cityName
 	const toggleImperialOrMetric = unitsString => ({
