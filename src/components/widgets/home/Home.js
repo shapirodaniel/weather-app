@@ -38,9 +38,9 @@ const Relief = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	height: 80%;
-	width: 80%;
-	background-color: rgba(0, 0, 0, 0.6);
+	height: 90%;
+	width: 84%;
+	background-color: rgba(0, 0, 0, 0.5);
 	border-radius: 10px;
 	// allows us to center in available space without flexing a parent container
 	margin: auto;

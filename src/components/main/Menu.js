@@ -8,7 +8,7 @@ const Container = styled.div`
 	height: min-content;
 	min-height: 500px;
 	width: 300px;
-	background-color: black;
+	background-color: white;
 	z-index: 10;
 
 	display: flex;
