@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Container = styled.div`
 	display: flex;
@@ -16,17 +17,9 @@ const Container = styled.div`
 	background-image: linear-gradient(315deg, #1fd1f9 0%, #b621fe 74%);
 `;
 
-const Image = styled.img`
-	height: 80px;
-	width: 80px;
-	border-radius: 5px;
-	object-fit: cover;
-	object-position: center;
-`;
-
-const WidgetCard = ({ src }) => (
+const WidgetCard = ({ icon }) => (
 	<Container>
-		<Image src={src} alt='icon' />
+		<FontAwesomeIcon style={{ fontSize: '48px' }} icon={icon} />
 	</Container>
 );
 

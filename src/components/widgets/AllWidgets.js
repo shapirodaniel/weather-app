@@ -9,20 +9,15 @@ const Container = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	position: fixed;
-	bottom: 0;
-	overflow-x: auto;
-	width: 100vw;
+	width: 84%;
+	margin: 0 auto;
 `;
 
 const StyledNavLink = styled(NavLink).attrs({ activeClassName: 'selected' })`
-	& {
-		margin: 1em;
-	}
 	&.selected {
-		margin: calc(2em - 4px) 1em 1em 1em;
+		margin-top: calc(1em - 4px);
 		padding-bottom: 0.5em;
-		border-bottom: 4px solid var(--lightAccent);
+		border-bottom: 4px solid var(--purpleAccent);
 	}
 `;
 
@@ -42,9 +37,9 @@ const AllWidgets = () => {
 		<Container>
 			{sortedWidgets.map(({ id, link, renderCard }) => {
 				return (
-					<StyledNavLink key={id} to={url + link}>
-						{renderCard()}
-					</StyledNavLink>
+					// nav link can take a component prop that'll render whatever component we pass
+					// as long as its an anonymous fn, ex () => <Component/>
+					<StyledNavLink key={id} to={url + link} component={renderCard} />
 				);
 			})}
 		</Container>
