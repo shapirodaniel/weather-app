@@ -6,6 +6,10 @@ import SetHomeBtn from '../SetHomeBtn';
 import styled from 'styled-components';
 import { WeatherContext } from '../../../contexts/weatherContext';
 
+// we'll fetch in Kelvin and convert on the fly in our components
+// this will prevent render bugs due to refetching and rerendering
+import { getImperial, getMetric } from '../../../custom-hooks/helpers/data';
+
 const Background = styled.div`
 	background-image: ${({ name }) =>
 		`url(https://source.unsplash.com/random/1200x800?${
@@ -104,6 +108,8 @@ const Home = ({ widgetId }) => {
 		return null;
 	}
 
+	const isImperial = imperialOrMetric === 'imperial';
+
 	return (
 		<>
 			<Background name={name} />
@@ -111,7 +117,7 @@ const Home = ({ widgetId }) => {
 			<Container>
 				<Relief>
 					<Temperature>
-						{temp}
+						{isImperial ? getImperial(temp) : getMetric(temp)}
 						<DegreeSymbol />
 					</Temperature>
 
@@ -125,7 +131,9 @@ const Home = ({ widgetId }) => {
 
 					<FeelsLike>
 						<em>feels like:</em>{' '}
-						{feelsLike + (imperialOrMetric === 'imperial' ? 'F' : 'C')}
+						{isImperial
+							? getImperial(feelsLike) + 'F'
+							: getMetric(feelsLike) + 'C'}
 					</FeelsLike>
 
 					<SetHomeBtn widgetId={widgetId} />

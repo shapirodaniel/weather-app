@@ -39,7 +39,7 @@ const buttons = [
 	{ id: 2, type: 'metric', value: 'C' },
 ];
 
-const FCToggle = ({ currentType }) => {
+const FCToggle = () => {
 	const { updateUnits, imperialOrMetric, cityName } =
 		useContext(WeatherContext);
 

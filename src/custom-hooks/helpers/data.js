@@ -1,6 +1,10 @@
 // utility fn generates an src for the weather icon
-const getWeatherIcon = iconString =>
+const getWeatherIcon = (iconString, isImperial) =>
 	`http://openweathermap.org/img/wn/${iconString}@2x.png`;
+
+export const getImperial = val => Math.round(((val - 273.15) * 9) / 5 + 32);
+
+export const getMetric = val => Math.round(val - 273.15);
 
 export const parseWeather = fetchedWeather => {
 	if (!fetchedWeather) return;
@@ -18,8 +22,8 @@ export const parseWeather = fetchedWeather => {
 		feelsLike: Math.round(fetchedWeather.main.feels_like), // decimal
 		humidity: Math.round(fetchedWeather.main.humidity), // int
 		pressure: Math.round(fetchedWeather.main.pressure), // int
-		maxTemp: Math.round(fetchedWeather.main.temp_max),
-		minTemp: Math.round(fetchedWeather.main.temp_min),
+		maxTemp: Math.round(fetchedWeather.main.temp_max), // int
+		minTemp: Math.round(fetchedWeather.main.temp_min), // int
 
 		cityName: fetchedWeather.name, // string
 		country: fetchedWeather.sys.country, // string

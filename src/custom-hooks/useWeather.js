@@ -4,9 +4,14 @@ import { parseWeather } from '../custom-hooks/helpers/data';
 
 export const useWeather = (imperialOrMetric, cityName) => {
 	// we'll store our api key in a dotenv file to avoid exposing the key directly, we can gitignore it to avoid pushing the key to a public repo
-	const uri = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}&units=${imperialOrMetric}`;
+	const uri = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`;
 
-	const { data, error, mutate, isValidating } = useSWR(uri, fetcher, {
+	const {
+		data: fetchedWeather,
+		error,
+		mutate,
+		isValidating,
+	} = useSWR(uri, fetcher, {
 		/* https://swr.vercel.app/docs/error-handling */
 		onErrorRetry: (error, _key, _config, revalidate, { retryCount }) => {
 			// never retry 404s
@@ -18,9 +23,11 @@ export const useWeather = (imperialOrMetric, cityName) => {
 		},
 	});
 
+	const isImperial = imperialOrMetric === 'imperial';
+
 	// we'll return our weather, a loading boolean, and an error object
 	return {
-		weather: parseWeather(data),
+		weather: parseWeather(fetchedWeather, isImperial),
 		updateWeather: () => mutate(),
 		loading: isValidating,
 		error,
