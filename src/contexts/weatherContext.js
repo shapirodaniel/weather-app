@@ -27,7 +27,7 @@ const WeatherProvider = ({ children }) => {
 	// initialize a weather config object to prevent corrupting the one stored in localStorage
 	const initWeatherConfig = {
 		imperialOrMetric: 'imperial',
-		cityName: 'Chicago',
+		cityName: 'Philadelphia',
 	};
 
 	// then retrieve the localStorage config
@@ -48,13 +48,12 @@ const WeatherProvider = ({ children }) => {
 	// the merged value is what we'll send to our reducer as its initState
 	const [state, dispatch] = useReducer(reducer, weatherConfig);
 
-	const { imperialOrMetric, cityName } = state;
+	// and we'll use the cityName to fetch our current geolocation
+	const { geolocation, geolocationLoading, geolocationError } = useGeolocation(
+		state.cityName
+	);
 
-	// and we'll send those state values to our useWeather hook to get converted weather values, our loading status, and an error object
-	const { geolocation, geolocationLoading, geolocationError } =
-		useGeolocation(cityName);
-
-	// we'll provide a default location value when our geolocation is unresolved
+	// we'll provide a default location value when our geolocation is unresolved, else latitude, longitude will be our user's current position
 	const { weather, weatherLoading, weatherError } = useWeather(
 		geolocation
 			? geolocation.location
@@ -83,19 +82,17 @@ const WeatherProvider = ({ children }) => {
 	const providerValue = {
 		...state,
 		geolocation: {
-			data: geolocation,
-			loading: geolocationLoading,
-			error: geolocationError,
+			...geolocation, // object
+			loading: geolocationLoading, // boolean
+			error: geolocationError, // Error instance: object
 		},
 		weather: {
-			current: weather && weather.current,
-			minutely: weather && weather.minutely,
-			hourly: weather && weather.hourly,
-			daily: weather && weather.daily,
-			// today: weather && weather.daily[0],
-			// tomorrow: weather && weather.daily[1],
-			loading: weather && weatherLoading,
-			error: weather && weatherError,
+			current: weather && weather.current, // object
+			minutely: weather && weather.minutely, // array
+			hourly: weather && weather.hourly, // array
+			daily: weather && weather.daily, // array
+			loading: weather && weatherLoading, // boolean
+			error: weather && weatherError, // Error instance: object
 		},
 		updateUnits,
 		updateCity,
