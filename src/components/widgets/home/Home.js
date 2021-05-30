@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Loading } from '../../main/';
+// import { Loading } from '../../main/';
 import FCToggle from './FCToggle';
 import SetHomeBtn from '../SetHomeBtn';
 import styled from 'styled-components';
@@ -8,7 +8,9 @@ import { WeatherContext } from '../../../contexts/weatherContext';
 
 const Background = styled.div`
 	background-image: ${({ name }) =>
-		`url(https://source.unsplash.com/random/1200x800?${name})`};
+		`url(https://source.unsplash.com/random/1200x800?${
+			name + (new Date().getHours() >= 19 ? ',night' : '') // append "night" to query if time > 7PM local
+		})`};
 	background-repeat: no-repeat;
 	// mask clears visual space for our widgets
 	mask-image: linear-gradient(to top, transparent, 30%, ghostwhite);
@@ -86,10 +88,21 @@ const FeelsLike = styled.span`
 `;
 
 const Home = ({ widgetId }) => {
-	const { name, temp, description, iconSrc, imperialOrMetric, feelsLike } =
-		useContext(WeatherContext);
+	const {
+		name,
+		temp,
+		description,
+		iconSrc,
+		imperialOrMetric,
+		feelsLike,
+		error,
+		// loading,
+	} = useContext(WeatherContext);
 
-	console.log(name);
+	if (error) {
+		console.log(error);
+		return null;
+	}
 
 	return (
 		<>

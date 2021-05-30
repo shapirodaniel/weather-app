@@ -52,8 +52,6 @@ const WeatherProvider = ({ children }) => {
 	// and we'll send those state values to our useWeather hook to get converted weather values, our loading status, and an error object
 	const { weather, loading, error } = useWeather(imperialOrMetric, cityName);
 
-	console.log(weather);
-
 	// here we'll define our action creators so that we can dispatch changes to toggle imperialOrMetric and cityName
 	const toggleImperialOrMetric = unitsString => ({
 		type: TOGGLE_IMPERIAL_OR_METRIC,
@@ -78,8 +76,6 @@ const WeatherProvider = ({ children }) => {
 		updateUnits,
 		updateCity,
 	};
-
-	console.log('provider value is: ', providerValue);
 
 	return (
 		<WeatherContext.Provider value={providerValue}>
