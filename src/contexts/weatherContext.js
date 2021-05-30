@@ -34,12 +34,12 @@ const WeatherProvider = ({ children }) => {
 		localStorage.getItem('weatherConfig')
 	);
 
-	let weatherConfig;
+	let weatherConfig = initWeatherConfig;
 
 	// merge the init config with the retrieved one if defined
 	if (localStorageWeatherConfig) {
 		weatherConfig = {
-			...initWeatherConfig,
+			...weatherConfig,
 			...localStorageWeatherConfig,
 		};
 	}
