@@ -1,14 +1,16 @@
 [
   {
     name,
-    local_names: {
+    localNames: {
       // string, translations keyed to ISO lang attrs, ex.,
       en: 'Chicago',
       ja: 'シカゴ',
       ...
     },
-    lat,          decimal
-    lon,          decimal
+    location: {
+      latitude,   decimal
+      longitude,  decimal
+    },
     country,      string, ex 'US'
     state,        string, ex 'IL'
   }

@@ -1,4 +1,5 @@
 import React, { useReducer } from 'react';
+import { useGeolocation } from '../custom-hooks/useGeolocation';
 import { useWeather } from '../custom-hooks/useWeather';
 
 export const WeatherContext = React.createContext();
@@ -50,7 +51,13 @@ const WeatherProvider = ({ children }) => {
 	const { imperialOrMetric, cityName } = state;
 
 	// and we'll send those state values to our useWeather hook to get converted weather values, our loading status, and an error object
-	const { weather, loading, error } = useWeather(imperialOrMetric, cityName);
+	const { geolocation, geolocationLoading, geolocationError } =
+		useGeolocation(cityName);
+
+	const { weather, weatherLoading, weatherError } = useWeather(
+		imperialOrMetric,
+		cityName
+	);
 
 	// here we'll define our action creators so that we can dispatch changes to toggle imperialOrMetric and cityName
 	const toggleImperialOrMetric = unitsString => ({
@@ -69,10 +76,12 @@ const WeatherProvider = ({ children }) => {
 	// the final store-like object we'll have access to in our App
 	// by modularizing our logic we provide a clean interface to accessing and updating state, and our child components can use these objects without "knowing" how they work!
 	const providerValue = {
-		...weather,
-		...state,
-		loading,
-		error,
+		geolocation,
+		geolocationLoading,
+		geolocationError,
+		weather,
+		weatherLoading,
+		weatherError,
 		updateUnits,
 		updateCity,
 	};
