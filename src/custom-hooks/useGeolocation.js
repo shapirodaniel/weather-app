@@ -7,7 +7,7 @@ const fetcher = uri => axios.get(uri).then(res => res.data);
 
 export const useGeolocation = cityName => {
 	// useSWR uri
-	const uri = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit={5}&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`;
+	const uri = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`;
 
 	const { data: fetchedGeolocation, error } = useSWR(uri, fetcher, {
 		/* see https://swr.vercel.app/docs/error-handling for details */
@@ -18,7 +18,7 @@ export const useGeolocation = cityName => {
 	});
 
 	return {
-		geolocation: parseGeolocation(fetchedGeolocation),
+		geolocation: fetchedGeolocation && parseGeolocation(fetchedGeolocation[0]),
 		geolocationLoading: !error && !fetchedGeolocation,
 		geolocationError: error,
 	};

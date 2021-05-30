@@ -99,37 +99,15 @@ const CityName = styled.span`
 `;
 
 const Home = ({ widgetId }) => {
-	const { weather, cityName, imperialOrMetric } = useContext(WeatherContext);
+	const { weather, weatherError, cityName, imperialOrMetric } =
+		useContext(WeatherContext);
 
-	const { current, today, tomorrow, loading, error } = weather;
-
-	const {
-		dateTime,
-		sunrise,
-		sunset,
-		temp,
-		feelsLike,
-		pressure,
-		humidity,
-		dewPoint,
-		cloudCover,
-		uvIndex,
-		visibility,
-		windSpeed,
-		windGust,
-		windDirection,
-		rain,
-		snow,
-		weatherId,
-		weatherType,
-		weatherDescription,
-		weatherIcon,
-	} = current;
-
-	if (error) {
-		console.log(error);
+	if (weatherError) {
 		return null;
 	}
+
+	const { weatherType, temp, feelsLike, weatherDescription, weatherIcon } =
+		weather || {};
 
 	const isImperial = imperialOrMetric === 'imperial';
 

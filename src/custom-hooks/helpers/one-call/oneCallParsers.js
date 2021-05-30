@@ -53,6 +53,7 @@ const getWindDirectionFromDeg = deg => {
 
 // convert incoming data in kelvin to fahrenheit/celsius
 export const getImperialTemp = val => Math.round(((val - 273.15) * 9) / 5 + 32);
+
 export const getMetricTemp = val => Math.round(val - 273.15);
 
 // convert visibility from meters to miles
@@ -86,10 +87,8 @@ export const parseWeatherLocation = fetchedWeather => {
 
 /* we're using Luxon, built by one of the maintainers of Moment.js (now legacy), to do dateTime handling for us -- dt is the (aliased) luxon constructor DateTime, we're using .fromMillis() to convert unix UTC epoch timestamps provided by open weather and luxon's preset constants like dt.TIME_SIMPLE for generating different dateTime formats -- see https://moment.github.io/luxon/docs/class/src/datetime.js~DateTime.html for more details */
 
-export const parseCurrentWeather = fetchedWeather => {
-	if (!fetchedWeather) return;
-
-	const { current } = fetchedWeather;
+export const parseCurrentWeather = current => {
+	if (!current) return;
 
 	return {
 		/* in fetchedWeather.current */
@@ -103,9 +102,9 @@ export const parseCurrentWeather = fetchedWeather => {
 		temp: Math.round(current.temp), // int, Kelvin
 		feelsLike: Math.round(current.feels_like), // int, Kelvin
 		pressure: Math.round(current.pressure), // int, hPa
-		humidity: Math.round(current.humidity * 100) + '%', // string, ex 90%
+		humidity: Math.round(current.humidity) + '%', // string, ex 90%
 		dewPoint: Math.round(current.dew_point), // int, Kelvin
-		cloudCover: Math.round(current.clouds * 100) + '%', // string, ex 75%
+		cloudCover: Math.round(current.clouds) + '%', // string, ex 75%
 		uvIndex: current.uvi, // decimal, UV index
 		visibility: current.visibility, // int, meters -> use getImperialVisibility to convert to miles
 		windSpeed: current.wind_speed, // decimal, m/s
@@ -129,10 +128,10 @@ export const parseCurrentWeather = fetchedWeather => {
 //////////////////////
 
 // get time and precipitation from minutely: Array[{}, ...]
-export const parseMinutelyWeather = fetchedWeather => {
-	if (!fetchedWeather) return;
+export const parseMinutelyWeather = minutely => {
+	if (!minutely) return;
 
-	return fetchedWeather.minutely.map(minutely => ({
+	return minutely.map(minutely => ({
 		dateTime: dt.fromMillis(minutely.dt).toLocaleString(dt.TIME_SIMPLE),
 		precipitation: minutely.precipitation, // decimal, precipitation volume, mm
 	}));
@@ -143,25 +142,25 @@ export const parseMinutelyWeather = fetchedWeather => {
 ////////////////////
 
 // get hourly weather from hourly: Array[{}, ...]
-export const parseHourlyWeather = fetchedWeather => {
-	if (!fetchedWeather) return;
+export const parseHourlyWeather = hourly => {
+	if (!hourly) return;
 
-	return fetchedWeather.hourly.map(hourly => ({
+	return hourly.map(hourly => ({
 		/* in fetchedWeather.hourly */
 		dateTime: dt.fromMillis(hourly.dt).toLocaleString(dt.TIME_SIMPLE),
 		temp: Math.round(hourly.temp), // int, Kelvin
 		feelsLike: Math.round(hourly.feels_like), // int, Kelvin
 		pressure: Math.round(hourly.pressure), // int, hPa
-		humidity: Math.round(hourly.humidity * 100) + '%', // string, ex 90%
+		humidity: Math.round(hourly.humidity) + '%', // string, ex 90%
 		dewPoint: Math.round(hourly.dew_point), // int, Kelvin
-		cloudCover: Math.round(hourly.clouds * 100) + '%', // string, ex 75%
+		cloudCover: Math.round(hourly.clouds) + '%', // string, ex 75%
 		uvIndex: hourly.uvi, // decimal, UV index
 		visibility: hourly.visibility, // int, meters -> use getImperialVisibility to convert to miles
 		windSpeed: hourly.wind_speed, // decimal, m/s
 		windGust: hourly.wind_gust || 0.0, // decimal, m/s /* possibly not available */
 		windDirection: getWindDirectionFromDeg(hourly.wind_deg), // string, ex. 'N/NE'
 
-		pop: Math.round(hourly.pop * 100) + '%', // string, ex. '15%'
+		pop: Math.round(hourly.pop) + '%', // string, ex. '15%'
 		/* possibly not available */
 		rain: hourly.rain ? hourly.rain['1h'] : 0.0, // rainfall last hour, mm
 		snow: hourly.snow ? hourly.snow['1h'] : 0.0, // snow accumulation last hour, mm
@@ -227,10 +226,10 @@ const getMoonPhaseIconAndDescription = val => {
 };
 
 // get daily weather from hourly: Array[{}, ...]
-export const parseDailyWeather = fetchedWeather => {
-	if (!fetchedWeather) return;
+export const parseDailyWeather = daily => {
+	if (!daily) return;
 
-	return fetchedWeather.daily.map(daily => ({
+	return daily.map(daily => ({
 		dateTime: dt.fromMillis(daily.dt).weekdayLong, // string, ex. 'Monday'
 		sunrise: dt
 			.fromMillis(daily.sunrise)
@@ -266,16 +265,16 @@ export const parseDailyWeather = fetchedWeather => {
 		feelsLikeNight: Math.round(daily.feels_like.night), // int
 
 		pressure: Math.round(daily.pressure), // int, hPa
-		humidity: Math.round(daily.humidity * 100) + '%', // string, ex 90%
+		humidity: Math.round(daily.humidity) + '%', // string, ex 90%
 		dewPoint: Math.round(daily.dew_point), // int, Kelvin
-		cloudCover: Math.round(daily.clouds * 100) + '%', // string, ex 75%
+		cloudCover: Math.round(daily.clouds) + '%', // string, ex 75%
 		uvIndex: daily.uvi, // decimal, UV index
 		visibility: daily.visibility, // int, meters -> use getImperialVisibility to convert to miles
 		windSpeed: daily.wind_speed, // decimal, m/s
 		windGust: daily.wind_gust || 0.0, // decimal, m/s /* possibly not available */
 		windDirection: getWindDirectionFromDeg(daily.wind_deg), // string, ex. 'N/NE'
 
-		pop: Math.round(daily.pop * 100) + '%', // string, ex. '15%'
+		pop: Math.round(daily.pop) + '%', // string, ex. '15%'
 		/* possibly not available */
 		rain: daily.rain ? daily.rain['1h'] : 0.0, // rainfall last hour, mm
 		snow: daily.snow ? daily.snow['1h'] : 0.0, // snow accumulation last hour, mm
@@ -292,10 +291,10 @@ export const parseDailyWeather = fetchedWeather => {
 /* WEATHER ALERTS */
 ////////////////////
 
-export const getWeatherAlerts = fetchedWeather => {
-	if (!fetchedWeather) return;
+export const getWeatherAlerts = alerts => {
+	if (alerts) return;
 
-	return fetchedWeather.alerts.map(alert => ({
+	return alerts.map(alert => ({
 		name: alert.sender_name, // string, ex. 'NWS Tulsa'
 		event: alert.event, // string, ex. 'Heat Advisory'
 		startTime: dt

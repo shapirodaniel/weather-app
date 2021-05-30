@@ -13,6 +13,6 @@ export const parseGeolocation = fetchedGeolocation => {
 			longitude: fetchedGeolocation.lon,
 		},
 		state: fetchedGeolocation.state,
-		country: fetchedGeolocation.county,
+		country: fetchedGeolocation.country,
 	};
 };

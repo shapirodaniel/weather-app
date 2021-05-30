@@ -13,7 +13,7 @@ const fetcher = uri => axios.get(uri).then(res => res.data);
 
 export const useWeather = ({ latitude, longitude }) => {
 	// we'll store our api key in a dotenv file to avoid exposing the key directly, we can gitignore it to avoid pushing the key to a public repo
-	const uri = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude={part}&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`;
+	const uri = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`;
 
 	////////////////////////////////////////
 	/* VERCEL STALE WHILE REVALIDATE HOOK */
@@ -35,18 +35,16 @@ export const useWeather = ({ latitude, longitude }) => {
 	/* ALT REACT HOOKS SOLUTION */
 	//////////////////////////////
 
-	const initState = {
-		fetchedWeather: null,
-		error: '',
-	};
-
-	const [state, setState] = useState(initState);
+	const [state, setState] = useState({});
 
 	useEffect(() => {
+		let isMounted = true;
+
 		const fetchWeather = async () => {
 			try {
 				const { data: fetchedWeather } = await axios.get(uri);
-				setState({
+
+				const newState = {
 					weather: {
 						current: parseCurrentWeather(fetchedWeather.current),
 						minutely: parseMinutelyWeather(fetchedWeather.minutely),
@@ -54,13 +52,21 @@ export const useWeather = ({ latitude, longitude }) => {
 						daily: parseDailyWeather(fetchedWeather.daily),
 					},
 					error: '',
-				});
+				};
+
+				setState(newState);
 			} catch (err) {
 				console.error(err);
 				setState({ ...state, error: err });
 			}
 		};
-		fetchWeather();
+
+		if (isMounted && latitude && longitude) fetchWeather();
+
+		return () => {
+			isMounted = false;
+		};
+
 		// linter expects dependencies we don't want to track, we only want to update fetches when our useWeather hook inputs change
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [latitude, longitude]);

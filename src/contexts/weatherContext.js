@@ -54,8 +54,14 @@ const WeatherProvider = ({ children }) => {
 	const { geolocation, geolocationLoading, geolocationError } =
 		useGeolocation(cityName);
 
+	// we'll provide a default location value when our geolocation is unresolved
 	const { weather, weatherLoading, weatherError } = useWeather(
-		geolocation.location
+		geolocation
+			? geolocation.location
+			: {
+					latitude: 39.95,
+					longitude: -75.17,
+			  }
 	);
 
 	// here we'll define our action creators so that we can dispatch changes to toggle imperialOrMetric and cityName
@@ -82,14 +88,14 @@ const WeatherProvider = ({ children }) => {
 			error: geolocationError,
 		},
 		weather: {
-			current: weather.current,
-			minutely: weather.minutely,
-			hourly: weather.hourly,
-			daily: weather.daily,
-			today: weather.daily[0],
-			tomorrow: weather.daily[1],
-			loading: weatherLoading,
-			error: weatherError,
+			current: weather && weather.current,
+			minutely: weather && weather.minutely,
+			hourly: weather && weather.hourly,
+			daily: weather && weather.daily,
+			// today: weather && weather.daily[0],
+			// tomorrow: weather && weather.daily[1],
+			loading: weather && weatherLoading,
+			error: weather && weatherError,
 		},
 		updateUnits,
 		updateCity,

@@ -1712,9 +1712,3 @@ const oneCallResponse = {
 		},
 	],
 };
-
-console.log(
-	oneCallResponse.minutely.length, // 61
-	oneCallResponse.hourly.length, // 48
-	oneCallResponse.daily.length // 8
-);
