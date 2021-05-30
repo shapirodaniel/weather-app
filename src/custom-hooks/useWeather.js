@@ -1,14 +1,19 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
-import { parseWeather } from '../custom-hooks/helpers/oneCallParsers';
+import {
+	parseCurrentWeather,
+	parseMinutelyWeather,
+	parseHourlyWeather,
+	parseDailyWeather,
+} from './helpers/one-call/oneCallParsers';
 
 // function we'll pass to useSWR
 const fetcher = uri => axios.get(uri).then(res => res.data);
 
-export const useWeather = (imperialOrMetric, cityName) => {
+export const useWeather = ({ latitude, longitude }) => {
 	// we'll store our api key in a dotenv file to avoid exposing the key directly, we can gitignore it to avoid pushing the key to a public repo
-	const uri = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`;
+	const uri = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude={part}&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`;
 
 	////////////////////////////////////////
 	/* VERCEL STALE WHILE REVALIDATE HOOK */
@@ -41,7 +46,15 @@ export const useWeather = (imperialOrMetric, cityName) => {
 		const fetchWeather = async () => {
 			try {
 				const { data: fetchedWeather } = await axios.get(uri);
-				setState({ fetchedWeather, error: '' });
+				setState({
+					weather: {
+						current: parseCurrentWeather(fetchedWeather.current),
+						minutely: parseMinutelyWeather(fetchedWeather.minutely),
+						hourly: parseHourlyWeather(fetchedWeather.hourly),
+						daily: parseDailyWeather(fetchedWeather.daily),
+					},
+					error: '',
+				});
 			} catch (err) {
 				console.error(err);
 				setState({ ...state, error: err });
@@ -50,16 +63,14 @@ export const useWeather = (imperialOrMetric, cityName) => {
 		fetchWeather();
 		// linter expects dependencies we don't want to track, we only want to update fetches when our useWeather hook inputs change
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [imperialOrMetric, cityName]);
+	}, [latitude, longitude]);
 
 	// comment out next line if vercel useSWR hook is used
-	const { fetchedWeather, error } = state;
-
-	const isImperial = imperialOrMetric === 'imperial';
+	const { weather, error } = state;
 
 	return {
-		weather: parseWeather(fetchedWeather, isImperial),
-		loading: !error && !fetchedWeather,
-		error,
+		weather,
+		weatherLoading: !error && !weather,
+		weatherError: error,
 	};
 };

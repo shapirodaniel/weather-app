@@ -8,12 +8,15 @@ import { WeatherContext } from '../../../contexts/weatherContext';
 
 // we'll fetch in Kelvin and convert on the fly in our components
 // this will prevent render bugs due to refetching and rerendering
-import { getImperial, getMetric } from '../../../custom-hooks/helpers/data';
+import {
+	getImperialTemp,
+	getMetricTemp,
+} from '../../../custom-hooks/helpers/one-call/oneCallParsers';
 
 const Background = styled.div`
-	background-image: ${({ name }) =>
+	background-image: ${({ type }) =>
 		`url(https://source.unsplash.com/random/1200x800?${
-			name + (new Date().getHours() >= 19 ? ',night' : '') // append "night" to query if time > 7PM local
+			type + (new Date().getHours() >= 19 ? ',night' : '') // append "night" to query if time > 7PM local
 		})`};
 	background-repeat: no-repeat;
 	// mask clears visual space for our widgets
@@ -96,17 +99,32 @@ const CityName = styled.span`
 `;
 
 const Home = ({ widgetId }) => {
+	const { weather, cityName, imperialOrMetric } = useContext(WeatherContext);
+
+	const { current, today, tomorrow, loading, error } = weather;
+
 	const {
-		name,
+		dateTime,
+		sunrise,
+		sunset,
 		temp,
-		description,
-		iconSrc,
-		imperialOrMetric,
 		feelsLike,
-		cityName,
-		error,
-		// loading,
-	} = useContext(WeatherContext);
+		pressure,
+		humidity,
+		dewPoint,
+		cloudCover,
+		uvIndex,
+		visibility,
+		windSpeed,
+		windGust,
+		windDirection,
+		rain,
+		snow,
+		weatherId,
+		weatherType,
+		weatherDescription,
+		weatherIcon,
+	} = current;
 
 	if (error) {
 		console.log(error);
@@ -117,7 +135,7 @@ const Home = ({ widgetId }) => {
 
 	return (
 		<>
-			<Background name={name} />
+			<Background type={weatherType} />
 
 			<Container>
 				<Relief>
@@ -125,15 +143,15 @@ const Home = ({ widgetId }) => {
 						{isNaN(temp)
 							? ''
 							: isImperial
-							? getImperial(temp)
-							: getMetric(temp)}
+							? getImperialTemp(temp)
+							: getMetricTemp(temp)}
 						<DegreeSymbol />
 					</Temperature>
 
-					<Description>{description}</Description>
+					<Description>{weatherDescription}</Description>
 
 					<IconContainer>
-						<img src={iconSrc} alt={'weather-icon'} />
+						<img src={weatherIcon} alt={'weather-icon'} />
 					</IconContainer>
 
 					<FCToggle currentType={imperialOrMetric} />
@@ -141,8 +159,8 @@ const Home = ({ widgetId }) => {
 					<FeelsLike>
 						<em>feels like:</em>{' '}
 						{isImperial
-							? getImperial(feelsLike) + 'F'
-							: getMetric(feelsLike) + 'C'}
+							? getImperialTemp(feelsLike) + 'F'
+							: getMetricTemp(feelsLike) + 'C'}
 					</FeelsLike>
 
 					<CityName>{cityName}</CityName>

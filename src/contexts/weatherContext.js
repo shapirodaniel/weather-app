@@ -55,8 +55,7 @@ const WeatherProvider = ({ children }) => {
 		useGeolocation(cityName);
 
 	const { weather, weatherLoading, weatherError } = useWeather(
-		imperialOrMetric,
-		cityName
+		geolocation.location
 	);
 
 	// here we'll define our action creators so that we can dispatch changes to toggle imperialOrMetric and cityName
@@ -76,12 +75,22 @@ const WeatherProvider = ({ children }) => {
 	// the final store-like object we'll have access to in our App
 	// by modularizing our logic we provide a clean interface to accessing and updating state, and our child components can use these objects without "knowing" how they work!
 	const providerValue = {
-		geolocation,
-		geolocationLoading,
-		geolocationError,
-		weather,
-		weatherLoading,
-		weatherError,
+		...state,
+		geolocation: {
+			data: geolocation,
+			loading: geolocationLoading,
+			error: geolocationError,
+		},
+		weather: {
+			current: weather.current,
+			minutely: weather.minutely,
+			hourly: weather.hourly,
+			daily: weather.daily,
+			today: weather.daily[0],
+			tomorrow: weather.daily[1],
+			loading: weatherLoading,
+			error: weatherError,
+		},
 		updateUnits,
 		updateCity,
 	};
