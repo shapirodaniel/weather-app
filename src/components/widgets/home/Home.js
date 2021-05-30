@@ -79,16 +79,20 @@ const DegreeSymbol = styled.span`
 `;
 
 const Description = styled.span`
-	margin: 0 auto;
 	font-size: 16px;
 	color: ghostwhite;
 `;
 
 const FeelsLike = styled.span`
-	margin: 0 auto;
 	padding: 1em;
 	font-size: 16px;
 	color: ghostwhite;
+`;
+
+const CityName = styled.span`
+	font-size: 30px;
+	color: ghostwhite;
+	padding-top: 1em;
 `;
 
 const Home = ({ widgetId }) => {
@@ -99,6 +103,7 @@ const Home = ({ widgetId }) => {
 		iconSrc,
 		imperialOrMetric,
 		feelsLike,
+		cityName,
 		error,
 		// loading,
 	} = useContext(WeatherContext);
@@ -117,7 +122,11 @@ const Home = ({ widgetId }) => {
 			<Container>
 				<Relief>
 					<Temperature>
-						{isImperial ? getImperial(temp) : getMetric(temp)}
+						{isNaN(temp)
+							? ''
+							: isImperial
+							? getImperial(temp)
+							: getMetric(temp)}
 						<DegreeSymbol />
 					</Temperature>
 
@@ -135,6 +144,8 @@ const Home = ({ widgetId }) => {
 							? getImperial(feelsLike) + 'F'
 							: getMetric(feelsLike) + 'C'}
 					</FeelsLike>
+
+					<CityName>{cityName}</CityName>
 
 					<SetHomeBtn widgetId={widgetId} />
 				</Relief>

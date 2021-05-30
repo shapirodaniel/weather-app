@@ -1,6 +1,6 @@
 // utility fn generates an src for the weather icon
-const getWeatherIcon = (iconString, isImperial) =>
-	`http://openweathermap.org/img/wn/${iconString}@2x.png`;
+const getWeatherIcon = icon =>
+	`http://openweathermap.org/img/wn/${icon}@2x.png`;
 
 export const getImperial = val => Math.round(((val - 273.15) * 9) / 5 + 32);
 
@@ -8,6 +8,8 @@ export const getMetric = val => Math.round(val - 273.15);
 
 export const parseWeather = fetchedWeather => {
 	if (!fetchedWeather) return;
+
+	console.log(fetchedWeather);
 
 	return {
 		base: fetchedWeather.base, // string
