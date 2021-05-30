@@ -1,5 +1,8 @@
 import { DateTime as dt } from 'luxon';
-import { oneCallResponse as fetchedWeather } from '../../../openWeatherOneCallResponse';
+
+/////////////
+/* HELPERS */
+/////////////
 
 // utility fn generates an src for the weather icon
 const getWeatherIcon = icon =>
@@ -56,6 +59,10 @@ export const getMetricTemp = val => Math.round(val - 273.15);
 export const getImperialVisibility = val =>
 	Number((val * 0.000621371).toFixed(2));
 
+//////////////////////
+/* WEATHER LOCATION */
+//////////////////////
+
 // get weather location data
 export const parseWeatherLocation = fetchedWeather => {
 	if (!fetchedWeather) return;
@@ -73,82 +80,230 @@ export const parseWeatherLocation = fetchedWeather => {
 	};
 };
 
-// get current weather
+/////////////////////
+/* CURRENT WEATHER */
+/////////////////////
 
-/* we're using Luxon, from one of the maintainers of Moment.js (now legacy), to do dateTime handling for us -- dt is the (aliased) luxon constructor DateTime, we're using .fromMillis() to convert unix UTC epoch timestamps provided by open weather and luxon's preset constants like dt.TIME_SIMPLE for generating different dateTime formats -- see https://moment.github.io/luxon/docs/class/src/datetime.js~DateTime.html for more details */
+/* we're using Luxon, built by one of the maintainers of Moment.js (now legacy), to do dateTime handling for us -- dt is the (aliased) luxon constructor DateTime, we're using .fromMillis() to convert unix UTC epoch timestamps provided by open weather and luxon's preset constants like dt.TIME_SIMPLE for generating different dateTime formats -- see https://moment.github.io/luxon/docs/class/src/datetime.js~DateTime.html for more details */
 
 export const parseCurrentWeather = fetchedWeather => {
 	if (!fetchedWeather) return;
 
+	const { current } = fetchedWeather;
+
 	return {
 		/* in fetchedWeather.current */
-		dateTime: dt
-			.fromMillis(fetchedWeather.current.dt)
-			.toLocaleString(dt.TIME_SIMPLE), // string, ex '09:30 AM', only 12-hr if locale is
+		dateTime: dt.fromMillis(current.dt).toLocaleString(dt.TIME_SIMPLE), // string, ex '09:30 AM', only 12-hr if locale is
 		sunrise: dt
-			.fromMillis(fetchedWeather.current.sunrise)
+			.fromMillis(current.sunrise)
 			.toLocaleString(dt.TIME_WITH_LONG_OFFSET), // string, ex '09:30:23 AM Eastern Daylight Time'
 		sunset: dt
-			.fromMillis(fetchedWeather.current.sunset)
-			.toLocaleString(dt.TIME_WITH_LONG_OFFSET),
-		temp: Math.round(fetchedWeather.current.temp), // int, Kelvin
-		feelsLike: Math.round(fetchedWeather.current.feels_like), // int, Kelvin
-		pressure: Math.round(fetchedWeather.current.pressure), // int, hPa
-		humidity: Math.round(fetchedWeather.main.humidity * 100) + '%', // string, ex 90%
-		dewPoint: Math.round(fetchedWeather.current.dew_point), // int, Kelvin
-		cloudCover: Math.round(fetchedWeather.current.clouds * 100) + '%', // string, ex 75%
-		uvIndex: fetchedWeather.current.uvi, // decimal, UV index
-		visibility: fetchedWeather.current.visibility, // int, meters -> use getImperialVisibility to convert to miles
-		windSpeed: fetchedWeather.current.wind_speed, // decimal, m/s
-		windGust: fetchedWeather.current.wind_gust, // decimal, m/s, possibly not available
-		windDirection: getWindDirectionFromDeg(fetchedWeather.current.wind_deg), // string, ex. 'N/NE'
+			.fromMillis(current.sunset)
+			.toLocaleString(dt.TIME_WITH_LONG_OFFSET), // (see sunrise above)
+		temp: Math.round(current.temp), // int, Kelvin
+		feelsLike: Math.round(current.feels_like), // int, Kelvin
+		pressure: Math.round(current.pressure), // int, hPa
+		humidity: Math.round(current.humidity * 100) + '%', // string, ex 90%
+		dewPoint: Math.round(current.dew_point), // int, Kelvin
+		cloudCover: Math.round(current.clouds * 100) + '%', // string, ex 75%
+		uvIndex: current.uvi, // decimal, UV index
+		visibility: current.visibility, // int, meters -> use getImperialVisibility to convert to miles
+		windSpeed: current.wind_speed, // decimal, m/s
+		windGust: current.wind_gust || 0.0, // decimal, m/s /* possibly not available */
+		windDirection: getWindDirectionFromDeg(current.wind_deg), // string, ex. 'N/NE'
 
 		/* possibly not available */
-		rain: fetchedWeather.current.rain ? fetchedWeather.current.rain['1h'] : 0, // rainfall last hour, mm
-		snow: fetchedWeather.current.snow ? fetchedWeather.current.snow['1h'] : 0, // snow accumulation last hour, mm
+		rain: current.rain ? current.rain['1h'] : 0.0, // rainfall last hour, mm
+		snow: current.snow ? current.snow['1h'] : 0.0, // snow accumulation last hour, mm
 
 		/* in weather: Array */
-		weatherId: fetchedWeather.current.weather[0].id, // int
-		weatherType: fetchedWeather.current.weather[0].main, // string, ex. 'Clear', 'Snow',
-		weatherDescription: fetchedWeather.current.weather[0].description, // string
-		weatherIcon: getWeatherIcon(fetchedWeather.current.weather[0].icon), // string
+		weatherId: current.weather[0].id, // int
+		weatherType: current.weather[0].main, // string, ex. 'Clear'
+		weatherDescription: current.weather[0].description, // string, ex. 'few clouds'
+		weatherIcon: getWeatherIcon(current.weather[0].icon), // string, ex. '10d'
 	};
 };
 
-// get hourly weather
-export const parseHourlyWeather = fetchedWeather => {
-	if (!fetchedWeather) return;
+//////////////////////
+/* MINUTELY WEATHER */
+//////////////////////
 
-	return {
-		dateTime: dt.fromMillis(fetchedWeather.hourly.dt), // a luxon DateTime Object
-		temp: Math.round(fetchedWeather.hourly.temp), // int, Kelvin
-		feelsLike: Math.round(fetchedWeather.hourly.feels_like), // int
-		pressure: Math.round(fetchedWeather.hourly.pressure), // int
-		humidity: Math.round(fetchedWeather.hourly.humidity), // int
-		dewpoint: Math.round(fetchedWeather.hourly.dew_point), // int
-		uvi: fetchedWeather.hourly.uvi, // decimal
-		cloudCover: Math.round(fetchedWeather.hourly.clouds * 100) + '%', // string, ex 75%
-		visibility: fetchedWeather.hourly.visibility, // int, miles
-		windSpeed: fetchedWeather.hourly.wind_speed, // mph imperial, m/s metric
-		windGust: fetchedWeather.hourly.wind_gust, // mph imperial, m/s metric
-		windDirection: getWindDirectionFromDeg(fetchedWeather.hourly.wind_deg), // string, ex. 'N/NE'
-		pop: Math.round(fetchedWeather.hourly.pop * 100) + '%', // string, probability of precipitation
-		rain: fetchedWeather.hourly.rain['1h'], // decimal, mm rainfall
-		snow: fetchedWeather.hourly.snow['1h'], // decimal, mm snow accumulation
-
-		/* in weather: Array */
-		weatherId: fetchedWeather.hourly.weather[0].id, // int
-		weatherName: fetchedWeather.hourly.weather[0].main, // string
-		weatherDescription: fetchedWeather.hourly.weather[0].description, // string
-		weatherIcon: fetchedWeather.hourly.weather[0].main, // string
-	};
-};
-
+// get time and precipitation from minutely: Array[{}, ...]
 export const parseMinutelyWeather = fetchedWeather => {
 	if (!fetchedWeather) return;
 
-	return fetchedWeather.minutely.map(obj => ({
-		dateTime: dt.fromMillis(obj.dt), // a luxon DateTime Object
-		precipitation: obj.precipitation, // precipitation volume, mm
+	return fetchedWeather.minutely.map(minutely => ({
+		dateTime: dt.fromMillis(minutely.dt).toLocaleString(dt.TIME_SIMPLE),
+		precipitation: minutely.precipitation, // decimal, precipitation volume, mm
+	}));
+};
+
+////////////////////
+/* HOURLY WEATHER */
+////////////////////
+
+// get hourly weather from hourly: Array[{}, ...]
+export const parseHourlyWeather = fetchedWeather => {
+	if (!fetchedWeather) return;
+
+	return fetchedWeather.hourly.map(hourly => ({
+		/* in fetchedWeather.hourly */
+		dateTime: dt.fromMillis(hourly.dt).toLocaleString(dt.TIME_SIMPLE),
+		temp: Math.round(hourly.temp), // int, Kelvin
+		feelsLike: Math.round(hourly.feels_like), // int, Kelvin
+		pressure: Math.round(hourly.pressure), // int, hPa
+		humidity: Math.round(hourly.humidity * 100) + '%', // string, ex 90%
+		dewPoint: Math.round(hourly.dew_point), // int, Kelvin
+		cloudCover: Math.round(hourly.clouds * 100) + '%', // string, ex 75%
+		uvIndex: hourly.uvi, // decimal, UV index
+		visibility: hourly.visibility, // int, meters -> use getImperialVisibility to convert to miles
+		windSpeed: hourly.wind_speed, // decimal, m/s
+		windGust: hourly.wind_gust || 0.0, // decimal, m/s /* possibly not available */
+		windDirection: getWindDirectionFromDeg(hourly.wind_deg), // string, ex. 'N/NE'
+
+		pop: Math.round(hourly.pop * 100) + '%', // string, ex. '15%'
+		/* possibly not available */
+		rain: hourly.rain ? hourly.rain['1h'] : 0.0, // rainfall last hour, mm
+		snow: hourly.snow ? hourly.snow['1h'] : 0.0, // snow accumulation last hour, mm
+
+		/* in weather: Array */
+		weatherId: hourly.weather[0].id, // int
+		weatherType: hourly.weather[0].main, // string, ex. 'Clear'
+		weatherDescription: hourly.weather[0].description, // string, ex. 'few clouds'
+		weatherIcon: getWeatherIcon(hourly.weather[0].icon), // string, ex. '10d'
+	}));
+};
+
+///////////////////
+/* DAILY WEATHER */
+///////////////////
+
+/*
+	getMoonPhaseIconAndDescription... helper returns an object structured:
+
+	{
+		icon: '/assets/last-quarter-moon.svg',
+		description: 'last quarter moon'
+	}
+
+	used to generate moon-phase info for current weather view and daily view
+*/
+const getMoonPhaseIconAndDescription = val => {
+	let iconString;
+
+	switch (true) {
+		case val === 0 || val === 1:
+			iconString = 'new-moon';
+			break;
+		case val < 0.25:
+			iconString = 'waxing-crescent-moon';
+			break;
+		case val === 0.25:
+			iconString = 'first-quarter-moon';
+			break;
+		case val < 0.5:
+			iconString = 'waxing-gibbous-moon';
+			break;
+		case val === 0.5:
+			iconString = 'full-moon';
+			break;
+		case val < 0.75:
+			iconString = 'waning-gibbous-moon';
+			break;
+		case val === 0.75:
+			iconString = 'last-quarter-moon';
+			break;
+		case val < 1:
+			iconString = 'waning-crescent-moon';
+			break;
+		default:
+			return '';
+	}
+
+	return {
+		icon: `/assets/${iconString}.svg`,
+		description: iconString.replace(/-/g, ' ').replace(/\smoon/g, ''),
+	};
+};
+
+// get daily weather from hourly: Array[{}, ...]
+export const parseDailyWeather = fetchedWeather => {
+	if (!fetchedWeather) return;
+
+	return fetchedWeather.daily.map(daily => ({
+		dateTime: dt.fromMillis(daily.dt).weekdayLong, // string, ex. 'Monday'
+		sunrise: dt
+			.fromMillis(daily.sunrise)
+			.toLocaleString(dt.TIME_WITH_LONG_OFFSET), // string, ex '09:30:23 AM Eastern Daylight Time'
+		sunset: dt
+			.fromMillis(daily.sunset)
+			.toLocaleString(dt.TIME_WITH_LONG_OFFSET), // (see sunrise above)
+		moonrise: dt
+			.fromMillis(daily.sunrise)
+			.toLocaleString(dt.TIME_WITH_LONG_OFFSET), // string, ex '09:30:23 AM Eastern Daylight Time'
+		moonset: dt
+			.fromMillis(daily.sunset)
+			.toLocaleString(dt.TIME_WITH_LONG_OFFSET), // (see sunrise above)
+
+		/*
+			from openweather api:
+
+			daily.moon_phase -- 0 and 1 are 'new moon', 0.25 is 'first quarter moon', 0.5 is 'full moon' and 0.75 is 'last quarter moon'. The periods in between are called 'waxing crescent', 'waxing gibous', 'waning gibous', and 'waning crescent', respectively.
+		*/
+
+		moonPhase: getMoonPhaseIconAndDescription(daily.moon_phase), // returns an object structured { icon: '/assets/full-moon.svg', description: 'full moon' }
+
+		morningTemp: Math.round(daily.temp.morn), // int
+		dayTemp: Math.round(daily.temp.day), // int
+		eveningTemp: Math.round(daily.temp.eve), // int
+		nightTemp: Math.round(daily.temp.night), // int
+		lowTemp: Math.round(daily.temp.min), // int
+		highTemp: Math.round(daily.temp.max), // int
+
+		feelsLikeMorning: Math.round(daily.feels_like.morn), // int
+		feelsLikeDay: Math.round(daily.feels_like.day), // int
+		feelsLikeEvening: Math.round(daily.feels_like.eve), // int
+		feelsLikeNight: Math.round(daily.feels_like.night), // int
+
+		pressure: Math.round(daily.pressure), // int, hPa
+		humidity: Math.round(daily.humidity * 100) + '%', // string, ex 90%
+		dewPoint: Math.round(daily.dew_point), // int, Kelvin
+		cloudCover: Math.round(daily.clouds * 100) + '%', // string, ex 75%
+		uvIndex: daily.uvi, // decimal, UV index
+		visibility: daily.visibility, // int, meters -> use getImperialVisibility to convert to miles
+		windSpeed: daily.wind_speed, // decimal, m/s
+		windGust: daily.wind_gust || 0.0, // decimal, m/s /* possibly not available */
+		windDirection: getWindDirectionFromDeg(daily.wind_deg), // string, ex. 'N/NE'
+
+		pop: Math.round(daily.pop * 100) + '%', // string, ex. '15%'
+		/* possibly not available */
+		rain: daily.rain ? daily.rain['1h'] : 0.0, // rainfall last hour, mm
+		snow: daily.snow ? daily.snow['1h'] : 0.0, // snow accumulation last hour, mm
+
+		/* in weather: Array */
+		weatherId: daily.weather[0].id, // int
+		weatherType: daily.weather[0].main, // string, ex. 'Clear'
+		weatherDescription: daily.weather[0].description, // string, ex. 'few clouds'
+		weatherIcon: getWeatherIcon(daily.weather[0].icon), // string, ex. '10d'
+	}));
+};
+
+////////////////////
+/* WEATHER ALERTS */
+////////////////////
+
+export const getWeatherAlerts = fetchedWeather => {
+	if (!fetchedWeather) return;
+
+	return fetchedWeather.alerts.map(alert => ({
+		name: alert.sender_name, // string, ex. 'NWS Tulsa'
+		event: alert.event, // string, ex. 'Heat Advisory'
+		startTime: dt
+			.fromMillis(alert.start)
+			.toLocaleString(dt.DATETIME_HUGE_WITH_SECONDS), // 'Friday, October 14, 1983, 9:30:33 AM Eastern Daylight Time'
+		endTime: dt
+			.fromMillis(alert.end)
+			.toLocaleString(dt.DATETIME_HUGE_WITH_SECONDS), // 'Friday, October 14, 1983, 9:30:33 AM Eastern Daylight Time'
+		description: alert.description, // long string, ex "...HEAD ADVISORY REMAINS IN EFFECT...(paragraph follows)"
 	}));
 };

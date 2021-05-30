@@ -1,27 +1,105 @@
 weather data model on WeatherContext
 
 {
-  base,                     string
-  cloudiness,               string
-  location: { lat, lon }    decimal
-  lastUpdate,               unix UTC
-  temp,                     int
-  feelsLike,                int
-  humidity,                 int
-  pressure,                 int
-  maxTemp,                  int
-  minTemp,                  int
-  cityName,                     string
-  country,                  string
-  sunrise,                  unix UTC
-  sunset,                   unix UTC
-  timezone,                 shift in seconds from UTC
-  windSpeed,                decimal
-  windDirection,            int (degrees)
-  windGust,                 decimal
-  visibility,               int
-  description,              string
-  iconSrc,                  string
-  id,                       int
-  name                      string
+  current: {
+    dateTime,
+    sunrise,
+    sunset,
+    temp,
+    feelsLike,
+    pressure,
+    humidity,
+    dewPoint,
+    cloudCover,
+    uvIndex,
+    visibility,
+    windSpeed,
+    windGust,
+    windDirection,
+    rain?,
+    snow?,
+    weatherId,
+    weatherType,
+    weatherDescription,
+    weatherIcon
+  },
+  minutely: [
+    {
+      dateTime,
+      precipitation
+    },
+    ...
+  ],
+  hourly: [
+    {
+      dateTime,
+      temp,
+      feelsLike,
+      pressure,
+      humidity,
+      dewPoint,
+      uvIndex,
+      visibility,
+      windSpeed,
+      windGust,
+      windDirection,
+      pop,
+      rain?,
+      snow?,
+      weatherId,
+      weatherType,
+      weatherDescription,
+      weatherIcon
+    },
+    ...
+  ],
+  daily: [
+    {
+      dateTime,
+      sunrise,
+      sunset,
+      moonrise,
+      moonset,
+      moonPhase: {
+        icon,
+        description
+      },
+      morningTemp,
+      dayTemp,
+      eveningTemp,
+      lowTemp,
+      highTemp,
+      feelsLikeMorning,
+      feelsLikeDay,
+      feelsLikeEvening,
+      feelsLikeNight,
+      pressure,
+      humidity,
+      dewPoint,
+      cloudCover,
+      uvIndex,
+      visibility,
+      windSpeed,
+      windGust,
+      windDirection,
+      pop,
+      rain,
+      snow,
+      weatherId,
+      weatherType,
+      weatherDescription,
+      weatherIcon
+    },
+    ...
+  ],
+  alerts: [
+    {
+      name,
+      event,
+      startTime,
+      endTime,
+      description
+    },
+    ...
+  ]
 }
