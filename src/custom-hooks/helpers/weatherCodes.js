@@ -29,7 +29,7 @@
     const snowDayIcon = weather[snowDayCode].icon.day === '13d'
 */
 
-export const weatherCode = {
+export const weatherCodes = {
 	200: {
 		name: 'Thunderstorm',
 		description: 'thunderstorm with light rain',

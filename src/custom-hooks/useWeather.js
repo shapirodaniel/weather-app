@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
-import { fetcher } from './helpers/fetcher';
-import { parseWeather } from '../custom-hooks/helpers/data';
+import { parseWeather } from '../custom-hooks/helpers/oneCallParsers';
+
+// function we'll pass to useSWR
+const fetcher = uri => axios.get(uri).then(res => res.data);
 
 export const useWeather = (imperialOrMetric, cityName) => {
 	// we'll store our api key in a dotenv file to avoid exposing the key directly, we can gitignore it to avoid pushing the key to a public repo
