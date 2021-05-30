@@ -107,7 +107,7 @@ const Home = ({ widgetId }) => {
 	}
 
 	const { weatherType, temp, feelsLike, weatherDescription, weatherIcon } =
-		weather || {};
+		weather.current;
 
 	const isImperial = imperialOrMetric === 'imperial';
 

@@ -73,12 +73,13 @@ const WeatherProvider = ({ children }) => {
 		payload: cityString,
 	});
 
-	// and we'll create updaters with dispatch here so that we don't need to expose any of our state management logic except the updater fn itself -- it's a little nicer than Redux in that respect, since we can bind dispatch to the functions here, rather than in the components themselves
+	// and we'll create updaters with dispatch here so that we don't need to expose any of our state management logic except the updater fn itself -- similar to what we'd do to connect Redux components with connect HOC or useDispatch
 	const updateUnits = units => dispatch(toggleImperialOrMetric(units));
 	const updateCity = city => dispatch(setCurrentCity(city));
 
 	// the final store-like object we'll have access to in our App
 	// by modularizing our logic we provide a clean interface to accessing and updating state, and our child components can use these objects without "knowing" how they work!
+	// our geolocation is available for other features like an interactive weather map, and translations provided by the geolocation object can be used to improve accessibility
 	const providerValue = {
 		...state,
 		geolocation: {
