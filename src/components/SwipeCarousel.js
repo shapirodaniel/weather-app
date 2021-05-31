@@ -11,7 +11,7 @@ const PaginationContainer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	height: min-content;
+	padding: 1em;
 `;
 
 const PageDot = styled.span`
