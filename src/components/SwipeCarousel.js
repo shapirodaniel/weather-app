@@ -5,7 +5,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import styled from 'styled-components';
-import { useOnScreen } from '../../custom-hooks/useOnScreen';
+import { useOnScreen } from '../custom-hooks/useOnScreen';
 
 const PaginationContainer = styled.div`
 	display: flex;

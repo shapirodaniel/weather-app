@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Menu } from './';
+import Menu from './Menu';
 
 const Container = styled.div`
 	display: flex;

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { WeatherContext } from '../../../contexts/weatherContext';
+import { WeatherContext } from '../contexts/weatherContext';
 import styled from 'styled-components';
 
 const Container = styled.div`

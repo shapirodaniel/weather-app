@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
-import { WeatherContext } from '../../contexts/weatherContext';
-import { useSuggestions } from '../../custom-hooks/useSuggestions';
+import { WeatherContext } from '../contexts/weatherContext';
+import { useSuggestions } from '../custom-hooks/useSuggestions';
 import styled from 'styled-components';
 
 const Container = styled.div`

@@ -1,21 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import FCToggle from './FCToggle';
-import SetHomeBtn from '../SetHomeBtn';
 
 // we'll fetch in Kelvin and convert on the fly in our components
 // this will prevent render bugs due to refetching and rerendering
 import {
 	getImperialTemp,
 	getMetricTemp,
-} from '../../../custom-hooks/helpers/one-call/oneCallParsers';
+} from '../custom-hooks/helpers/one-call/oneCallParsers';
 
 const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
-	height: 78%;
+	height: 100%;
 	width: 100%;
 `;
 
@@ -24,12 +23,11 @@ const Relief = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	height: 92%;
-	width: 84%;
 	background-color: rgba(0, 0, 0, 0.5);
 	border-radius: 10px;
-	// allows us to center in available space without flexing a parent container
-	margin: 2em auto 1.5em auto;
+	height: 88%;
+	width: 88%;
+	margin-top: 1.6em;
 `;
 
 const IconContainer = styled.span`
@@ -86,7 +84,6 @@ const CurrentWeather = ({
 	imperialOrMetric,
 	isImperial,
 	cityName,
-	widgetId,
 }) => (
 	<Container>
 		<Relief>
@@ -110,7 +107,6 @@ const CurrentWeather = ({
 					: getMetricTemp(feelsLike) + 'C'}
 			</FeelsLike>
 			<CityName>{cityName}</CityName>
-			<SetHomeBtn widgetId={widgetId} />
 		</Relief>
 	</Container>
 );

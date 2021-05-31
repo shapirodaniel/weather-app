@@ -2,7 +2,6 @@ import useSWR from 'swr';
 import axios from 'axios';
 import { parseGeolocation } from './helpers/geocoding/geocodingParsers';
 
-// useSWR callback
 const fetcher = uri => axios.get(uri).then(res => res.data);
 
 export const useGeolocation = cityName => {
