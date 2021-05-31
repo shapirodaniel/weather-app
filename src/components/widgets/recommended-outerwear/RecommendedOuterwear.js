@@ -1,9 +1,10 @@
 import React from 'react';
 import SetHomeBtn from '../SetHomeBtn';
+import SelectCity from '../../main/SelectCity';
 
 const RecommendedOuterwear = ({ widgetId }) => (
 	<div>
-		hi im recommended RecommendedOuterwear
+		<SelectCity />
 		<SetHomeBtn widgetId={widgetId} />
 	</div>
 );
