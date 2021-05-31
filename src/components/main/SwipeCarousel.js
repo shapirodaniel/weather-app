@@ -2,14 +2,6 @@
 /* SWIPEABLE SLIDE CAROUSEL */
 //////////////////////////////
 
-/*
-
-	to use the swipeable slide carousel component, supply a slideArray prop structured:
-
-	const slideArray = [ { renderComponent: Component }, ...]
-
-*/
-
 import React, { useState, useEffect, useRef } from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import styled from 'styled-components';
@@ -75,7 +67,7 @@ const Slide = ({ number, setActiveSlide, children }) => {
 };
 
 const Slides = ({ slideArray }) => {
-	const [activeSlide, setActiveSlide] = useState(1);
+	const [activeSlide, setActiveSlide] = useState(0);
 
 	return (
 		<div
@@ -101,6 +93,8 @@ const Slides = ({ slideArray }) => {
 	);
 };
 
+// to use the swipeable slide carousel component, supply a slideArray prop structured:
+// const slideArray = [ { renderComponent: Component }, ...]
 const SwipeCarousel = ({ slideArray }) => <Slides slideArray={slideArray} />;
 
 export default SwipeCarousel;
