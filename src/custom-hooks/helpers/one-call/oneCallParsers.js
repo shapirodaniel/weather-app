@@ -92,12 +92,19 @@ export const parseCurrentWeather = current => {
 
 	return {
 		/* in fetchedWeather.current */
-		dateTime: dt.fromMillis(current.dt).toLocaleString(dt.TIME_SIMPLE), // string, ex '09:30 AM', only 12-hr if locale is
+		dateTime:
+			dt.fromMillis(current.dt * 1000).weekdayLong +
+			', ' +
+			dt.fromMillis(current.dt * 1000).monthLong +
+			' ' +
+			dt.fromMillis(current.dt * 1000).day +
+			' • ' +
+			dt.fromMillis(current.dt * 1000).toLocaleString(dt.TIME_SIMPLE), // string, ex '09:30 AM', only 12-hr if locale is
 		sunrise: dt
-			.fromMillis(current.sunrise)
+			.fromMillis(current.sunrise * 1000)
 			.toLocaleString(dt.TIME_WITH_LONG_OFFSET), // string, ex '09:30:23 AM Eastern Daylight Time'
 		sunset: dt
-			.fromMillis(current.sunset)
+			.fromMillis(current.sunset * 1000)
 			.toLocaleString(dt.TIME_WITH_LONG_OFFSET), // (see sunrise above)
 		temp: Math.round(current.temp), // int, Kelvin
 		feelsLike: Math.round(current.feels_like), // int, Kelvin
@@ -132,7 +139,7 @@ export const parseMinutelyWeather = minutely => {
 	if (!minutely) return;
 
 	return minutely.map(minutely => ({
-		dateTime: dt.fromMillis(minutely.dt).toLocaleString(dt.TIME_SIMPLE),
+		dateTime: dt.fromMillis(minutely * 1000).toLocaleString(dt.TIME_SIMPLE),
 		precipitation: minutely.precipitation, // decimal, precipitation volume, mm
 	}));
 };
@@ -147,7 +154,7 @@ export const parseHourlyWeather = hourly => {
 
 	return hourly.map(hourly => ({
 		/* in fetchedWeather.hourly */
-		dateTime: dt.fromMillis(hourly.dt).toLocaleString(dt.TIME_SIMPLE),
+		dateTime: dt.fromMillis(hourly.dt * 1000).toLocaleString(dt.TIME_SIMPLE),
 		temp: Math.round(hourly.temp), // int, Kelvin
 		feelsLike: Math.round(hourly.feels_like), // int, Kelvin
 		pressure: Math.round(hourly.pressure), // int, hPa
@@ -230,7 +237,7 @@ export const parseDailyWeather = daily => {
 	if (!daily) return;
 
 	return daily.map(daily => ({
-		dateTime: dt.fromMillis(daily.dt).weekdayLong, // string, ex. 'Monday'
+		dateTime: dt.fromMillis(daily * 1000).weekdayLong, // string, ex. 'Monday'
 		sunrise: dt
 			.fromMillis(daily.sunrise)
 			.toLocaleString(dt.TIME_WITH_LONG_OFFSET), // string, ex '09:30:23 AM Eastern Daylight Time'

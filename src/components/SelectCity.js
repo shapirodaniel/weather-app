@@ -2,10 +2,33 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import { WeatherContext } from '../contexts/weatherContext';
 import { useSuggestions } from '../custom-hooks/useSuggestions';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const Container = styled.div`
 	display: ${props => (props.isVisible ? 'flex' : 'none')};
 	flex-direction: column;
+	color: black;
+`;
+
+const Label = styled.label`
+	margin: 1em 0;
+`;
+
+const Hourglass = styled.span`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 22px;
+	padding: 0.3em;
+`;
+
+const Input = styled.input`
+	border: transparent;
+	border-bottom: 2px solid black;
+	padding-bottom: 0.3em;
+	width: 100%;
+	font-size: 24px;
 `;
 
 const CityName = styled.div``;
@@ -37,21 +60,27 @@ const SelectCity = ({ isVisible }) => {
 	return (
 		<Container isVisible={isVisible}>
 			<section>
-				<input
-					type='text'
-					id='cityNameInput'
-					ref={textFieldRef}
-					defaultValue={cityName}
-					onChange={e => setUserInput(e.target.value)}
-				/>
+				<Label>Choose a city</Label>
+				<div style={{ display: 'flex', width: '100%' }}>
+					<Hourglass>
+						<FontAwesomeIcon icon={faSearch} />
+					</Hourglass>
+					<Input
+						type='text'
+						id='cityNameInput'
+						ref={textFieldRef}
+						defaultValue={cityName}
+						onChange={e => setUserInput(e.target.value)}
+					/>
+				</div>
 				<div>
 					{places.map(({ city, state }, idx) => (
 						<div
 							key={idx}
 							onClick={() => {
-								setUserInput('');
-								setPlaces([]);
 								updateCity(city);
+								setUserInput(city);
+								setPlaces([]);
 							}}
 						>{`${city}, ${state}, US`}</div>
 					))}

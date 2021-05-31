@@ -52,8 +52,14 @@ const Home = () => {
 		return null;
 	}
 
-	const { weatherType, temp, feelsLike, weatherDescription, weatherIcon } =
-		(weather && weather.current) || {};
+	const {
+		weatherType,
+		temp,
+		feelsLike,
+		weatherDescription,
+		weatherIcon,
+		dateTime,
+	} = (weather && weather.current) || {};
 
 	const isImperial = imperialOrMetric === 'imperial';
 
@@ -69,6 +75,7 @@ const Home = () => {
 						imperialOrMetric={imperialOrMetric}
 						isImperial={isImperial}
 						cityName={cityName}
+						dateTime={dateTime}
 					/>
 				</Layout>
 			),

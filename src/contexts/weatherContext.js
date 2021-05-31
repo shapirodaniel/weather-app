@@ -73,9 +73,24 @@ const WeatherProvider = ({ children }) => {
 		payload: cityString,
 	});
 
-	// and we'll create updaters with dispatch here so that we don't need to expose any of our state management logic except the updater fn itself -- similar to what we'd do to connect Redux components with connect HOC or useDispatch
-	const updateUnits = units => dispatch(toggleImperialOrMetric(units));
-	const updateCity = city => dispatch(setCurrentCity(city));
+	// and we'll create updaters with localStorage + dispatch functionality here so that we don't need to expose any of our state management logic except the updater fn itself -- similar to what we'd do to connect Redux components with connect HOC or useDispatch
+	const updateUnits = units => {
+		localStorage.setItem(
+			'weatherConfig',
+			JSON.stringify({
+				...state,
+				imperialOrMetric: units,
+			})
+		);
+		dispatch(toggleImperialOrMetric(units));
+	};
+	const updateCity = city => {
+		localStorage.setItem(
+			'weatherConfig',
+			JSON.stringify({ ...state, cityName: city })
+		);
+		dispatch(setCurrentCity(city));
+	};
 
 	// the final store-like object we'll have access to in our App
 	// by modularizing our logic we provide a clean interface to accessing and updating state, and our child components can use these objects without "knowing" how they work!

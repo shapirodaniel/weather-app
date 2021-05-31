@@ -9,15 +9,6 @@ import {
 	getMetricTemp,
 } from '../custom-hooks/helpers/one-call/oneCallParsers';
 
-const IconContainer = styled.span`
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 0.3em;
-	// brightness filter punches up some of the washed-out open weather api icons like "mist"
-	filter: brightness(150%);
-`;
-
 const Temperature = styled.div`
 	display: flex;
 	align-items: center;
@@ -38,14 +29,28 @@ const DegreeSymbol = styled.span`
 	}
 `;
 
-const Description = styled.span`
-	font-size: 20px;
-	color: ghostwhite;
-`;
-
 const FeelsLike = styled.span`
 	padding: 1em;
 	font-size: 16px;
+	color: ghostwhite;
+`;
+
+const DateTime = styled.span`
+	font-size: 18px;
+	color: ghostwhite;
+`;
+
+const IconContainer = styled.span`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.3em;
+	// brightness filter punches up some of the washed-out open weather api icons like "mist"
+	filter: brightness(150%);
+`;
+
+const Description = styled.span`
+	font-size: 20px;
 	color: ghostwhite;
 `;
 
@@ -53,6 +58,7 @@ const CityName = styled.span`
 	font-size: 30px;
 	color: ghostwhite;
 	padding-top: 1em;
+	text-align: center;
 `;
 
 const CurrentWeather = ({
@@ -63,8 +69,10 @@ const CurrentWeather = ({
 	imperialOrMetric,
 	isImperial,
 	cityName,
+	dateTime,
 }) => (
 	<>
+		<DateTime>{dateTime}</DateTime>
 		<div style={{ textAlign: 'center' }}>
 			<Temperature>
 				{isNaN(temp)
@@ -77,6 +85,7 @@ const CurrentWeather = ({
 			<FeelsLike>
 				Feels like:{' '}
 				{isImperial ? getImperialTemp(feelsLike) : getMetricTemp(feelsLike)}
+				{'°'}
 			</FeelsLike>
 		</div>
 		<div style={{ textAlign: 'center' }}>
