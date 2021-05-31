@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
+import { WeatherContext } from '../../contexts/weatherContext';
 import { useSuggestions } from '../../custom-hooks/useSuggestions';
 import styled from 'styled-components';
 
@@ -7,6 +8,9 @@ const Container = styled.div``;
 const CityName = styled.div``;
 
 const SelectCity = place => {
+	// first we'll grab our cityName from Weather Context to initialize local state
+	const { cityName, updateCity } = useContext(WeatherContext);
+
 	// * note * useState does not automatically merge prev, current states like this.setState in a class component
 	// if we wanted to use a single state object we'd need to do something like this:
 	// setState(prevState => ({...prevState, ...updatedValues}))
@@ -32,14 +36,19 @@ const SelectCity = place => {
 	return (
 		<div style={{ display: 'flex', flexDirection: 'column ' }}>
 			{!activeInput ? (
-				<div onClick={() => setActiveInput(true)}>{selected.city}</div>
+				<div
+					onClick={() => setActiveInput(true)}
+					onBlur={() => setActiveInput(false)}
+				>
+					{cityName}
+				</div>
 			) : (
 				<div>
 					<input
 						type='text'
 						id='cityNameInput'
 						ref={textFieldRef}
-						defaultValue={selected.city}
+						defaultValue={cityName}
 						onChange={e => setUserInput(e.target.value)}
 					/>
 					<div>
@@ -51,6 +60,7 @@ const SelectCity = place => {
 									setUserInput('');
 									setPlaces([]);
 									setActiveInput(false);
+									updateCity(city);
 								}}
 							>{`${city}, ${state}, US`}</div>
 						))}
