@@ -70,12 +70,7 @@ const Slides = ({ slideArray }) => {
 	const [activeSlide, setActiveSlide] = useState(0);
 
 	return (
-		<div
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-			}}
-		>
+		<>
 			<SwipeableViews>
 				{
 					// components are just functions!
@@ -89,7 +84,7 @@ const Slides = ({ slideArray }) => {
 			</SwipeableViews>
 			{/* we'll pass a numPages prop to render a PageDot for every slide */}
 			<Pagination numPages={slideArray.length} activeSlide={activeSlide} />
-		</div>
+		</>
 	);
 };
 

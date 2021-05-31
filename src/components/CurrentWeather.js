@@ -9,27 +9,6 @@ import {
 	getMetricTemp,
 } from '../custom-hooks/helpers/one-call/oneCallParsers';
 
-const Container = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	height: 100%;
-	width: 100%;
-`;
-
-const Relief = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	background-color: rgba(0, 0, 0, 0.5);
-	border-radius: 10px;
-	height: 88%;
-	width: 88%;
-	margin-top: 1.6em;
-`;
-
 const IconContainer = styled.span`
 	display: flex;
 	align-items: center;
@@ -85,30 +64,28 @@ const CurrentWeather = ({
 	isImperial,
 	cityName,
 }) => (
-	<Container>
-		<Relief>
-			<Temperature>
-				{isNaN(temp)
-					? ''
-					: isImperial
-					? getImperialTemp(temp)
-					: getMetricTemp(temp)}
-				<DegreeSymbol />
-			</Temperature>
-			<Description>{weatherDescription}</Description>
-			<IconContainer>
-				<img src={weatherIcon} alt={'weather-icon'} />
-			</IconContainer>
-			<FCToggle currentType={imperialOrMetric} />
-			<FeelsLike>
-				<em>feels like:</em>{' '}
-				{isImperial
-					? getImperialTemp(feelsLike) + 'F'
-					: getMetricTemp(feelsLike) + 'C'}
-			</FeelsLike>
-			<CityName>{cityName}</CityName>
-		</Relief>
-	</Container>
+	<>
+		<Temperature>
+			{isNaN(temp)
+				? ''
+				: isImperial
+				? getImperialTemp(temp)
+				: getMetricTemp(temp)}
+			<DegreeSymbol />
+		</Temperature>
+		<Description>{weatherDescription}</Description>
+		<IconContainer>
+			<img src={weatherIcon} alt={'weather-icon'} />
+		</IconContainer>
+		<FCToggle currentType={imperialOrMetric} />
+		<FeelsLike>
+			<em>feels like:</em>{' '}
+			{isImperial
+				? getImperialTemp(feelsLike) + 'F'
+				: getMetricTemp(feelsLike) + 'C'}
+		</FeelsLike>
+		<CityName>{cityName}</CityName>
+	</>
 );
 
 export default CurrentWeather;

@@ -5,7 +5,7 @@ const fetcher = uri => axios.get(uri).then(res => res.data);
 
 export const useSuggestions = userInput => {
 	// retrieve 5 city matches
-	const uri = `http://localhost:3000/places?city_like=${userInput}&_limit=5`;
+	const uri = `http://localhost:8080/places?city_like=${userInput}&_limit=5`;
 
 	const { data: suggestions, error } = useSWR(uri, fetcher, {
 		onErrorRetry: (error, _key, _config, revalidate, { retryCount }) => {
