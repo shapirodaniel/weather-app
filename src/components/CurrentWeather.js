@@ -39,7 +39,7 @@ const DegreeSymbol = styled.span`
 `;
 
 const Description = styled.span`
-	font-size: 16px;
+	font-size: 20px;
 	color: ghostwhite;
 `;
 
@@ -65,25 +65,27 @@ const CurrentWeather = ({
 	cityName,
 }) => (
 	<>
-		<Temperature>
-			{isNaN(temp)
-				? ''
-				: isImperial
-				? getImperialTemp(temp)
-				: getMetricTemp(temp)}
-			<DegreeSymbol />
-		</Temperature>
-		<Description>{weatherDescription}</Description>
-		<IconContainer>
-			<img src={weatherIcon} alt={'weather-icon'} />
-		</IconContainer>
+		<div style={{ textAlign: 'center' }}>
+			<Temperature>
+				{isNaN(temp)
+					? ''
+					: isImperial
+					? getImperialTemp(temp)
+					: getMetricTemp(temp)}
+				<DegreeSymbol />
+			</Temperature>
+			<FeelsLike>
+				Feels like:{' '}
+				{isImperial ? getImperialTemp(feelsLike) : getMetricTemp(feelsLike)}
+			</FeelsLike>
+		</div>
+		<div style={{ textAlign: 'center' }}>
+			<IconContainer>
+				<img src={weatherIcon} alt={'weather-icon'} />
+			</IconContainer>
+			<Description>{weatherDescription}</Description>
+		</div>
 		<FCToggle currentType={imperialOrMetric} />
-		<FeelsLike>
-			<em>feels like:</em>{' '}
-			{isImperial
-				? getImperialTemp(feelsLike) + 'F'
-				: getMetricTemp(feelsLike) + 'C'}
-		</FeelsLike>
 		<CityName>{cityName}</CityName>
 	</>
 );
