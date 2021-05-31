@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { WeatherContext } from '../contexts/weatherContext';
 import SwipeCarousel from './SwipeCarousel';
 import CurrentWeather from './CurrentWeather';
+import Loading from './Loading';
+import Today from './Today';
 
 const Background = styled.div`
 	background-image: ${({ type }) =>
@@ -25,7 +27,7 @@ const Relief = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
-	background-color: rgba(0, 0, 0, 0.5);
+	background-color: rgba(0, 0, 0, 0.7);
 	border-radius: 5px;
 	height: 88%;
 	width: 88%;
@@ -45,11 +47,15 @@ const Layout = styled.div`
 `;
 
 const Home = () => {
-	const { weather, weatherError, cityName, imperialOrMetric } =
+	const { weather, weatherError, weatherLoading, cityName, imperialOrMetric } =
 		useContext(WeatherContext);
 
 	if (weatherError) {
 		return null;
+	}
+
+	if (weatherLoading) {
+		return <Loading />;
 	}
 
 	const {
@@ -80,7 +86,14 @@ const Home = () => {
 				</Layout>
 			),
 		},
-		{ renderComponent: () => <div>hi</div> },
+		{
+			renderComponent: () => (
+				/*<Today
+					hourly={weather.hourly}
+					isImperial={isImperial}
+				/>*/ <div>heyo</div>
+			),
+		},
 		{
 			renderComponent: () => <div>hi</div>,
 		},

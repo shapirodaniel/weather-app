@@ -11,8 +11,8 @@ const Container = styled.div`
 	color: black;
 `;
 
-const Label = styled.label`
-	margin: 1em 0;
+const Label = styled.div`
+	padding: 0.5em;
 `;
 
 const Hourglass = styled.span`
@@ -29,6 +29,23 @@ const Input = styled.input`
 	padding-bottom: 0.3em;
 	width: 100%;
 	font-size: 24px;
+	// removes outline on focus
+	outline: none;
+`;
+
+const Suggestion = styled.div`
+	& {
+		margin: 2em;
+		margin-left: 2.2em;
+		border-bottom: 1px solid lightgrey;
+		padding-bottom: 0.5em;
+		width: 88%;
+		cursor: pointer;
+	}
+	&:hover::before {
+		content: '▸';
+		padding-right: 0.3em;
+	}
 `;
 
 const CityName = styled.div``;
@@ -75,14 +92,14 @@ const SelectCity = ({ isVisible }) => {
 				</div>
 				<div>
 					{places.map(({ city, state }, idx) => (
-						<div
+						<Suggestion
 							key={idx}
 							onClick={() => {
 								updateCity(city);
 								setUserInput(city);
 								setPlaces([]);
 							}}
-						>{`${city}, ${state}, US`}</div>
+						>{`${city}, ${state}, US`}</Suggestion>
 					))}
 				</div>
 			</section>

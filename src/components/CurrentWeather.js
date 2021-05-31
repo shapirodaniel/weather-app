@@ -50,8 +50,10 @@ const IconContainer = styled.span`
 `;
 
 const Description = styled.span`
-	font-size: 20px;
+	font-size: 18px;
 	color: ghostwhite;
+	margin-top: -1em;
+	margin-bottom: 2em;
 `;
 
 const CityName = styled.span`
@@ -88,7 +90,14 @@ const CurrentWeather = ({
 				{'°'}
 			</FeelsLike>
 		</div>
-		<div style={{ textAlign: 'center' }}>
+		<div
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'center',
+				justifyContent: 'center',
+			}}
+		>
 			<IconContainer>
 				<img src={weatherIcon} alt={'weather-icon'} />
 			</IconContainer>

@@ -12,18 +12,13 @@ const Container = styled.div`
 	align-items: center;
 	justify-content: center;
 
-	background-color: transparent;
+	background-color: black;
 `;
 
 const Spinner = styled.span`
-	& {
-		padding: 4em;
-		background-color: white;
-		color: black;
-	}
-	&::after {
-		content: 'Loading';
-	}
+	padding: 4em;
+	background-color: white;
+	color: black;
 `;
 
 const Loading = () => (

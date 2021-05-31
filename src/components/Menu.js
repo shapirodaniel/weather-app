@@ -13,8 +13,7 @@ const Container = styled.div`
 		z-index: 10;
 		background-color: white;
 		display: flex;
-		align-items: center;
-		justify-content: center;
+		align-items: flex-start;
 		// animate menu entering/exiting screen
 		transition-property: width;
 		transition-duration: 0.3s;
