@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useSuggestions } from '../../custom-hooks/useSuggestions';
 
 const SelectCity = () => {
+	// useState does not automatically merge state like this.setState in a class component
+	// so i've chosen the laziest way of dealing with multipart state
+	// initializing separate state and setters for each field
 	const [userInput, setUserInput] = useState('');
 	const [places, setPlaces] = useState([]);
 	const [selected, setSelected] = useState('');
