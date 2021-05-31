@@ -4,7 +4,7 @@ import SelectCity from '../../main/SelectCity';
 
 const RecommendedOuterwear = ({ widgetId }) => (
 	<div>
-		<SelectCity />
+		<SelectCity place={{ city: 'Philadelphia', state: 'PA' }} />
 		<SetHomeBtn widgetId={widgetId} />
 	</div>
 );

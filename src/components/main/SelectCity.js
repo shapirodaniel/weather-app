@@ -1,42 +1,62 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSuggestions } from '../../custom-hooks/useSuggestions';
+import styled from 'styled-components';
 
-const SelectCity = () => {
-	// useState does not automatically merge state like this.setState in a class component
-	// so i've chosen the laziest way of dealing with multipart state
-	// initializing separate state and setters for each field
+const Container = styled.div``;
+
+const CityName = styled.div``;
+
+const SelectCity = place => {
+	// * note * useState does not automatically merge prev, current states like this.setState in a class component
+	// if we wanted to use a single state object we'd need to do something like this:
+	// setState(prevState => ({...prevState, ...updatedValues}))
+	// https://reactjs.org/docs/hooks-reference.html#usestate
 	const [userInput, setUserInput] = useState('');
 	const [places, setPlaces] = useState([]);
-	const [selected, setSelected] = useState('');
+	const [selected, setSelected] = useState(place);
+	const [activeInput, setActiveInput] = useState(false);
 
 	const { suggestions, loading, error } = useSuggestions(userInput);
 
 	const textFieldRef = useRef(null);
 
 	useEffect(() => {
-		if (textFieldRef.current.id === document.activeElement.id) {
+		if (
+			textFieldRef.current &&
+			textFieldRef.current.id === document.activeElement.id
+		) {
 			setPlaces(suggestions || []);
 		}
 	}, [userInput, suggestions]);
 
 	return (
 		<div style={{ display: 'flex', flexDirection: 'column ' }}>
-			<div>City name is: {selected}</div>
-			<input
-				type='text'
-				id='cityNameInput'
-				defaultValue={userInput}
-				ref={textFieldRef}
-				onChange={e => setUserInput(e.target.value)}
-			/>
-			<select
-				onChange={e => setSelected(e.target.value)}
-				defaultValue={'Please select a city'}
-			>
-				{places.map(({ city, state }, idx) => (
-					<option key={idx}>{`${city}, ${state}, US`}</option>
-				))}
-			</select>
+			{!activeInput ? (
+				<div onClick={() => setActiveInput(true)}>{selected.city}</div>
+			) : (
+				<div>
+					<input
+						type='text'
+						id='cityNameInput'
+						ref={textFieldRef}
+						defaultValue={selected.city}
+						onChange={e => setUserInput(e.target.value)}
+					/>
+					<div>
+						{places.map(({ city, state }, idx) => (
+							<div
+								key={idx}
+								onClick={() => {
+									setSelected({ city, state });
+									setUserInput('');
+									setPlaces([]);
+									setActiveInput(false);
+								}}
+							>{`${city}, ${state}, US`}</div>
+						))}
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };
