@@ -1,5 +1,11 @@
 import React from 'react';
+import SetHomeBtn from '../SetHomeBtn';
 
-const RecommendedOuterwear = () => <div>hi im recommended outerwear</div>;
+const RecommendedOuterwear = ({ widgetId }) => (
+	<div>
+		hi im recommended RecommendedOuterwear
+		<SetHomeBtn widgetId={widgetId} />
+	</div>
+);
 
 export default RecommendedOuterwear;
