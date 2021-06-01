@@ -248,8 +248,6 @@ const getMoonPhaseIconAndDescription = val => {
 export const parseDailyWeather = daily => {
 	if (!daily) return;
 
-	console.log(daily);
-
 	return daily.map(daily => ({
 		dateTime: dt.fromMillis(daily.dt * 1000).weekdayLong, // string, ex. 'Monday'
 		sunrise: dt

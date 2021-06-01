@@ -59,7 +59,7 @@ const WeatherProvider = ({ children }) => {
 			? geolocation.location
 			: {
 					latitude: 39.95,
-					longitude: -75.17,
+					longitude: -75.17, // defaults to Philly :D
 			  }
 	);
 
@@ -68,6 +68,7 @@ const WeatherProvider = ({ children }) => {
 		type: TOGGLE_IMPERIAL_OR_METRIC,
 		payload: unitsString,
 	});
+
 	const setCurrentCity = cityString => ({
 		type: SET_CURRENT_CITY,
 		payload: cityString,
@@ -84,6 +85,7 @@ const WeatherProvider = ({ children }) => {
 		);
 		dispatch(toggleImperialOrMetric(units));
 	};
+
 	const updateCity = city => {
 		localStorage.setItem(
 			'weatherConfig',
