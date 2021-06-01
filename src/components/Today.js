@@ -7,10 +7,6 @@ import {
 } from '../custom-hooks/helpers/one-call/oneCallParsers';
 
 const Table = styled.table`
-	/* width: 100%;
-	max-width: 60vw; */
-	max-height: 80vh;
-	overflow: hidden;
 	margin: 0 auto;
 `;
 
@@ -44,7 +40,9 @@ const Today = ({ hourly, isImperial }) => {
 				{hourly.map(({ dateTime, temp, weatherType, weatherIcon }, idx) => (
 					<tr key={idx}>
 						<Hour>{dateTime.replace(/:00/g, '')}</Hour>
-						<Icon src={weatherIcon} alt={'weather-icon'} />
+						<td>
+							<Icon src={weatherIcon} alt={'weather-icon'} />
+						</td>
 						<WeatherType>{weatherType}</WeatherType>
 						<Temp>
 							{(isNaN(temp)

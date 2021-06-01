@@ -41,9 +41,9 @@ const Layout = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	height: 80vh;
-	width: 78vw;
-	margin: 0 auto;
-	padding: 2em;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	padding: 2em 0;
 `;
 
 const Home = () => {
@@ -88,10 +88,9 @@ const Home = () => {
 		},
 		{
 			renderComponent: () => (
-				/*<Today
-					hourly={weather.hourly}
-					isImperial={isImperial}
-				/>*/ <div>heyo</div>
+				<Layout>
+					<Today hourly={weather.hourly} isImperial={isImperial} />
+				</Layout> /* <div>heyo</div> */
 			),
 		},
 		{
