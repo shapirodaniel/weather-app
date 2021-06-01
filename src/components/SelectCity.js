@@ -48,8 +48,6 @@ const Suggestion = styled.div`
 	}
 `;
 
-const CityName = styled.div``;
-
 const SelectCity = ({ isVisible }) => {
 	// first we'll grab our cityName from Weather Context to initialize local state
 	const { cityName, updateCity } = useContext(WeatherContext);
@@ -98,6 +96,7 @@ const SelectCity = ({ isVisible }) => {
 								updateCity(city);
 								setUserInput(city);
 								setPlaces([]);
+								textFieldRef.current.value = city;
 							}}
 						>{`${city}, ${state}, US`}</Suggestion>
 					))}

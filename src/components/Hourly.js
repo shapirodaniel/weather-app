@@ -6,7 +6,10 @@ import {
 	getMetricTemp,
 } from '../custom-hooks/helpers/one-call/oneCallParsers';
 
-const Table = styled.table``;
+const Table = styled.table`
+	width: 300px;
+	margin-left: 2em;
+`;
 
 const Hour = styled.td`
 	font-weight: 500;
@@ -49,7 +52,7 @@ const Today = ({ hourly, isImperial }) => {
 						<React.Fragment key={idx}>
 							{dateLong && (
 								<tr>
-									<Hour>{dateLong}</Hour>
+									<Hour colSpan={4}>{dateLong}</Hour>
 								</tr>
 							)}
 							<tr>
