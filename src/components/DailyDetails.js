@@ -1,11 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import {
+	getImperialTemp,
+	getMetricTemp,
+} from '../custom-hooks/helpers/one-call/oneCallParsers';
+
 const Table = styled.table`
 	margin-left: 6em;
 `;
 
-const DailyDetails = ({ daily }) => {
+const DailyDetails = ({ daily, isImperial }) => {
 	if (!daily) return null;
 
 	const {
@@ -54,15 +59,33 @@ const DailyDetails = ({ daily }) => {
 					moonset,
 					// adds moon phase icon and description
 					// moonPhase,
-					morningTemp,
-					dayTemp,
-					eveningTemp,
-					lowTemp,
-					highTemp,
-					feelsLikeMorning,
-					feelsLikeDay,
-					feelsLikeEvening,
-					feelsLikeNight,
+					isImperial
+						? getImperialTemp(morningTemp) + 'F'
+						: getMetricTemp(morningTemp) + 'C',
+					isImperial
+						? getImperialTemp(dayTemp) + 'F'
+						: getMetricTemp(dayTemp) + 'C',
+					isImperial
+						? getImperialTemp(eveningTemp) + 'F'
+						: getMetricTemp(eveningTemp) + 'C',
+					isImperial
+						? getImperialTemp(lowTemp) + 'F'
+						: getMetricTemp(lowTemp) + 'C',
+					isImperial
+						? getImperialTemp(highTemp) + 'F'
+						: getMetricTemp(highTemp) + 'C',
+					isImperial
+						? getImperialTemp(feelsLikeMorning) + 'F'
+						: getMetricTemp(feelsLikeMorning) + 'C',
+					isImperial
+						? getImperialTemp(feelsLikeDay) + 'F'
+						: getMetricTemp(feelsLikeDay) + 'C',
+					isImperial
+						? getImperialTemp(feelsLikeEvening) + 'F'
+						: getMetricTemp(feelsLikeEvening) + 'C',
+					isImperial
+						? getImperialTemp(feelsLikeNight) + 'F'
+						: getMetricTemp(feelsLikeNight) + 'C',
 					pressure,
 					humidity,
 					dewPoint,
