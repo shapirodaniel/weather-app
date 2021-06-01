@@ -154,7 +154,19 @@ export const parseHourlyWeather = hourly => {
 
 	return hourly.map(hourly => ({
 		/* in fetchedWeather.hourly */
-		dateTime: dt.fromMillis(hourly.dt * 1000).toLocaleString(dt.TIME_SIMPLE),
+		dateTime:
+			dt.fromMillis(hourly.dt * 1000).toLocaleString(dt.TIME_SIMPLE) ===
+			'12:00 AM'
+				? // for 12:00 AM TIME_SIMPLE, return an array -- first entry is "Monday, June 1", second is 12:00 AM
+				  [
+						dt.fromMillis(hourly.dt * 1000).weekdayLong +
+							', ' +
+							dt.fromMillis(hourly.dt * 1000).monthLong +
+							' ' +
+							dt.fromMillis(hourly.dt * 1000).day,
+						dt.fromMillis(hourly.dt * 1000).toLocaleString(dt.TIME_SIMPLE),
+				  ]
+				: dt.fromMillis(hourly.dt * 1000).toLocaleString(dt.TIME_SIMPLE),
 		temp: Math.round(hourly.temp), // int, Kelvin
 		feelsLike: Math.round(hourly.feels_like), // int, Kelvin
 		pressure: Math.round(hourly.pressure), // int, hPa

@@ -33,6 +33,7 @@ const Relief = styled.div`
 	width: 88%;
 	margin: auto;
 	margin-top: 1.5em;
+	overflow: hidden;
 `;
 
 const Layout = styled.div`
@@ -59,12 +60,25 @@ const Home = () => {
 	}
 
 	const {
-		weatherType,
+		dateTime,
+		sunrise,
+		sunset,
 		temp,
 		feelsLike,
+		pressure,
+		humidity,
+		dewPoint,
+		cloudCover,
+		uvIndex,
+		visibility,
+		windSpeed,
+		windGust,
+		windDirection,
+		rain,
+		snow,
+		weatherType,
 		weatherDescription,
 		weatherIcon,
-		dateTime,
 	} = (weather && weather.current) || {};
 
 	const isImperial = imperialOrMetric === 'imperial';
