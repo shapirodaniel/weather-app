@@ -55,8 +55,8 @@ weather data model on WeatherContext
   ],
   daily: [
     {
-      dateTime,
-      sunrise,
+      dateTime, // ex "Monday"
+      sunrise, // extended EST date time
       sunset,
       moonrise,
       moonset,
@@ -78,7 +78,7 @@ weather data model on WeatherContext
       dewPoint,
       cloudCover,
       uvIndex,
-      visibility,
+
       windSpeed,
       windGust,
       windDirection,

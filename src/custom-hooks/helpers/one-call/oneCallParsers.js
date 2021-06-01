@@ -248,8 +248,10 @@ const getMoonPhaseIconAndDescription = val => {
 export const parseDailyWeather = daily => {
 	if (!daily) return;
 
+	console.log(daily);
+
 	return daily.map(daily => ({
-		dateTime: dt.fromMillis(daily * 1000).weekdayLong, // string, ex. 'Monday'
+		dateTime: dt.fromMillis(daily.dt * 1000).weekdayLong, // string, ex. 'Monday'
 		sunrise: dt
 			.fromMillis(daily.sunrise)
 			.toLocaleString(dt.TIME_WITH_LONG_OFFSET), // string, ex '09:30:23 AM Eastern Daylight Time'
@@ -288,7 +290,9 @@ export const parseDailyWeather = daily => {
 		dewPoint: Math.round(daily.dew_point), // int, Kelvin
 		cloudCover: Math.round(daily.clouds) + '%', // string, ex 75%
 		uvIndex: daily.uvi, // decimal, UV index
-		visibility: daily.visibility, // int, meters -> use getImperialVisibility to convert to miles
+
+		/* no visibility on fetchedWeather.daily[idx]! */
+
 		windSpeed: daily.wind_speed, // decimal, m/s
 		windGust: daily.wind_gust || 0.0, // decimal, m/s /* possibly not available */
 		windDirection: getWindDirectionFromDeg(daily.wind_deg), // string, ex. 'N/NE'

@@ -4,7 +4,8 @@ import { WeatherContext } from '../contexts/weatherContext';
 import SwipeCarousel from './SwipeCarousel';
 import CurrentWeather from './CurrentWeather';
 import Loading from './Loading';
-import Today from './Today';
+import DailyDetails from './DailyDetails';
+import Hourly from './Hourly';
 
 const Background = styled.div`
 	background-image: ${({ type }) =>
@@ -103,12 +104,23 @@ const Home = () => {
 		{
 			renderComponent: () => (
 				<Layout>
-					<Today hourly={weather.hourly} isImperial={isImperial} />
-				</Layout> /* <div>heyo</div> */
+					<DailyDetails daily={weather.daily} isImperial={isImperial} />
+				</Layout>
 			),
 		},
 		{
-			renderComponent: () => <div>hi</div>,
+			renderComponent: () => (
+				<Layout>
+					<Hourly hourly={weather.hourly} isImperial={isImperial} />
+				</Layout>
+			),
+		},
+		{
+			renderComponent: () => (
+				<Layout>
+					<div style={{ color: 'white' }}>hi im div</div>
+				</Layout>
+			),
 		},
 	];
 
