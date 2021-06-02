@@ -47,6 +47,22 @@ const Description = styled.span`
 	margin-bottom: 2em;
 `;
 
+const IconAndDescription = ({ icon, description }) => (
+	<div
+		style={{
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'center',
+			justifyContent: 'center',
+		}}
+	>
+		<IconContainer>
+			<img src={icon} alt={'weather-icon'} />
+		</IconContainer>
+		<Description>{description}</Description>
+	</div>
+);
+
 const CityName = styled.span`
 	font-size: 30px;
 	color: ghostwhite;
@@ -54,15 +70,34 @@ const CityName = styled.span`
 	text-align: center;
 `;
 
+const HiLo = styled.span`
+	font-size: 18px;
+	color: ghostwhite;
+	padding: 0.2em;
+`;
+
+const HighAndLow = ({ high, low, isImperial }) => (
+	<div style={{ color: 'ghostwhite' }}>
+		<HiLo>{`Hi: ${
+			isImperial ? getImperialTemp(high) + '°' : getMetricTemp(high) + '°'
+		}`}</HiLo>
+		{' • '}
+		<HiLo>{`Low: ${
+			isImperial ? getImperialTemp(low) + '°' : getMetricTemp(low) + '°'
+		}`}</HiLo>
+	</div>
+);
+
 const CurrentWeather = ({
 	temp,
 	feelsLike,
 	weatherDescription,
 	weatherIcon,
-	imperialOrMetric,
 	isImperial,
 	cityName,
 	dateTime,
+	highTemp,
+	lowTemp,
 }) => (
 	<>
 		<DateTime>{dateTime}</DateTime>
@@ -81,18 +116,9 @@ const CurrentWeather = ({
 				{'°'}
 			</FeelsLike>
 		</div>
-		<div
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				justifyContent: 'center',
-			}}
-		>
-			<IconContainer>
-				<img src={weatherIcon} alt={'weather-icon'} />
-			</IconContainer>
-			<Description>{weatherDescription}</Description>
+		<div>
+			<IconAndDescription icon={weatherIcon} description={weatherDescription} />
+			<HighAndLow high={highTemp} low={lowTemp} isImperial={isImperial} />
 		</div>
 		<CityName>{cityName}</CityName>
 	</>

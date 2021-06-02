@@ -60,28 +60,6 @@ const Home = () => {
 		return <Loading />;
 	}
 
-	const {
-		dateTime,
-		sunrise,
-		sunset,
-		temp,
-		feelsLike,
-		pressure,
-		humidity,
-		dewPoint,
-		cloudCover,
-		uvIndex,
-		visibility,
-		windSpeed,
-		windGust,
-		windDirection,
-		rain,
-		snow,
-		weatherType,
-		weatherDescription,
-		weatherIcon,
-	} = (weather && weather.current) || {};
-
 	const isImperial = imperialOrMetric === 'imperial';
 
 	const slideArray = [
@@ -89,14 +67,11 @@ const Home = () => {
 			renderComponent: () => (
 				<Layout>
 					<CurrentWeather
-						temp={temp}
-						feelsLike={feelsLike}
-						weatherDescription={weatherDescription}
-						weatherIcon={weatherIcon}
-						imperialOrMetric={imperialOrMetric}
-						isImperial={isImperial}
+						{...weather.current}
+						highTemp={(weather.daily && weather.daily[0].highTemp) || ''}
+						lowTemp={(weather.daily && weather.daily[0].lowTemp) || ''}
 						cityName={cityName}
-						dateTime={dateTime}
+						isImperial={isImperial}
 					/>
 				</Layout>
 			),
@@ -126,7 +101,9 @@ const Home = () => {
 
 	return (
 		<>
-			<Background type={weatherType} />
+			<Background
+				type={weather && weather.current && weather.current.weatherType}
+			/>
 			<Relief>
 				<SwipeCarousel slideArray={slideArray} />
 			</Relief>
