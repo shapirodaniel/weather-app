@@ -9,7 +9,6 @@ const TOGGLE_IMPERIAL_OR_METRIC = 'TOGGLE_IMPERIAL_OR_METRIC';
 const SET_CURRENT_CITY = 'SET_CURRENT_CITY';
 
 // reducer fn used by useReducer hook in WeatherProvider
-// note! useReducer takes initState as the second argument, rather than the Redux convention of providing initState as a default parameter to the reducer fn itself
 const reducer = (state, { type, payload }) => {
 	switch (type) {
 		case TOGGLE_IMPERIAL_OR_METRIC:
@@ -21,8 +20,6 @@ const reducer = (state, { type, payload }) => {
 	}
 };
 
-// WeatherProvider is a React context that will make up-to-date data and functions available to its entire subtree -- we'll wrap our App so that the provider acts like Redux's Provider -- our providerValue is similar to Redux's store
-// since WeatherProvider needs to render its subtree we'll use the children prop here
 const WeatherProvider = ({ children }) => {
 	// initialize a weather config object to prevent corrupting the one stored in localStorage
 	const initWeatherConfig = {
@@ -53,28 +50,18 @@ const WeatherProvider = ({ children }) => {
 		state.cityName
 	);
 
-	// we'll provide a default location value when our geolocation is unresolved, else latitude, longitude will be our user's current position
+	// we'll provide a default location value when our geolocation is unresolved,
+	// otherwise latitude, longitude will be our user's current position
 	const { weather, weatherLoading, weatherError } = useWeather(
 		geolocation
 			? geolocation.location
 			: {
 					latitude: 39.95,
-					longitude: -75.17, // defaults to Philly :D
+					longitude: -75.17, // defaults to Philly :)
 			  }
 	);
 
-	// here we'll define our action creators so that we can dispatch changes to toggle imperialOrMetric and cityName
-	const toggleImperialOrMetric = unitsString => ({
-		type: TOGGLE_IMPERIAL_OR_METRIC,
-		payload: unitsString,
-	});
-
-	const setCurrentCity = cityString => ({
-		type: SET_CURRENT_CITY,
-		payload: cityString,
-	});
-
-	// and we'll create updaters with localStorage + dispatch functionality here so that we don't need to expose any of our state management logic except the updater fn itself -- similar to what we'd do to connect Redux components with connect HOC or useDispatch
+	// dispatch-wrapped action creators
 	const updateUnits = units => {
 		localStorage.setItem(
 			'weatherConfig',
@@ -83,7 +70,10 @@ const WeatherProvider = ({ children }) => {
 				imperialOrMetric: units,
 			})
 		);
-		dispatch(toggleImperialOrMetric(units));
+		dispatch({
+			type: TOGGLE_IMPERIAL_OR_METRIC,
+			payload: units,
+		});
 	};
 
 	const updateCity = city => {
@@ -91,14 +81,17 @@ const WeatherProvider = ({ children }) => {
 			'weatherConfig',
 			JSON.stringify({ ...state, cityName: city })
 		);
-		dispatch(setCurrentCity(city));
+		dispatch({
+			type: SET_CURRENT_CITY,
+			payload: city,
+		});
 	};
 
 	// the final store-like object we'll have access to in our App
-	// by modularizing our logic we provide a clean interface to accessing and updating state, and our child components can use these objects without "knowing" how they work!
-	// our geolocation is available for other features like an interactive weather map, and translations provided by the geolocation object can be used to improve accessibility
+	// our geolocation is available for other features like an interactive weather map
+	// translations provided by the geolocation object can be used to improve accessibility
 	const providerValue = {
-		...state,
+		...state, // cityName: string, imperialOrMetric: boolean
 		geolocation: {
 			...geolocation, // object
 			loading: geolocationLoading, // boolean
@@ -112,8 +105,8 @@ const WeatherProvider = ({ children }) => {
 			loading: weather && weatherLoading, // boolean
 			error: weather && weatherError, // Error instance: object
 		},
-		updateUnits,
-		updateCity,
+		updateUnits, // updater fn, params: boolean (imperialOrMetric)
+		updateCity, // updater fn, params: string (cityName)
 	};
 
 	return (

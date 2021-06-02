@@ -7,16 +7,16 @@ const Container = styled.div`
 	align-items: center;
 	justify-content: center;
 	width: 80px;
+	padding-top: 0.5em;
 	margin: 0 auto;
 `;
 
 const Button = styled.div`
 	& {
 		padding: 1em;
-		border: 1px solid white;
-		color: ${({ isActive }) => (isActive ? 'inherit' : 'var(--lightAccent)')};
-		background-color: ${({ isActive }) =>
-			isActive ? 'ghostwhite' : 'inherit'};
+		border: 1px solid black;
+		color: ${({ isActive }) => (isActive ? 'white' : 'darkgrey')};
+		background-color: ${({ isActive }) => (isActive ? 'black' : 'inherit')};
 		cursor: pointer;
 		font-size: 16px;
 		font-weight: 700;

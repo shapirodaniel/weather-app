@@ -20,7 +20,7 @@ const DailyDetails = ({ daily, isImperial }) => {
 		moonrise,
 		moonset,
 		// adds moon phase icon and description
-		// moonPhase,
+		moonPhase,
 		morningTemp,
 		dayTemp,
 		eveningTemp,
@@ -58,7 +58,8 @@ const DailyDetails = ({ daily, isImperial }) => {
 					moonrise,
 					moonset,
 					// adds moon phase icon and description
-					// moonPhase,
+					moonPhase.icon || '',
+					moonPhase.description || '',
 					isImperial
 						? getImperialTemp(morningTemp) + 'F'
 						: getMetricTemp(morningTemp) + 'C',
@@ -91,7 +92,6 @@ const DailyDetails = ({ daily, isImperial }) => {
 					dewPoint,
 					cloudCover,
 					uvIndex,
-
 					windSpeed,
 					windGust,
 					windDirection,

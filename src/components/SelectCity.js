@@ -12,15 +12,15 @@ const Container = styled.div`
 `;
 
 const Label = styled.div`
-	padding: 0.5em;
+	padding: 1em 0;
 `;
 
-const Hourglass = styled.span`
+const MagnifyingGlass = styled.span`
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	font-size: 22px;
-	padding: 0.3em;
+	margin-right: 0.5em;
 `;
 
 const Input = styled.input`
@@ -49,18 +49,10 @@ const Suggestion = styled.div`
 `;
 
 const SelectCity = ({ isVisible }) => {
-	// first we'll grab our cityName from Weather Context to initialize local state
 	const { cityName, updateCity } = useContext(WeatherContext);
-
-	// * note * useState does not automatically merge prev, current states like this.setState in a class component
-	// if we wanted to use a single state object we'd need to do something like this:
-	// setState(prevState => ({...prevState, ...updatedValues}))
-	// https://reactjs.org/docs/hooks-reference.html#usestate
 	const [userInput, setUserInput] = useState('');
 	const [places, setPlaces] = useState([]);
-
 	const { suggestions, loading, error } = useSuggestions(userInput);
-
 	const textFieldRef = useRef(null);
 
 	useEffect(() => {
@@ -77,9 +69,9 @@ const SelectCity = ({ isVisible }) => {
 			<section>
 				<Label>Choose a city</Label>
 				<div style={{ display: 'flex', width: '100%' }}>
-					<Hourglass>
+					<MagnifyingGlass>
 						<FontAwesomeIcon icon={faSearch} />
-					</Hourglass>
+					</MagnifyingGlass>
 					<Input
 						type='text'
 						id='cityNameInput'

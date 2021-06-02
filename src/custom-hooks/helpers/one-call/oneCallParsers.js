@@ -57,6 +57,8 @@ export const getImperialTemp = val => Math.round(((val - 273.15) * 9) / 5 + 32);
 export const getMetricTemp = val => Math.round(val - 273.15);
 
 // convert visibility from meters to miles
+export const getMetricVisibility = val => Number((val / 1000).toFixed(1));
+
 export const getImperialVisibility = val =>
 	Number((val * 0.000621371).toFixed(2));
 

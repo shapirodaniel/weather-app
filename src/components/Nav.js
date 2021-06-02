@@ -20,7 +20,7 @@ const IconContainer = styled.span`
 `;
 
 const Nav = () => {
-	// manage state of icon and menu visibilitys
+	// manage state of icon and menu visibility
 	const [isVisible, setVisible] = useState(false);
 
 	return (

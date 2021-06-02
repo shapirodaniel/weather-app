@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { WeatherContext } from '../contexts/weatherContext';
 import SelectCity from './SelectCity';
+import FCToggle from './FCToggle';
 
 const Container = styled.div`
 	& {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: flex-start;
+
 		position: absolute;
 		top: 3em;
 		right: 0;
@@ -25,10 +32,35 @@ const Container = styled.div`
 	}
 `;
 
-const Menu = ({ isVisible }) => (
-	<Container className={isVisible ? 'active' : ''}>
-		<SelectCity isVisible={isVisible} />
-	</Container>
-);
+const Section = styled.section`
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+	width: 100%;
+	height: min-content;
+	padding: 1em;
+`;
+
+const Label = styled.div`
+	padding: 1em 0;
+	color: black;
+`;
+
+const Menu = ({ isVisible }) => {
+	const { imperialOrMetric } = useContext(WeatherContext);
+
+	return (
+		<Container className={isVisible ? 'active' : ''}>
+			<Section>
+				<Label>Weather</Label>
+				<FCToggle currentType={imperialOrMetric} />
+			</Section>
+			<Section>
+				<SelectCity isVisible={isVisible} />
+			</Section>
+		</Container>
+	);
+};
 
 export default Menu;

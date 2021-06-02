@@ -1,9 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import FCToggle from './FCToggle';
-
-// we'll fetch in Kelvin and convert on the fly in our components
-// this will prevent render bugs due to refetching and rerendering
 import {
 	getImperialTemp,
 	getMetricTemp,
@@ -13,20 +10,14 @@ const Temperature = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 120px;
+	font-size: 80px;
 	color: ghostwhite;
 	margin-left: 20px;
 `;
 
 const DegreeSymbol = styled.span`
-	& {
-		font-size: 48px;
-		margin-top: -1.1em;
-	}
-	// pseudo-element lets us inject content into our DegreeSymbol span
-	&::after {
-		content: '°';
-	}
+	font-size: 48px;
+	margin-top: -0.4em;
 `;
 
 const FeelsLike = styled.span`
@@ -82,7 +73,7 @@ const CurrentWeather = ({
 					: isImperial
 					? getImperialTemp(temp)
 					: getMetricTemp(temp)}
-				<DegreeSymbol />
+				<DegreeSymbol>{isImperial ? '°F' : '°C'}</DegreeSymbol>
 			</Temperature>
 			<FeelsLike>
 				Feels like:{' '}
@@ -103,7 +94,6 @@ const CurrentWeather = ({
 			</IconContainer>
 			<Description>{weatherDescription}</Description>
 		</div>
-		<FCToggle currentType={imperialOrMetric} />
 		<CityName>{cityName}</CityName>
 	</>
 );
