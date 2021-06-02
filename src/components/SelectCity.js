@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const Container = styled.div`
-	display: ${props => (props.isVisible ? 'flex' : 'none')};
+	display: flex;
 	flex-direction: column;
 	color: black;
 `;

@@ -1,18 +1,42 @@
 import React from 'react';
 import styled from 'styled-components';
-import FCToggle from './FCToggle';
 import {
 	getImperialTemp,
 	getMetricTemp,
 } from '../custom-hooks/helpers/one-call/oneCallParsers';
 
+// date time
+const DateTime = styled.span`
+	font-size: 18px;
+	color: ghostwhite;
+`;
+
+// daily hi, low temps
+const HiLo = styled.span`
+	font-size: 18px;
+	color: ghostwhite;
+	padding: 0.2em;
+`;
+
+const HighAndLow = ({ high, low, isImperial }) => (
+	<div style={{ color: 'ghostwhite' }}>
+		<HiLo>{`Hi: ${
+			isImperial ? getImperialTemp(high) + '°' : getMetricTemp(high) + '°'
+		}`}</HiLo>
+		{' • '}
+		<HiLo>{`Low: ${
+			isImperial ? getImperialTemp(low) + '°' : getMetricTemp(low) + '°'
+		}`}</HiLo>
+	</div>
+);
+
+// current temp
 const Temperature = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	font-size: 80px;
 	color: ghostwhite;
-	margin-left: 20px;
 `;
 
 const DegreeSymbol = styled.span`
@@ -20,17 +44,13 @@ const DegreeSymbol = styled.span`
 	margin-top: -0.4em;
 `;
 
-const FeelsLike = styled.span`
-	padding: 1em;
+// feels like temp
+const FeelsLike = styled.div`
 	font-size: 16px;
 	color: ghostwhite;
 `;
 
-const DateTime = styled.span`
-	font-size: 18px;
-	color: ghostwhite;
-`;
-
+// current weather icon and description
 const IconContainer = styled.span`
 	display: flex;
 	align-items: center;
@@ -63,30 +83,13 @@ const IconAndDescription = ({ icon, description }) => (
 	</div>
 );
 
+// selected city
 const CityName = styled.span`
 	font-size: 30px;
 	color: ghostwhite;
 	padding-top: 1em;
 	text-align: center;
 `;
-
-const HiLo = styled.span`
-	font-size: 18px;
-	color: ghostwhite;
-	padding: 0.2em;
-`;
-
-const HighAndLow = ({ high, low, isImperial }) => (
-	<div style={{ color: 'ghostwhite' }}>
-		<HiLo>{`Hi: ${
-			isImperial ? getImperialTemp(high) + '°' : getMetricTemp(high) + '°'
-		}`}</HiLo>
-		{' • '}
-		<HiLo>{`Low: ${
-			isImperial ? getImperialTemp(low) + '°' : getMetricTemp(low) + '°'
-		}`}</HiLo>
-	</div>
-);
 
 const CurrentWeather = ({
 	temp,
@@ -101,7 +104,10 @@ const CurrentWeather = ({
 }) => (
 	<>
 		<DateTime>{dateTime}</DateTime>
+
 		<div style={{ textAlign: 'center' }}>
+			<HighAndLow high={highTemp} low={lowTemp} isImperial={isImperial} />
+
 			<Temperature>
 				{isNaN(temp)
 					? ''
@@ -110,16 +116,16 @@ const CurrentWeather = ({
 					: getMetricTemp(temp)}
 				<DegreeSymbol>{isImperial ? '°F' : '°C'}</DegreeSymbol>
 			</Temperature>
+
 			<FeelsLike>
 				Feels like:{' '}
 				{isImperial ? getImperialTemp(feelsLike) : getMetricTemp(feelsLike)}
 				{'°'}
 			</FeelsLike>
 		</div>
-		<div>
-			<IconAndDescription icon={weatherIcon} description={weatherDescription} />
-			<HighAndLow high={highTemp} low={lowTemp} isImperial={isImperial} />
-		</div>
+
+		<IconAndDescription icon={weatherIcon} description={weatherDescription} />
+
 		<CityName>{cityName}</CityName>
 	</>
 );

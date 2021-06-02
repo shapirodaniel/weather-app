@@ -33,7 +33,7 @@ const Container = styled.div`
 `;
 
 const Section = styled.section`
-	display: flex;
+	display: ${({ isVisible }) => (isVisible ? 'flex' : 'none')};
 	flex-direction: column;
 	align-items: flex-start;
 	justify-content: flex-start;
@@ -52,12 +52,13 @@ const Menu = ({ isVisible }) => {
 
 	return (
 		<Container className={isVisible ? 'active' : ''}>
-			<Section>
+			<Section isVisible={isVisible}>
 				<Label>Weather</Label>
 				<FCToggle currentType={imperialOrMetric} />
 			</Section>
-			<Section>
-				<SelectCity isVisible={isVisible} />
+
+			<Section isVisible={isVisible}>
+				<SelectCity />
 			</Section>
 		</Container>
 	);
