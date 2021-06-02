@@ -13,8 +13,6 @@ export const useWeather = ({ latitude, longitude }) => {
 	const [state, setState] = useState({});
 
 	useEffect(() => {
-		let isMounted = true;
-
 		const fetchWeather = async () => {
 			try {
 				const { data: fetchedWeather } = await axios.get(uri);
@@ -36,11 +34,7 @@ export const useWeather = ({ latitude, longitude }) => {
 			}
 		};
 
-		if (isMounted && latitude && longitude) fetchWeather();
-
-		return () => {
-			isMounted = false;
-		};
+		if (latitude && longitude) fetchWeather();
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [latitude, longitude]);
