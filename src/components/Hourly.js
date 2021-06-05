@@ -7,8 +7,8 @@ import {
 } from '../custom-hooks/helpers/one-call/oneCallParsers';
 
 const Table = styled.table`
-	width: 300px;
-	margin-left: 2em;
+	width: 280px;
+	margin-left: 0.8em;
 `;
 
 const Hour = styled.td`
@@ -38,6 +38,35 @@ const Today = ({ hourly, isImperial }) => {
 	return (
 		<Table>
 			<tbody>
+				<tr
+					style={{
+						fontSize: '28px',
+						color: 'ghostwhite',
+					}}
+				>
+					<td
+						colSpan={4}
+						style={{
+							width: '10px',
+							paddingBottom: '.3em',
+						}}
+					>
+						48-hour forecast
+					</td>
+				</tr>
+				<tr>
+					<Hour
+						style={{
+							paddingTop: '2em',
+							paddingBottom: '.3em',
+							borderBottom: '1px solid ghostwhite',
+							fontSize: '18px',
+						}}
+						colSpan={2}
+					>
+						Today
+					</Hour>
+				</tr>
 				{hourly.map((forecast, idx) => {
 					const { dateTime, temp, weatherType, weatherIcon } = forecast;
 
@@ -52,7 +81,17 @@ const Today = ({ hourly, isImperial }) => {
 						<React.Fragment key={idx}>
 							{dateLong && (
 								<tr>
-									<Hour colSpan={4}>{dateLong}</Hour>
+									<Hour
+										style={{
+											paddingTop: '2em',
+											paddingBottom: '.3em',
+											borderBottom: '1px solid ghostwhite',
+											fontSize: '18px',
+										}}
+										colSpan={2}
+									>
+										{dateLong}
+									</Hour>
 								</tr>
 							)}
 							<tr>
@@ -61,10 +100,10 @@ const Today = ({ hourly, isImperial }) => {
 										? dateTimeSimple.replace(/:00/g, '')
 										: dateTime.replace(/:00/g, '')}
 								</Hour>
+								<WeatherType>{weatherType}</WeatherType>
 								<td>
 									<Icon src={weatherIcon} alt={'weather-icon'} />
 								</td>
-								<WeatherType>{weatherType}</WeatherType>
 								<Temp>
 									{(isNaN(temp)
 										? ''
