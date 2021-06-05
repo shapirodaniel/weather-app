@@ -7,8 +7,9 @@ import {
 } from '../custom-hooks/helpers/one-call/oneCallParsers';
 
 const Table = styled.table`
-	width: 280px;
-	margin-left: 0.8em;
+	width: 300px;
+	margin-left: 1.7em;
+	overflow: hidden;
 `;
 
 const Hour = styled.td`
@@ -45,7 +46,7 @@ const Today = ({ hourly, isImperial }) => {
 					}}
 				>
 					<td
-						colSpan={4}
+						colSpan={3}
 						style={{
 							width: '10px',
 							paddingBottom: '.3em',
@@ -62,7 +63,7 @@ const Today = ({ hourly, isImperial }) => {
 							borderBottom: '1px solid ghostwhite',
 							fontSize: '18px',
 						}}
-						colSpan={2}
+						colSpan={3}
 					>
 						Today
 					</Hour>
@@ -88,7 +89,7 @@ const Today = ({ hourly, isImperial }) => {
 											borderBottom: '1px solid ghostwhite',
 											fontSize: '18px',
 										}}
-										colSpan={2}
+										colSpan={3}
 									>
 										{dateLong}
 									</Hour>
