@@ -78,6 +78,9 @@ export const getMetricVisibility = val => Number((val / 1000).toFixed(1));
 export const getImperialVisibility = val =>
 	Number((val * 0.000621371).toFixed(2));
 
+// convert metric windspeed in m/s to imperial mph
+export const getImperialWindSpeed = val => Number((val * 2.237).toFixed(1));
+
 //////////////////////
 /* WEATHER LOCATION */
 //////////////////////
