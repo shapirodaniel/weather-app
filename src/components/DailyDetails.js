@@ -52,11 +52,11 @@ const DailyDetails = ({ daily, isImperial }) => {
 		<Table style={{ color: 'white' }}>
 			<tbody>
 				{[
-					dateTime,
-					sunrise,
-					sunset,
-					moonrise,
-					moonset,
+					`dateTime: ${dateTime}`,
+					`sunrise: ${sunrise}`,
+					`sunset: ${sunset}`,
+					`moonrise: ${moonrise}`,
+					`moonset: ${moonset}`,
 					// adds moon phase icon and description
 					moonPhase.icon || '',
 					moonPhase.description || '',

@@ -251,18 +251,23 @@ export const parseDailyWeather = daily => {
 	if (!daily) return;
 
 	return daily.map(daily => ({
-		dateTime: dt.fromMillis(daily.dt * 1000).weekdayLong, // string, ex. 'Monday'
+		dateTime:
+			dt.fromMillis(daily.dt * 1000).weekdayLong +
+			', ' +
+			dt.fromMillis(daily.dt * 1000).monthLong +
+			' ' +
+			dt.fromMillis(daily.dt * 1000).day, // string, ex. 'Monday, June 7'
 		sunrise: dt
-			.fromMillis(daily.sunrise)
+			.fromMillis(daily.sunrise * 1000)
 			.toLocaleString(dt.TIME_WITH_LONG_OFFSET), // string, ex '09:30:23 AM Eastern Daylight Time'
 		sunset: dt
-			.fromMillis(daily.sunset)
+			.fromMillis(daily.sunset * 1000)
 			.toLocaleString(dt.TIME_WITH_LONG_OFFSET), // (see sunrise above)
 		moonrise: dt
-			.fromMillis(daily.sunrise)
+			.fromMillis(daily.moonrise * 1000)
 			.toLocaleString(dt.TIME_WITH_LONG_OFFSET), // string, ex '09:30:23 AM Eastern Daylight Time'
 		moonset: dt
-			.fromMillis(daily.sunset)
+			.fromMillis(daily.moonset * 1000)
 			.toLocaleString(dt.TIME_WITH_LONG_OFFSET), // (see sunrise above)
 
 		/*
@@ -321,10 +326,10 @@ export const getWeatherAlerts = alerts => {
 		name: alert.sender_name, // string, ex. 'NWS Tulsa'
 		event: alert.event, // string, ex. 'Heat Advisory'
 		startTime: dt
-			.fromMillis(alert.start)
+			.fromMillis(alert.start * 1000)
 			.toLocaleString(dt.DATETIME_HUGE_WITH_SECONDS), // 'Friday, October 14, 1983, 9:30:33 AM Eastern Daylight Time'
 		endTime: dt
-			.fromMillis(alert.end)
+			.fromMillis(alert.end * 1000)
 			.toLocaleString(dt.DATETIME_HUGE_WITH_SECONDS), // 'Friday, October 14, 1983, 9:30:33 AM Eastern Daylight Time'
 		description: alert.description, // long string, ex "...HEAD ADVISORY REMAINS IN EFFECT...(paragraph follows)"
 	}));
