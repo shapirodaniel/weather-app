@@ -6,9 +6,89 @@ import {
 	getMetricTemp,
 } from '../custom-hooks/helpers/one-call/oneCallParsers';
 
-const Table = styled.table`
-	margin-left: 6em;
+const Container = styled.div`
+	width: 300px;
+	margin-left: 1.3em;
+	overflow: hidden;
 `;
+
+const InnerBox = styled.div`
+	& {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: flex-start;
+		width: 100%;
+		padding: 2em 0;
+	}
+	& span:nth-child(2) {
+		padding-left: 1em;
+	}
+	& div:last-child {
+		opacity: 0.6;
+		padding: 0.3em 0;
+		font-size: 13px;
+	}
+`;
+
+const Row = styled.div`
+	display: flex;
+	width: 100%;
+	height: auto;
+`;
+
+const Section = styled.section`
+	width: 100%;
+	height: auto;
+	margin-top: 2em;
+	color: ghostwhite;
+`;
+
+const SunriseIcon = styled.span`
+	& {
+		font-size: 24px;
+		filter: grayscale(100%) brightness(150%);
+	}
+	&::after {
+		content: '☀️';
+	}
+`;
+
+const SunsetIcon = styled.span`
+	& {
+		font-size: 20px;
+		filter: grayscale(100%) brightness(150%);
+	}
+	&::after {
+		content: '🌙';
+	}
+`;
+
+const DateTime = styled.span`
+	font-size: 18px;
+`;
+
+const SunAndMoon = ({ sunrise, sunset, moonrise, moonset, moonPhase }) => (
+	<Section>
+		<div>{'Sunrise & Sunset'}</div>
+		<Row>
+			<InnerBox>
+				<span>
+					<SunriseIcon />
+					<DateTime>{sunrise}</DateTime>
+				</span>
+				<div>Dawn: {moonrise}</div>
+			</InnerBox>
+			<InnerBox>
+				<span>
+					<SunsetIcon />
+					<DateTime>{sunset}</DateTime>
+				</span>
+				<div>Dusk: {moonset}</div>
+			</InnerBox>
+		</Row>
+	</Section>
+);
 
 const DailyDetails = ({ daily, isImperial }) => {
 	if (!daily) return null;
@@ -49,66 +129,14 @@ const DailyDetails = ({ daily, isImperial }) => {
 	} = daily[0];
 
 	return (
-		<Table style={{ color: 'white' }}>
-			<tbody>
-				{[
-					`dateTime: ${dateTime}`,
-					`sunrise: ${sunrise}`,
-					`sunset: ${sunset}`,
-					`moonrise: ${moonrise}`,
-					`moonset: ${moonset}`,
-					// adds moon phase icon and description
-					moonPhase.icon || '',
-					moonPhase.description || '',
-					isImperial
-						? getImperialTemp(morningTemp) + 'F'
-						: getMetricTemp(morningTemp) + 'C',
-					isImperial
-						? getImperialTemp(dayTemp) + 'F'
-						: getMetricTemp(dayTemp) + 'C',
-					isImperial
-						? getImperialTemp(eveningTemp) + 'F'
-						: getMetricTemp(eveningTemp) + 'C',
-					isImperial
-						? getImperialTemp(lowTemp) + 'F'
-						: getMetricTemp(lowTemp) + 'C',
-					isImperial
-						? getImperialTemp(highTemp) + 'F'
-						: getMetricTemp(highTemp) + 'C',
-					isImperial
-						? getImperialTemp(feelsLikeMorning) + 'F'
-						: getMetricTemp(feelsLikeMorning) + 'C',
-					isImperial
-						? getImperialTemp(feelsLikeDay) + 'F'
-						: getMetricTemp(feelsLikeDay) + 'C',
-					isImperial
-						? getImperialTemp(feelsLikeEvening) + 'F'
-						: getMetricTemp(feelsLikeEvening) + 'C',
-					isImperial
-						? getImperialTemp(feelsLikeNight) + 'F'
-						: getMetricTemp(feelsLikeNight) + 'C',
-					pressure,
-					humidity,
-					dewPoint,
-					cloudCover,
-					uvIndex,
-					windSpeed,
-					windGust,
-					windDirection,
-					pop,
-					rain,
-					snow,
-					weatherId,
-					weatherType,
-					weatherDescription,
-					weatherIcon,
-				].map((val, idx) => (
-					<tr key={idx}>
-						<td>{val}</td>
-					</tr>
-				))}
-			</tbody>
-		</Table>
+		<Container>
+			<SunAndMoon
+				sunrise={sunrise}
+				sunset={sunset}
+				moonrise={moonrise}
+				moonset={moonset}
+			/>
+		</Container>
 	);
 };
 
