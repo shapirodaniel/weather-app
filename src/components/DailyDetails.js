@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import {
 	getImperialTemp,
 	getMetricTemp,
+	getImperialVisibility,
+	getMetricVisibility,
 } from '../custom-hooks/helpers/one-call/oneCallParsers';
 
 const Container = styled.div`
@@ -11,6 +13,26 @@ const Container = styled.div`
 	margin-left: 1.3em;
 	overflow: hidden;
 `;
+
+/* CURRENT DETAILS */
+
+const CurrentDetails = ({ currentDetails }) => (
+	<table>
+		<tbody>
+			<tr>
+				<th>Current details</th>
+			</tr>
+			{currentDetails.map(([name, measure], idx) => (
+				<tr key={idx}>
+					<td style={{ padding: '.3em 0' }}>{name}</td>
+					<td>{measure}</td>
+				</tr>
+			))}
+		</tbody>
+	</table>
+);
+
+/* SUN AND MOON */
 
 const InnerBox = styled.div`
 	& {
@@ -70,7 +92,7 @@ const DateTime = styled.span`
 
 const SunAndMoon = ({ sunrise, sunset, moonrise, moonset, moonPhase }) => (
 	<Section>
-		<div>{'Sunrise & Sunset'}</div>
+		<h2>{'Sunrise & Sunset'}</h2>
 		<Row>
 			<InnerBox>
 				<span>
@@ -90,7 +112,7 @@ const SunAndMoon = ({ sunrise, sunset, moonrise, moonset, moonPhase }) => (
 	</Section>
 );
 
-const DailyDetails = ({ daily, isImperial }) => {
+const DailyDetails = ({ daily, isImperial, visibility }) => {
 	if (!daily) return null;
 
 	const {
@@ -128,8 +150,27 @@ const DailyDetails = ({ daily, isImperial }) => {
 		weatherIcon,
 	} = daily[0];
 
+	const currentDetails = [
+		['Humidity', humidity],
+		[
+			'Dew point',
+			isImperial
+				? getImperialTemp(dewPoint) + '°F'
+				: getMetricTemp(dewPoint) + '°C',
+		],
+		['Pressure', pressure],
+		['UV index', uvIndex],
+		[
+			'Visibility',
+			isImperial
+				? getImperialVisibility(visibility) + ' mi'
+				: getMetricVisibility(visibility) + ' km',
+		],
+	];
+
 	return (
 		<Container>
+			<CurrentDetails currentDetails={currentDetails} />
 			<SunAndMoon
 				sunrise={sunrise}
 				sunset={sunset}

@@ -79,7 +79,11 @@ const Home = () => {
 		{
 			renderComponent: () => (
 				<Layout>
-					<DailyDetails daily={weather.daily} isImperial={isImperial} />
+					<DailyDetails
+						daily={weather.daily}
+						isImperial={isImperial}
+						visibility={weather.current && weather.current.visibility}
+					/>
 				</Layout>
 			),
 		},

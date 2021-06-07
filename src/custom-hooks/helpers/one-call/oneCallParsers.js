@@ -51,6 +51,22 @@ const getWindDirectionFromDeg = deg => {
 	}
 };
 
+// add uvIndex risk level
+const uvIndexAndRiskLevel = val => {
+	switch (true) {
+		case val > 0 && val <= 2:
+			return `Low, ${val}`;
+		case val <= 5:
+			return `Moderate, ${val}`;
+		case val <= 7:
+			return `High, ${val}`;
+		case val <= 10:
+			return `Very High, ${val}`;
+		default:
+			return '';
+	}
+};
+
 // convert incoming data in kelvin to fahrenheit/celsius
 export const getImperialTemp = val => Math.round(((val - 273.15) * 9) / 5 + 32);
 
@@ -110,11 +126,11 @@ export const parseCurrentWeather = current => {
 			.toLocaleString(dt.TIME_WITH_LONG_OFFSET), // (see sunrise above)
 		temp: Math.round(current.temp), // int, Kelvin
 		feelsLike: Math.round(current.feels_like), // int, Kelvin
-		pressure: Math.round(current.pressure), // int, hPa
+		pressure: Math.round(current.pressure) + ' hPa', // int, hPa
 		humidity: Math.round(current.humidity) + '%', // string, ex 90%
 		dewPoint: Math.round(current.dew_point), // int, Kelvin
 		cloudCover: Math.round(current.clouds) + '%', // string, ex 75%
-		uvIndex: current.uvi, // decimal, UV index
+		uvIndex: uvIndexAndRiskLevel(+current.uvi), // decimal, UV index
 		visibility: current.visibility, // int, meters -> use getImperialVisibility to convert to miles
 		windSpeed: current.wind_speed, // decimal, m/s
 		windGust: current.wind_gust || 0.0, // decimal, m/s /* possibly not available */
@@ -171,11 +187,11 @@ export const parseHourlyWeather = hourly => {
 				: dt.fromMillis(hourly.dt * 1000).toLocaleString(dt.TIME_SIMPLE),
 		temp: Math.round(hourly.temp), // int, Kelvin
 		feelsLike: Math.round(hourly.feels_like), // int, Kelvin
-		pressure: Math.round(hourly.pressure), // int, hPa
+		pressure: Math.round(hourly.pressure) + ' hPa', // int, hPa
 		humidity: Math.round(hourly.humidity) + '%', // string, ex 90%
 		dewPoint: Math.round(hourly.dew_point), // int, Kelvin
 		cloudCover: Math.round(hourly.clouds) + '%', // string, ex 75%
-		uvIndex: hourly.uvi, // decimal, UV index
+		uvIndex: uvIndexAndRiskLevel(+hourly.uvi), // decimal, UV index
 		visibility: hourly.visibility, // int, meters -> use getImperialVisibility to convert to miles
 		windSpeed: hourly.wind_speed, // decimal, m/s
 		windGust: hourly.wind_gust || 0.0, // decimal, m/s /* possibly not available */
@@ -284,11 +300,11 @@ export const parseDailyWeather = daily => {
 		feelsLikeEvening: Math.round(daily.feels_like.eve), // int
 		feelsLikeNight: Math.round(daily.feels_like.night), // int
 
-		pressure: Math.round(daily.pressure), // int, hPa
+		pressure: Math.round(daily.pressure) + ' hPa', // int, hPa
 		humidity: Math.round(daily.humidity) + '%', // string, ex 90%
 		dewPoint: Math.round(daily.dew_point), // int, Kelvin
 		cloudCover: Math.round(daily.clouds) + '%', // string, ex 75%
-		uvIndex: daily.uvi, // decimal, UV index
+		uvIndex: uvIndexAndRiskLevel(+daily.uvi), // decimal, UV index
 
 		/* no visibility on fetchedWeather.daily[idx]! */
 
