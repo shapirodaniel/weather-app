@@ -8,14 +8,15 @@ import {
 } from './helpers/one-call/oneCallParsers';
 
 export const useWeather = ({ latitude, longitude }, shouldRefresh, reset) => {
-	const uri = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${process.env.OPEN_WEATHER_API_KEY}`;
-
 	const [state, setState] = useState({});
 
 	useEffect(() => {
 		const fetchWeather = async () => {
 			try {
-				const { data: fetchedWeather } = await axios.get(uri);
+				const { data: fetchedWeather } = await axios.post('/api/oneCall', {
+					latitude,
+					longitude,
+				});
 
 				const newState = {
 					weather: {
