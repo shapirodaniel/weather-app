@@ -86,10 +86,10 @@ const Today = ({ hourly, isImperial }) => {
 											? dateTimeSimple.replace(/:00/g, '')
 											: dateTime.replace(/:00/g, '')}
 									</Hour>
-									<WeatherType>{weatherType}</WeatherType>
 									<td>
 										<Icon src={weatherIcon} alt={'weather-icon'} />
 									</td>
+									<WeatherType>{weatherType}</WeatherType>
 									<Temp>
 										{(isNaN(temp)
 											? ''
