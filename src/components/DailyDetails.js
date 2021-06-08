@@ -20,20 +20,21 @@ const Container = styled.div`
 /* OUTLOOK */
 
 const TempBox = ({ tempArray }) => {
-	const [name, measure, feelsLikeName, feelsLikeMeasure] = tempArray;
+	const [name, measure, feelsLikeMeasure] = tempArray;
 	return (
 		<div
 			style={{
 				width: '100%',
 				display: 'flex',
-				alignItems: 'center',
+				flexDirection: 'column',
+				alignItems: 'flex-start',
 				justifyContent: 'center',
 			}}
 		>
-			<span>{name}</span>
-			<span>{measure}</span>
-			<span>{feelsLikeName}</span>
-			<span>{feelsLikeMeasure}</span>
+			<span style={{ fontSize: '18px' }}>{`${name} ${measure}`}</span>
+			<span
+				style={{ opacity: '.5', fontSize: '14px' }}
+			>{`Feel: ${feelsLikeMeasure}`}</span>
 		</div>
 	);
 };
@@ -43,10 +44,27 @@ const TempOverview = ({ overview }) => {
 
 	return (
 		<Section>
-			<TempBox tempArray={morning} />
-			<TempBox tempArray={day} />
-			<TempBox tempArray={evening} />
-			<TempBox tempArray={night} />
+			<h2>Daily Temps</h2>
+			<div
+				style={{
+					display: 'flex',
+					justifyContent: 'space-between',
+					padding: '1em 0',
+				}}
+			>
+				<TempBox tempArray={morning} />
+				<TempBox tempArray={day} />
+			</div>
+			<div
+				style={{
+					display: 'flex',
+					justifyContent: 'space-between',
+					padding: '1em 0',
+				}}
+			>
+				<TempBox tempArray={evening} />
+				<TempBox tempArray={night} />
+			</div>
 		</Section>
 	);
 };
@@ -84,7 +102,7 @@ const InnerBox = styled.div`
 		padding-left: 0.3em;
 	}
 	& span :first-child {
-		font-size: 20px;
+		font-size: 24px;
 	}
 	& div:last-child {
 		opacity: 0.6;
@@ -204,7 +222,6 @@ const DailyDetails = ({ daily, isImperial, visibility }) => {
 			isImperial
 				? getImperialTemp(morningTemp) + '°F'
 				: getMetricTemp(morningTemp) + '°C',
-			'Feels Like',
 			isImperial
 				? getImperialTemp(feelsLikeMorning) + '°F'
 				: getMetricTemp(feelsLikeMorning) + '°C',
@@ -214,7 +231,6 @@ const DailyDetails = ({ daily, isImperial, visibility }) => {
 			isImperial
 				? getImperialTemp(dayTemp) + '°F'
 				: getMetricTemp(dayTemp) + '°C',
-			'Feels Like',
 			isImperial
 				? getImperialTemp(feelsLikeDay) + '°F'
 				: getMetricTemp(feelsLikeDay) + '°C',
@@ -224,7 +240,6 @@ const DailyDetails = ({ daily, isImperial, visibility }) => {
 			isImperial
 				? getImperialTemp(eveningTemp) + '°F'
 				: getMetricTemp(eveningTemp) + '°C',
-			'Feels Like',
 			isImperial
 				? getImperialTemp(feelsLikeEvening) + '°F'
 				: getMetricTemp(feelsLikeEvening) + '°C',
@@ -234,7 +249,6 @@ const DailyDetails = ({ daily, isImperial, visibility }) => {
 			isImperial
 				? getImperialTemp(nightTemp) + '°F'
 				: getMetricTemp(nightTemp) + '°C',
-			'Feels Like',
 			isImperial
 				? getImperialTemp(feelsLikeNight) + '°F'
 				: getMetricTemp(feelsLikeNight) + '°C',
