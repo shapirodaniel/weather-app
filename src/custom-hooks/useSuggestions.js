@@ -30,7 +30,6 @@ export const useSuggestions = userInput => {
 
 	useEffect(() => {
 		if (userInput) {
-			console.log('found stuff!');
 			setFound(places.filter(place => place.city.includes(userInput)));
 		}
 	}, [userInput]);
