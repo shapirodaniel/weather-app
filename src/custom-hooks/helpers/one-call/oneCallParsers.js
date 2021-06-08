@@ -54,7 +54,7 @@ const getWindDirectionFromDeg = deg => {
 // add uvIndex risk level
 const uvIndexAndRiskLevel = val => {
 	switch (true) {
-		case val > 0 && val <= 2:
+		case val <= 2:
 			return `Low, ${val}`;
 		case val <= 5:
 			return `Moderate, ${val}`;
@@ -63,7 +63,7 @@ const uvIndexAndRiskLevel = val => {
 		case val <= 10:
 			return `Very High, ${val}`;
 		default:
-			return '';
+			return 'No data';
 	}
 };
 

@@ -82,6 +82,8 @@ const Weekly = ({ weekly, isImperial }) => {
 									width: '60px',
 									objectFit: 'contain',
 									marginRight: '.3em',
+									// punch up weather icons
+									filter: 'brightness(150%)',
 								}}
 							/>
 							<TempBox

@@ -22,6 +22,7 @@ const Background = styled.div`
 	width: 100vw;
 	// z-index places image behind the rest of our content
 	z-index: -1;
+	filter: blur(4px);
 `;
 
 const Relief = styled.div`
