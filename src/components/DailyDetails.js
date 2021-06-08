@@ -150,17 +150,47 @@ const SunAndMoon = ({ sunrise, sunset, moonrise, moonset, moonPhase }) => (
 	</Section>
 );
 
+const MoonPhase = ({ moonPhase }) => {
+	const { icon, description } = moonPhase;
+
+	const Img = styled.img`
+		filter: invert();
+		object-fit: cover;
+		object-position: 0 36%;
+		height: 100px;
+		width: 100%;
+	`;
+
+	return (
+		<div style={{ display: 'flex', color: 'ghostwhite' }}>
+			<div
+				style={{
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'flex-start',
+					justifyContent: 'center',
+					width: '100%',
+				}}
+			>
+				<span style={{ fontWeight: 'bold', marginTop: '-1em' }}>
+					Moon Phase:
+				</span>
+				<span>{description}</span>
+			</div>
+			<Img src={icon} alt='moon-phase' />
+		</div>
+	);
+};
+
 const DailyDetails = ({ daily, isImperial, visibility }) => {
 	if (!daily) return null;
 
 	const {
-		dateTime,
 		sunrise,
 		sunset,
 		moonrise,
 		moonset,
-		// adds moon phase icon and description
-		moonPhase,
+		moonPhase, // {icon, description}
 		morningTemp,
 		dayTemp,
 		eveningTemp,
@@ -265,6 +295,7 @@ const DailyDetails = ({ daily, isImperial, visibility }) => {
 				moonrise={moonrise}
 				moonset={moonset}
 			/>
+			<MoonPhase moonPhase={moonPhase} />
 		</Container>
 	);
 };
