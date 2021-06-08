@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const Table = styled.table`
 	width: 300px;
 	margin-left: 1.3em;
+	padding-right: 0.3em;
 	overflow: hidden;
 `;
 

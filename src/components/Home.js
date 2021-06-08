@@ -6,6 +6,7 @@ import CurrentWeather from './CurrentWeather';
 import Loading from './Loading';
 import DailyDetails from './DailyDetails';
 import Hourly from './Hourly';
+import Weekly from './Weekly';
 
 const Background = styled.div`
 	background-image: ${({ type }) =>
@@ -97,7 +98,10 @@ const Home = () => {
 		{
 			renderComponent: () => (
 				<Layout>
-					<div style={{ color: 'white' }}>hi im div</div>
+					<Weekly
+						weekly={weather.daily && weather.daily.slice(1)}
+						isImperial={isImperial}
+					/>
 				</Layout>
 			),
 		},
