@@ -1,22 +1,31 @@
-import useSWR from 'swr';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { parseGeolocation } from './helpers/geocoding/geocodingParsers';
 
-const fetcher = uri => axios.get(uri).then(res => res.data);
-
 export const useGeolocation = cityName => {
-	const uri = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=${process.env.OPEN_WEATHER_API_KEY}`;
+	const [state, setState] = useState({});
 
-	const { data: fetchedGeolocation, error } = useSWR(uri, fetcher, {
-		onErrorRetry: (error, _key, _config, revalidate, { retryCount }) => {
-			if (error.status === 404 || retryCount >= 10) return;
-			setTimeout(() => revalidate({ retryCount }), 5000);
-		},
-	});
+	useEffect(() => {
+		const fetchGeolocation = async () => {
+			try {
+				const { data: fetchedGeolocation } = await axios.post(
+					'/api/geoLocation',
+					{ cityName }
+				);
+				setState(fetchedGeolocation);
+			} catch (err) {
+				console.error(err);
+				setState({ ...state, error: err });
+			}
+		};
+
+		if (cityName) fetchGeolocation();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [cityName]);
 
 	return {
-		geolocation: fetchedGeolocation && parseGeolocation(fetchedGeolocation[0]),
-		geolocationLoading: !error && !fetchedGeolocation,
-		geolocationError: error,
+		geolocation: state && parseGeolocation(state[0]),
+		geolocationLoading: !state && !state.error,
+		geolocationError: state.error,
 	};
 };
