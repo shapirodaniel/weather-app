@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 
+// conversion helpers
 import {
 	getImperialTemp,
 	getMetricTemp,
@@ -41,7 +42,7 @@ const TempOverview = ({ overview }) => {
 				style={{
 					display: 'flex',
 					justifyContent: 'space-between',
-					padding: '1em 0',
+					paddingBottom: '1em',
 				}}
 			>
 				<TempBox tempArray={morning} />
@@ -70,7 +71,7 @@ const CurrentDetails = ({ currentDetails }) => (
 			<tbody>
 				{currentDetails.map(([name, measure], idx) => (
 					<tr key={idx}>
-						<td style={{ padding: '.3em 0' }}>{name}</td>
+						<td style={{ paddingBottom: '.3em' }}>{name}</td>
 						<td style={{ paddingLeft: '3em' }}>{measure}</td>
 					</tr>
 				))}
@@ -211,13 +212,11 @@ const DailyDetails = ({ daily, isImperial, visibility }) => {
 		windSpeed,
 		windGust,
 		windDirection,
+
+		// do this tomorrow
 		pop,
 		rain,
 		snow,
-		weatherId,
-		weatherType,
-		weatherDescription,
-		weatherIcon,
 	} = daily[0];
 
 	const currentDetails = [
@@ -248,6 +247,11 @@ const DailyDetails = ({ daily, isImperial, visibility }) => {
 			isImperial ? getImperialWindSpeed(windGust) + ' mph' : windGust + ' m/s',
 		],
 		['Cloud cover', cloudCover],
+		['Precipitation', pop],
+
+		// rain and snow optional fields, only defined when > 0 mm
+		[rain ? 'Rainfall' : '', rain ? rain + ' mm' : ''],
+		[snow ? 'Snowfall' : '', snow ? snow + ' mm' : ''],
 	];
 
 	const overview = {
@@ -288,6 +292,8 @@ const DailyDetails = ({ daily, isImperial, visibility }) => {
 				: getMetricTemp(feelsLikeNight) + '°C',
 		],
 	};
+
+	console.log(rain, snow);
 
 	return (
 		<Container>
