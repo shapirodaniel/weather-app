@@ -11,13 +11,7 @@ import {
 	getImperialWindSpeed,
 } from '../custom-hooks/helpers/one-call/oneCallParsers';
 
-const Container = styled.div`
-	width: 300px;
-	margin-left: 1.3em;
-	overflow-x: hidden;
-`;
-
-/* OUTLOOK */
+/* DAILY TEMPS */
 
 const TempBox = ({ tempArray }) => {
 	const [name, measure, feelsLikeMeasure] = tempArray;
@@ -27,8 +21,6 @@ const TempBox = ({ tempArray }) => {
 				width: '100%',
 				display: 'flex',
 				flexDirection: 'column',
-				alignItems: 'flex-start',
-				justifyContent: 'center',
 			}}
 		>
 			<span style={{ fontSize: '18px' }}>{`${name} ${measure}`}</span>
@@ -87,7 +79,7 @@ const CurrentDetails = ({ currentDetails }) => (
 	</Section>
 );
 
-/* SUN AND MOON */
+/* SUN AND MOON, MOON PHASE */
 
 const InnerBox = styled.div`
 	& {
@@ -96,7 +88,7 @@ const InnerBox = styled.div`
 		align-items: flex-start;
 		justify-content: flex-start;
 		width: 100%;
-		padding: 2em 0;
+		padding-bottom: 1em;
 	}
 	& span:nth-child(2) {
 		padding-left: 0.3em;
@@ -118,10 +110,14 @@ const Row = styled.div`
 `;
 
 const Section = styled.section`
-	width: 100%;
-	height: auto;
-	margin-top: 2em;
-	color: ghostwhite;
+	& {
+		height: auto;
+		margin-top: 3em;
+		color: ghostwhite;
+	}
+	&:first-child {
+		margin-top: 0;
+	}
 `;
 
 const DateTime = styled.span`
@@ -181,6 +177,14 @@ const MoonPhase = ({ moonPhase }) => {
 		</div>
 	);
 };
+
+/* DAILY DETAILS: MAIN COMPONENT */
+
+const Container = styled.div`
+	width: 300px;
+	margin-left: 1.3em;
+	overflow-x: hidden;
+`;
 
 const DailyDetails = ({ daily, isImperial, visibility }) => {
 	if (!daily) return null;
