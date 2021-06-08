@@ -60,8 +60,11 @@ const Weekly = ({ weekly, isImperial }) => {
 		<Container>
 			<h2>7-day Forecast</h2>
 			{relevant.map(
-				({ highTemp, lowTemp, dateTime, weatherType, weatherIcon, pop }) => (
-					<Row>
+				(
+					{ highTemp, lowTemp, dateTime, weatherType, weatherIcon, pop },
+					idx
+				) => (
+					<Row key={idx}>
 						<Box dateTime={dateTime} weatherType={weatherType} />
 
 						<div

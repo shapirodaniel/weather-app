@@ -151,17 +151,17 @@ const SunAndMoon = ({ sunrise, sunset, moonrise, moonset }) => (
 	</Section>
 );
 
+const Img = styled.img`
+	filter: invert();
+	object-fit: cover;
+	object-position: 0 36%;
+	height: 60px;
+	width: 100%;
+`;
+
 // moon phase and icon
 const MoonPhase = ({ moonPhase }) => {
 	const { icon, description } = moonPhase;
-
-	const Img = styled.img`
-		filter: invert();
-		object-fit: cover;
-		object-position: 0 36%;
-		height: 60px;
-		width: 100%;
-	`;
 
 	return (
 		<div style={{ display: 'flex', color: 'ghostwhite' }}>

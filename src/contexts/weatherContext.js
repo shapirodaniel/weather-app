@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useState, useReducer } from 'react';
 import { useGeolocation } from '../custom-hooks/useGeolocation';
 import { useWeather } from '../custom-hooks/useWeather';
 
@@ -50,15 +50,27 @@ const WeatherProvider = ({ children }) => {
 		state.cityName
 	);
 
+	// gives user ability to request new weather data
+	const [shouldRefresh, toggleRefresh] = useState(false);
+	const refresh = () => {
+		toggleRefresh(true);
+	};
+	const reset = () => {
+		toggleRefresh(false);
+	};
+
 	// we'll provide a default location value when our geolocation is unresolved,
 	// otherwise latitude, longitude will be our user's current position
+	// and we'll pass in our local state for handling weather data requests
 	const { weather, weatherLoading, weatherError } = useWeather(
 		geolocation
 			? geolocation.location
 			: {
 					latitude: 39.95,
 					longitude: -75.17, // defaults to Philly :)
-			  }
+			  },
+		shouldRefresh,
+		reset
 	);
 
 	// dispatch-wrapped action creators
@@ -105,6 +117,7 @@ const WeatherProvider = ({ children }) => {
 			loading: weather && weatherLoading, // boolean
 			error: weather && weatherError, // Error instance: object
 		},
+		refresh,
 		updateUnits, // updater fn, params: boolean (imperialOrMetric)
 		updateCity, // updater fn, params: string (cityName)
 	};

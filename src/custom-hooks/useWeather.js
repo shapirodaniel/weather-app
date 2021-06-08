@@ -7,7 +7,13 @@ import {
 	parseDailyWeather,
 } from './helpers/one-call/oneCallParsers';
 
-export const useWeather = ({ latitude, longitude }) => {
+export const useWeather = (
+	{ latitude, longitude },
+	shouldRefresh,
+	toggleRefresh
+) => {
+	console.log(latitude, longitude, shouldRefresh, toggleRefresh);
+
 	const uri = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`;
 
 	const [state, setState] = useState({});
@@ -28,6 +34,9 @@ export const useWeather = ({ latitude, longitude }) => {
 				};
 
 				setState(newState);
+
+				// reset weatherContext shouldRefresh boolean -- handles refresh requests
+				toggleRefresh(false);
 			} catch (err) {
 				console.error(err);
 				setState({ ...state, error: err });
@@ -37,7 +46,7 @@ export const useWeather = ({ latitude, longitude }) => {
 		if (latitude && longitude) fetchWeather();
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [latitude, longitude]);
+	}, [latitude, longitude, shouldRefresh]);
 
 	const { weather, error } = state;
 
