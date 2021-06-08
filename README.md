@@ -4,7 +4,7 @@ welcome to the weather app! this app was written for a hooks workshop at Fullsta
 
 ## Notes
 
-we're using `json-server` to serve ~6000 US city, state names from `places.json`, which will power our location autocompletion,
+we're using `json-server` to serve ~6000 US city, state names from `db.json`, which will power our location autocompletion,
 
 and we're using Vercel's `useSWR` hook + `axios` for front-end data fetching.
 
@@ -24,6 +24,6 @@ create a `.env` file, <strong>add to your `.gitignore`</strong>, and set your Op
 
 by adding `REACT_APP_OPEN_WEATHER_API_KEY = <your-api-key>` to the `.env`
 
-`json-server --watch places.json --port 8080` -- if you change the port number, update the hardcoded port in `useSuggestions`'s `uri` string
+`json-server --watch db.json --port 8080` -- if you change the port number, update the hardcoded port in `useSuggestions`'s `uri` string
 
 `npm run start` -- runs on port 3000

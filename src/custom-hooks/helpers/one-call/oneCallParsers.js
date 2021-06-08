@@ -200,7 +200,7 @@ export const parseHourlyWeather = hourly => {
 		windGust: hourly.wind_gust || 0.0, // decimal, m/s /* possibly not available */
 		windDirection: getWindDirectionFromDeg(hourly.wind_deg), // string, ex. 'N/NE'
 
-		pop: Math.round(hourly.pop) + '%', // string, ex. '15%'
+		pop: Math.round(hourly.pop * 100) + '%', // string, ex. '15%'
 		/* possibly not available */
 		rain: hourly.rain ? hourly.rain['1h'] : 0.0, // rainfall last hour, mm
 		snow: hourly.snow ? hourly.snow['1h'] : 0.0, // snow accumulation last hour, mm
@@ -315,7 +315,7 @@ export const parseDailyWeather = daily => {
 		windGust: daily.wind_gust || 0.0, // decimal, m/s /* possibly not available */
 		windDirection: getWindDirectionFromDeg(daily.wind_deg), // string, ex. 'N/NE'
 
-		pop: Math.round(daily.pop) + '%', // string, ex. '15%'
+		pop: Math.round(daily.pop * 100) + '%', // string, ex. '15%'
 		/* possibly not available */
 		rain: daily.rain ? daily.rain['1h'] : 0.0, // rainfall last hour, mm
 		snow: daily.snow ? daily.snow['1h'] : 0.0, // snow accumulation last hour, mm
