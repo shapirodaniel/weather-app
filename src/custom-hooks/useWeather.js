@@ -8,7 +8,7 @@ import {
 } from './helpers/one-call/oneCallParsers';
 
 export const useWeather = ({ latitude, longitude }, shouldRefresh, reset) => {
-	const uri = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`;
+	const uri = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${process.env.OPEN_WEATHER_API_KEY}`;
 
 	const [state, setState] = useState({});
 
