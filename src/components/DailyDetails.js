@@ -51,7 +51,7 @@ const TempOverview = ({ overview }) => {
 				style={{
 					display: 'flex',
 					justifyContent: 'space-between',
-					padding: '1em 0',
+					paddingBottom: '1em',
 				}}
 			>
 				<TempBox tempArray={evening} />
@@ -153,7 +153,7 @@ const MoonPhase = ({ moonPhase }) => {
 		filter: invert();
 		object-fit: cover;
 		object-position: 0 36%;
-		height: 100px;
+		height: 60px;
 		width: 100%;
 	`;
 
@@ -292,7 +292,6 @@ const DailyDetails = ({ daily, isImperial, visibility }) => {
 	return (
 		<Container>
 			<TempOverview overview={overview} />
-			<CurrentDetails currentDetails={currentDetails} />
 			<SunAndMoon
 				sunrise={sunrise}
 				sunset={sunset}
@@ -300,6 +299,7 @@ const DailyDetails = ({ daily, isImperial, visibility }) => {
 				moonset={moonset}
 			/>
 			<MoonPhase moonPhase={moonPhase} />
+			<CurrentDetails currentDetails={currentDetails} />
 		</Container>
 	);
 };
