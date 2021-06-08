@@ -53,6 +53,7 @@ const WeatherProvider = ({ children }) => {
 	// gives user ability to request new weather data
 	const [shouldRefresh, toggleRefresh] = useState(false);
 	const refresh = () => {
+		console.log('refresh requested');
 		toggleRefresh(true);
 	};
 	const reset = () => {

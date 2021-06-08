@@ -50,8 +50,14 @@ const Layout = styled.div`
 `;
 
 const Home = () => {
-	const { weather, weatherError, weatherLoading, cityName, imperialOrMetric } =
-		useContext(WeatherContext);
+	const {
+		weather,
+		weatherError,
+		weatherLoading,
+		cityName,
+		imperialOrMetric,
+		refresh,
+	} = useContext(WeatherContext);
 
 	if (weatherError) {
 		return null;
@@ -73,6 +79,7 @@ const Home = () => {
 						lowTemp={(weather.daily && weather.daily[0].lowTemp) || ''}
 						cityName={cityName}
 						isImperial={isImperial}
+						refresh={refresh}
 					/>
 				</Layout>
 			),

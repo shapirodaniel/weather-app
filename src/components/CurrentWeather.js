@@ -5,6 +5,10 @@ import {
 	getMetricTemp,
 } from '../custom-hooks/helpers/one-call/oneCallParsers';
 
+// refresh icon
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRedo } from '@fortawesome/free-solid-svg-icons';
+
 // date time
 const DateTime = styled.span`
 	font-size: 18px;
@@ -18,7 +22,7 @@ const HiLo = styled.span`
 	padding: 0.2em;
 `;
 
-const HighAndLow = ({ high, low, isImperial }) => (
+const HighAndLow = ({ high, low, isImperial, refresh }) => (
 	<div style={{ color: 'ghostwhite' }}>
 		<HiLo>{`Hi: ${
 			isImperial ? getImperialTemp(high) + '°' : getMetricTemp(high) + '°'
@@ -27,6 +31,7 @@ const HighAndLow = ({ high, low, isImperial }) => (
 		<HiLo>{`Low: ${
 			isImperial ? getImperialTemp(low) + '°' : getMetricTemp(low) + '°'
 		}`}</HiLo>
+		<FontAwesomeIcon icon={faRedo} onClick={() => refresh()} />
 	</div>
 );
 
@@ -101,12 +106,18 @@ const CurrentWeather = ({
 	dateTime,
 	highTemp,
 	lowTemp,
+	refresh,
 }) => (
 	<>
 		<DateTime>{dateTime}</DateTime>
 
 		<div style={{ textAlign: 'center' }}>
-			<HighAndLow high={highTemp} low={lowTemp} isImperial={isImperial} />
+			<HighAndLow
+				high={highTemp}
+				low={lowTemp}
+				isImperial={isImperial}
+				refresh={refresh}
+			/>
 
 			<Temperature>
 				{isNaN(temp)
