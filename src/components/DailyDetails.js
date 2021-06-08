@@ -14,6 +14,7 @@ import {
 
 /* DAILY TEMPS */
 
+// formatting box for daily temp
 const TempBox = ({ tempArray }) => {
 	const [name, measure, feelsLikeMeasure] = tempArray;
 	return (
@@ -32,6 +33,7 @@ const TempBox = ({ tempArray }) => {
 	);
 };
 
+// daily temps and feels
 const TempOverview = ({ overview }) => {
 	const { morning, day, evening, night } = overview;
 
@@ -64,6 +66,7 @@ const TempOverview = ({ overview }) => {
 
 /* CURRENT DETAILS */
 
+// lesser details (humidity, dew point, etc.)
 const CurrentDetails = ({ currentDetails }) => (
 	<Section>
 		<h2>{'Current Conditions'}</h2>
@@ -125,7 +128,8 @@ const DateTime = styled.span`
 	font-size: 18px;
 `;
 
-const SunAndMoon = ({ sunrise, sunset, moonrise, moonset, moonPhase }) => (
+// sunrise/set, moonrise/set
+const SunAndMoon = ({ sunrise, sunset, moonrise, moonset }) => (
 	<Section>
 		<h2>{'Sunrise & Sunset'}</h2>
 		<Row>
@@ -147,6 +151,7 @@ const SunAndMoon = ({ sunrise, sunset, moonrise, moonset, moonPhase }) => (
 	</Section>
 );
 
+// moon phase and icon
 const MoonPhase = ({ moonPhase }) => {
 	const { icon, description } = moonPhase;
 
@@ -187,6 +192,7 @@ const Container = styled.div`
 	overflow-x: hidden;
 `;
 
+// important! visibility is separate prop passed in from weather.current in Home
 const DailyDetails = ({ daily, isImperial, visibility }) => {
 	if (!daily) return null;
 
@@ -219,6 +225,7 @@ const DailyDetails = ({ daily, isImperial, visibility }) => {
 		snow,
 	} = daily[0];
 
+	// current details list for map fn
 	const currentDetails = [
 		['Humidity', humidity],
 		[
@@ -254,6 +261,7 @@ const DailyDetails = ({ daily, isImperial, visibility }) => {
 		[snow ? 'Snowfall' : '', snow ? snow + ' mm' : ''],
 	];
 
+	// temps list for temp overview
 	const overview = {
 		morning: [
 			'Morning',
@@ -292,8 +300,6 @@ const DailyDetails = ({ daily, isImperial, visibility }) => {
 				: getMetricTemp(feelsLikeNight) + '°C',
 		],
 	};
-
-	console.log(rain, snow);
 
 	return (
 		<Container>
