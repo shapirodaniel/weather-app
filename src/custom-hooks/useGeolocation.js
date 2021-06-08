@@ -12,6 +12,7 @@ export const useGeolocation = cityName => {
 					'/api/geoLocation',
 					{ cityName }
 				);
+
 				setState(fetchedGeolocation);
 			} catch (err) {
 				console.error(err);
