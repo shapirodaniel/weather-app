@@ -22,7 +22,7 @@ const HiLo = styled.span`
 	padding: 0.2em;
 `;
 
-const HighAndLow = ({ high, low, isImperial, refresh }) => (
+const HighAndLow = ({ high, low, isImperial }) => (
 	<div style={{ color: 'ghostwhite' }}>
 		<HiLo>{`Hi: ${
 			isImperial ? getImperialTemp(high) + '°' : getMetricTemp(high) + '°'
@@ -31,7 +31,6 @@ const HighAndLow = ({ high, low, isImperial, refresh }) => (
 		<HiLo>{`Low: ${
 			isImperial ? getImperialTemp(low) + '°' : getMetricTemp(low) + '°'
 		}`}</HiLo>
-		<FontAwesomeIcon icon={faRedo} onClick={() => refresh()} />
 	</div>
 );
 
@@ -136,6 +135,16 @@ const CurrentWeather = ({
 		</div>
 
 		<IconAndDescription icon={weatherIcon} description={weatherDescription} />
+
+		<FontAwesomeIcon
+			style={{
+				color: 'ghostwhite',
+				height: '20px',
+				width: 'auto',
+			}}
+			icon={faRedo}
+			onClick={() => refresh()}
+		/>
 
 		<CityName>{cityName}</CityName>
 	</>

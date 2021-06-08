@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import TableLayout from './TableLayout';
 
 import {
 	getImperialTemp,
@@ -58,7 +57,7 @@ const Weekly = ({ weekly, isImperial }) => {
 
 	return (
 		<Container>
-			<h2>7-day Forecast</h2>
+			<h2>7-Day Forecast</h2>
 			{relevant.map(
 				(
 					{ highTemp, lowTemp, dateTime, weatherType, weatherIcon, pop },

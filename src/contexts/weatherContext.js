@@ -51,13 +51,21 @@ const WeatherProvider = ({ children }) => {
 	);
 
 	// gives user ability to request new weather data
+	const [lastRefresh, updateLastRefresh] = useState(new Date());
 	const [shouldRefresh, toggleRefresh] = useState(false);
 	const refresh = () => {
-		console.log('refresh requested');
+		// safe guard against getting locked out of OpenWeather OneCall
+		// which permits 1 request per second
+		if ((new Date() - lastRefresh) / 1000 < 1) {
+			console.log('too soon!');
+			return;
+		}
+
 		toggleRefresh(true);
 	};
 	const reset = () => {
 		toggleRefresh(false);
+		updateLastRefresh(new Date());
 	};
 
 	// we'll provide a default location value when our geolocation is unresolved,

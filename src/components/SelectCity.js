@@ -52,7 +52,7 @@ const SelectCity = ({ isVisible }) => {
 	const { cityName, updateCity } = useContext(WeatherContext);
 	const [userInput, setUserInput] = useState('');
 	const [places, setPlaces] = useState([]);
-	const { suggestions, loading, error } = useSuggestions(userInput);
+	const { suggestions } = useSuggestions(userInput);
 	const textFieldRef = useRef(null);
 
 	useEffect(() => {
