@@ -44,7 +44,7 @@ const Layout = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	height: 100%;
-	max-height: 485px;
+	max-height: 730px;
 	overflow-y: scroll;
 	overflow-x: hidden;
 	padding: 2em 0;
