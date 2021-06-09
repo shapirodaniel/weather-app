@@ -88,7 +88,7 @@ const SelectCity = ({ isVisible }) => {
 								updateCity(city);
 								setUserInput(city);
 								setPlaces([]);
-								textFieldRef.current.value = city;
+								textFieldRef.current.value = `${city}, ${state}, US`;
 							}}
 						>{`${city}, ${state}, US`}</Suggestion>
 					))}
