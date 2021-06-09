@@ -116,6 +116,8 @@ const CurrentWeather = ({
 					justifyContent: 'center',
 					fontSize: '22px',
 					color: 'ghostwhite',
+					width: '100%',
+					height: '100%',
 				}}
 			>
 				Loading ...

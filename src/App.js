@@ -1,9 +1,7 @@
-import React, { useContext } from 'react';
-import { WeatherContext } from './contexts/weatherContext';
+import React from 'react';
 import styled from 'styled-components';
 import Nav from './components/Nav';
 import Home from './components/Home';
-import Loading from './components/Loading';
 
 const Container = styled.div`
 	height: 100vh;
@@ -12,20 +10,11 @@ const Container = styled.div`
 	max-height: 800px;
 `;
 
-const App = () => {
-	const { weather } = useContext(WeatherContext);
-
-	if (!weather) {
-		console.log('loading ...');
-		return <Loading />;
-	}
-
-	return (
-		<Container>
-			<Nav />
-			<Home />
-		</Container>
-	);
-};
+const App = () => (
+	<Container>
+		<Nav />
+		<Home />
+	</Container>
+);
 
 export default App;
