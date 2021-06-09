@@ -43,11 +43,11 @@ const Layout = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
-	height: 100%;
-	max-height: 730px;
+	height: 80vh;
 	overflow-y: scroll;
 	overflow-x: hidden;
 	padding: 2em 0;
+	background-color: transparent;
 `;
 
 const Home = () => {
