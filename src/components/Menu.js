@@ -10,7 +10,7 @@ const Container = styled.div`
 		flex-direction: column;
 		align-items: flex-start;
 		justify-content: flex-start;
-
+		overflow-y: auto;
 		position: absolute;
 		top: 3em;
 		right: 0;

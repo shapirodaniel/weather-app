@@ -5,6 +5,8 @@ import Home from './components/Home';
 const Container = styled.div`
 	height: 100vh;
 	width: 100vw;
+	max-width: 400px;
+	max-height: 800px;
 `;
 
 const App = () => (
