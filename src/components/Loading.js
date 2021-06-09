@@ -23,7 +23,7 @@ const Spinner = styled.span`
 
 const Loading = () => (
 	<Container>
-		<Spinner />
+		<Spinner>Loading ...</Spinner>
 	</Container>
 );
 

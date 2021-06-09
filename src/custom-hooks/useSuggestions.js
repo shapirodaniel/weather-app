@@ -31,6 +31,7 @@ export const useSuggestions = userInput => {
 	useEffect(() => {
 		if (userInput) {
 			setFound(
+				// mocks limit=5
 				places.filter(place => place.city.includes(userInput)).slice(0, 5)
 			);
 		}

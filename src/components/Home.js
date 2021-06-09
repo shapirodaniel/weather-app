@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { WeatherContext } from '../contexts/weatherContext';
 import SwipeCarousel from './SwipeCarousel';
 import CurrentWeather from './CurrentWeather';
-import Loading from './Loading';
 import DailyDetails from './DailyDetails';
 import Hourly from './Hourly';
 import Weekly from './Weekly';
@@ -51,22 +50,8 @@ const Layout = styled.div`
 `;
 
 const Home = () => {
-	const {
-		weather,
-		weatherError,
-		weatherLoading,
-		cityName,
-		imperialOrMetric,
-		refresh,
-	} = useContext(WeatherContext);
-
-	if (weatherError) {
-		return null;
-	}
-
-	if (weatherLoading) {
-		return <Loading />;
-	}
+	const { weather, cityName, imperialOrMetric, refresh } =
+		useContext(WeatherContext);
 
 	const isImperial = imperialOrMetric === 'imperial';
 

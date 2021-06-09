@@ -106,65 +106,48 @@ const CurrentWeather = ({
 	highTemp,
 	lowTemp,
 	refresh,
-}) => {
-	if (!temp)
-		return (
-			<div
-				style={{
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'center',
-					fontSize: '22px',
-					color: 'ghostwhite',
-				}}
-			>
-				Loading ...
-			</div>
-		);
+}) => (
+	<>
+		<DateTime>{dateTime}</DateTime>
 
-	return (
-		<>
-			<DateTime>{dateTime}</DateTime>
-
-			<div style={{ textAlign: 'center' }}>
-				<HighAndLow
-					high={highTemp}
-					low={lowTemp}
-					isImperial={isImperial}
-					refresh={refresh}
-				/>
-
-				<Temperature>
-					{isNaN(temp)
-						? ''
-						: isImperial
-						? getImperialTemp(temp)
-						: getMetricTemp(temp)}
-					<DegreeSymbol>{isImperial ? '°F' : '°C'}</DegreeSymbol>
-				</Temperature>
-
-				<FeelsLike>
-					Feels like:{' '}
-					{isImperial ? getImperialTemp(feelsLike) : getMetricTemp(feelsLike)}
-					{'°'}
-				</FeelsLike>
-			</div>
-
-			<IconAndDescription icon={weatherIcon} description={weatherDescription} />
-
-			<FontAwesomeIcon
-				style={{
-					color: 'ghostwhite',
-					height: '20px',
-					width: 'auto',
-				}}
-				icon={faRedo}
-				onClick={() => refresh()}
+		<div style={{ textAlign: 'center' }}>
+			<HighAndLow
+				high={highTemp}
+				low={lowTemp}
+				isImperial={isImperial}
+				refresh={refresh}
 			/>
 
-			<CityName>{cityName}</CityName>
-		</>
-	);
-};
+			<Temperature>
+				{isNaN(temp)
+					? ''
+					: isImperial
+					? getImperialTemp(temp)
+					: getMetricTemp(temp)}
+				<DegreeSymbol>{isImperial ? '°F' : '°C'}</DegreeSymbol>
+			</Temperature>
+
+			<FeelsLike>
+				Feels like:{' '}
+				{isImperial ? getImperialTemp(feelsLike) : getMetricTemp(feelsLike)}
+				{'°'}
+			</FeelsLike>
+		</div>
+
+		<IconAndDescription icon={weatherIcon} description={weatherDescription} />
+
+		<FontAwesomeIcon
+			style={{
+				color: 'ghostwhite',
+				height: '20px',
+				width: 'auto',
+			}}
+			icon={faRedo}
+			onClick={() => refresh()}
+		/>
+
+		<CityName>{cityName}</CityName>
+	</>
+);
 
 export default CurrentWeather;
