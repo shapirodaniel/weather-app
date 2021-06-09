@@ -42,8 +42,8 @@ const Layout = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-between;
-	height: 80vh;
+	justify-content: flex-start;
+	height: 640px;
 	overflow-y: scroll;
 	overflow-x: hidden;
 	padding: 2em 0;
