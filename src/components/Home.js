@@ -43,8 +43,8 @@ const Layout = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
-	height: 640px;
-	overflow-y: scroll;
+	height: calc(100vh - 11em);
+	overflow-y: auto;
 	overflow-x: hidden;
 	padding: 2em 0;
 	background-color: transparent;
