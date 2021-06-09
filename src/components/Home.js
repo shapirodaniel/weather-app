@@ -42,7 +42,7 @@ const Layout = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: flex-start;
+	justify-content: space-between;
 	height: 640px;
 	overflow-y: scroll;
 	overflow-x: hidden;
