@@ -16,9 +16,10 @@ const Container = styled.div`
 `;
 
 const Spinner = styled.span`
-	padding: 4em;
+	padding: 2em;
 	background-color: white;
 	color: black;
+	font-size: 18px;
 `;
 
 const Loading = () => (

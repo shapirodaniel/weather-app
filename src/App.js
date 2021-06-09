@@ -13,9 +13,10 @@ const Container = styled.div`
 `;
 
 const App = () => {
-	const { weatherLoading, weatherError } = useContext(WeatherContext);
+	const { weather } = useContext(WeatherContext);
 
-	if (weatherLoading || weatherError) {
+	if (!weather) {
+		console.log('loading ...');
 		return <Loading />;
 	}
 
