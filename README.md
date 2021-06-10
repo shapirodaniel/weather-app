@@ -3,8 +3,8 @@
 Welcome to the weather app, powered by OpenWeather's OneCall + Geocoding APIs.
 
 <div style='display: flex; align-items: center; justify-content: center;'>
-  <img style='height: 400px; width: auto; align: center; object-fit: contain;' src='https://i.imgur.com/f4PDRbx.png' alt='openweather-mobile-landing-page' />
-  <img style='height: 400px; width: auto; align: center; object-fit: contain;' src='https://i.imgur.com/H88Vabs.png' alt='openweather-mobile-landing-page' />
+  <img style='height: auto; width: 150px; align: center; object-fit: contain;' src='https://i.imgur.com/f4PDRbx.png' alt='openweather-mobile-landing-page' />
+  <img style='height: auto; width: 150px; align: center; object-fit: contain;' src='https://i.imgur.com/H88Vabs.png' alt='openweather-mobile-landing-page' />
 </div>
 
 ## Take it for a spin!
@@ -37,4 +37,4 @@ The weather app is built on
 
 - React Swipeable Views: I built a custom `SwipeCarousel` that uses the `render` pattern to invoke an array of callbacks for each `Slide`
 
-- Styled Components: all vanilla css with some light props injection -- of note, the background image fetched into the main view sends Unsplash's excellent `source` endpoint query parameters based on time of day and weather conditions, which are passed into the `background-image` field of our styled-compnents `Background` container.
+- Styled Components: all vanilla css with some light props injection -- of note, the background image fetched into the main view sends Unsplash's excellent `source` endpoint query parameters based on time of day and weather conditions, which are passed into the `background-image` field of our styled-components `Background` container.
