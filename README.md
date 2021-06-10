@@ -4,10 +4,10 @@ Welcome to the weather app, powered by OpenWeather's OneCall + Geocoding APIs.
 
 <section style='display: flex; align-items: center; justify-content: center;'>
   <div style="max-width: 150px; height: auto; max-height: 330px; overflow: hidden;">
-    <img src='https://i.imgur.com/f4PDRbx.png' alt='openweather-mobile-landing-page' />
+    <img src='https://i.imgur.com/f4PDRbxs.png' alt='openweather-mobile-landing-page' />
   </div>
   <div style="max-width: 150px; height: auto; max-height: 330px; overflow: hidden;">
-    <img src='https://i.imgur.com/H88Vabs.png' alt='openweather-mobile-landing-page' />
+    <img src='https://i.imgur.com/H88Vabss.png' alt='openweather-mobile-landing-page' />
   </div>
 </section>
 
