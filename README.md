@@ -3,8 +3,8 @@
 Welcome to the weather app, powered by OpenWeather's OneCall + Geocoding APIs.
 
 <div style="display: flex; align-items: center; justify-content: center; max-width: 100%; max-height: min-content;">
-    <img width="150" height="400" src="https://i.imgur.com/yG5Ym6l.png" alt="openweather-mobile-landing-page" />
-    <img width="150" height="400" src="https://i.imgur.com/eImmsSE.png" alt="openweather-mobile-landing-page" />
+    <img width="150" height="320" src="https://i.imgur.com/yG5Ym6l.png" alt="openweather-mobile-landing-page" />
+    <img width="150" height="320" src="https://i.imgur.com/eImmsSE.png" alt="openweather-mobile-landing-page" />
 </div>
 
 ## Take it for a spin!
