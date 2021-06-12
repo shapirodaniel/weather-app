@@ -138,14 +138,12 @@ const SunAndMoon = ({ sunrise, sunset, moonrise, moonset }) => (
 					<FontAwesomeIcon icon={faSun} />
 					<DateTime>{sunrise}</DateTime>
 				</span>
-				<div>Dawn: {moonrise}</div>
 			</InnerBox>
 			<InnerBox>
 				<span>
 					<FontAwesomeIcon icon={faMoon} />
 					<DateTime>{sunset}</DateTime>
 				</span>
-				<div>Dusk: {moonset}</div>
 			</InnerBox>
 		</Row>
 	</Section>
