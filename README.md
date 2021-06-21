@@ -31,7 +31,7 @@ The weather app is built on
 
 - Azure Functions Serverless Compute
 
-- OpenWeather [OneCall]https://openweathermap.org/api/one-call-api and OpenWeather [Geocoding](https://openweathermap.org/api/geocoding-api) APIs
+- OpenWeather [OneCall](https://openweathermap.org/api/one-call-api) and OpenWeather [Geocoding](https://openweathermap.org/api/geocoding-api) APIs
 
 ### The weather app is supported by the following libraries
 
