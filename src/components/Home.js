@@ -8,10 +8,12 @@ import Hourly from './Hourly';
 import Weekly from './Weekly';
 
 const Background = styled.div`
-	background-image: ${({ type }) =>
-		`url(https://source.unsplash.com/random?${
-			type + (new Date().getHours() >= 19 ? ',night' : '') // append "night" to query if time > 7PM local
-		})`};
+	${({ type }) =>
+		type
+			? `background-image: url(https://source.unsplash.com/random?${
+					type + (new Date().getHours() >= 19 ? ',night' : '') // append "night" to query if time > 7PM local
+			  })`
+			: 'background-color: black'};
 	// this positioning ensures that we fill the available space no matter the fetched image size
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -107,7 +109,23 @@ const Home = () => {
 				type={weather && weather.current && weather.current.weatherType}
 			/>
 			<Relief>
-				<SwipeCarousel slideArray={slideArray} />
+				{weather.current && weather.current.temp ? (
+					<SwipeCarousel slideArray={slideArray} />
+				) : (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							fontSize: '22px',
+							color: 'ghostwhite',
+							width: '100%',
+							height: '100%',
+						}}
+					>
+						Loading ...
+					</div>
+				)}
 			</Relief>
 		</>
 	);

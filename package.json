@@ -21,6 +21,7 @@
 		"web-vitals": "^1.0.1"
 	},
 	"scripts": {
+		"start-dev": "swa start ./build --api ./api",
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",

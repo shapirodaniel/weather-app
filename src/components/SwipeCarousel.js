@@ -71,7 +71,7 @@ const Slides = ({ slideArray }) => {
 
 	return (
 		<>
-			<SwipeableViews enableMouseEvents>
+			<SwipeableViews style={{ minWidth: 0 }} enableMouseEvents>
 				{
 					// components are just functions!
 					// we're passing our components generically as a renderComponent fn here so that we can map and invoke without having to know anything about Slide's children -- we'll be able to reuse this Slides component in other apps as well!

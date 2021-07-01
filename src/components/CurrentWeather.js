@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import {
 	getImperialTemp,
@@ -95,6 +95,38 @@ const CityName = styled.span`
 	text-align: center;
 `;
 
+// refresh button
+const RefreshBtnContainer = styled.span`
+	& {
+		height: 60px;
+		width: 60px;
+		padding: 0.2em;
+		border-radius: 50%;
+		box-shadow: 0px 0px 0px 0px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	&.active {
+		animation: pulse 1s forwards;
+	}
+
+	@keyframes pulse {
+		0% {
+			box-shadow: 0 0 0 0px ghostwhite;
+		}
+		100% {
+			box-shadow: 0 0 0 10px transparent;
+		}
+	}
+`;
+
+const RefreshBtn = ({ children, isActive }) => (
+	<RefreshBtnContainer className={isActive ? 'active' : ''}>
+		{children}
+	</RefreshBtnContainer>
+);
+
 const CurrentWeather = ({
 	temp,
 	feelsLike,
@@ -107,22 +139,7 @@ const CurrentWeather = ({
 	lowTemp,
 	refresh,
 }) => {
-	if (!temp)
-		return (
-			<div
-				style={{
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'center',
-					fontSize: '22px',
-					color: 'ghostwhite',
-					width: '100%',
-					height: '100%',
-				}}
-			>
-				Loading ...
-			</div>
-		);
+	const [isActive, setActive] = useState(false);
 
 	return (
 		<>
@@ -154,15 +171,21 @@ const CurrentWeather = ({
 
 			<IconAndDescription icon={weatherIcon} description={weatherDescription} />
 
-			<FontAwesomeIcon
-				style={{
-					color: 'ghostwhite',
-					height: '20px',
-					width: 'auto',
-				}}
-				icon={faRedo}
-				onClick={() => refresh()}
-			/>
+			<RefreshBtn isActive={isActive}>
+				<FontAwesomeIcon
+					style={{
+						color: 'ghostwhite',
+						height: '20px',
+						width: 'auto',
+					}}
+					icon={faRedo}
+					onClick={async () => {
+						refresh();
+						await setTimeout(() => setActive(true), 100);
+						setActive(false);
+					}}
+				/>
+			</RefreshBtn>
 
 			<CityName>{cityName}</CityName>
 		</>
