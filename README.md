@@ -9,7 +9,7 @@ Welcome to the weather app, powered by OpenWeather's OneCall + Geocoding APIs.
 
 ## Take it for a spin!
 
-Try the app out [here](https://tinyurl.com/openweather-app). For the best experience, view on mobile or toggle your browser's devtools to emulate a mobile UX.
+Try the app out [here](https://purple-hill-074194210.azurestaticapps.net). For the best experience, view on mobile or toggle your browser's devtools to emulate a mobile UX.
 
 ## About
 
