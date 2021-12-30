@@ -1,15 +1,16 @@
-const axios = require('axios');
+const axios = require("axios");
+process.env.NODE_ENV !== "production" && require("dotenv").config();
 
 module.exports = async function (context, req) {
-	try {
-		const { latitude, longitude } = req.body;
+  try {
+    const { latitude, longitude } = req.body;
 
-		const uri = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${process.env.OPEN_WEATHER_API_KEY}`;
+    const uri = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${process.env.OPEN_WEATHER_API_KEY}`;
 
-		const { data: fetchedWeather } = await axios.get(uri);
+    const { data: fetchedWeather } = await axios.get(uri);
 
-		context.res.json(fetchedWeather);
-	} catch (err) {
-		console.error(err);
-	}
+    context.res.json(fetchedWeather);
+  } catch (err) {
+    console.error(err);
+  }
 };

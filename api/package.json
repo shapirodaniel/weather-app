@@ -9,5 +9,7 @@
   "dependencies": {
     "axios": "^0.21.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "dotenv": "^10.0.0"
+  }
 }
